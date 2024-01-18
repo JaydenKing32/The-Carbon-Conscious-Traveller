@@ -41,7 +41,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/input_dest"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/input_buttons" />
+                    app:layout_constraintRight_toLeftOf="@+id/input_buttons"
+                    tools:layout="@layout/places_autocomplete_fragment" />
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/input_dest"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
@@ -50,7 +51,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/input_origin"
-                    app:layout_constraintRight_toLeftOf="@+id/input_buttons"/>
+                    app:layout_constraintRight_toLeftOf="@+id/input_buttons"
+                    tools:layout="@layout/places_autocomplete_fragment" />
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/input_barrier"
                     android:layout_width="wrap_content"
@@ -100,6 +102,7 @@
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    tools:layout="@android:layout/simple_gallery_item"
                     />
                 <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
@@ -114,12 +117,14 @@
                         <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
+
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/fragment_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
+                            android:paddingRight="16dp"
+                            tools:layout="@layout/query_container">
                         </androidx.fragment.app.FragmentContainerView>
                         <TextView
                             android:id="@+id/helper_text"

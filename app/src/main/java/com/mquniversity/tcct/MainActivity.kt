@@ -634,7 +634,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         // The activity's onActivityResult method will be invoked after the user is done.
                         // If the resultCode is Activity.RESULT_OK, the application should try to connect again.
                         e.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
-                    } catch (_: IntentSender.SendIntentException) {
+                    } catch (e: IntentSender.SendIntentException) {
+                        e.message?.let { Log.e(this.javaClass.simpleName, it) }
                     }
                 }
             }

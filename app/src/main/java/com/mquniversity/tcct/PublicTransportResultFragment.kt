@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,8 @@ class PublicTransportResultFragment : ResultFragment() {
                                 if (bitmap != null) {
                                     iconsMap[iconURL] = bitmap
                                 }
-                            } catch (_: IOException) {
+                            } catch (e: IOException) {
+                                e.message?.let { Log.e(this.javaClass.simpleName, it) }
                             }
                         }
                     }

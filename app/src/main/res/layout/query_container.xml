@@ -6,30 +6,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:textSize="32sp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/options_desc_button"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            style="@style/Widget.Material3.Button.IconButton.Outlined"
             app:icon="@drawable/outline_question_mark_24"
-            app:iconTint="?android:textColorSecondary"/>
+            app:iconTint="?android:textColorSecondary" />
     </RelativeLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/calculate_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calculate"
-        android:enabled="false"
         android:layout_gravity="center_horizontal"
-        />
+        android:enabled="false"
+        android:text="@string/calculate" />
 </LinearLayout>

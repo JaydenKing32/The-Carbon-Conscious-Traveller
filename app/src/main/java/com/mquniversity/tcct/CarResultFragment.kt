@@ -9,12 +9,13 @@ import com.google.maps.model.TravelMode
 class CarResultFragment(
     private val carSize: String,
     private val carFuelType: String
-): PrivateVehicleResultFragment() {
+) : PrivateVehicleResultFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING
         iconResId = R.drawable.outline_directions_car_24
-        factor = calculationValues.carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
+        factor = calculationValues
+            .carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
         update(false)
     }
 
@@ -27,7 +28,8 @@ class CarResultFragment(
     }
 
     fun updateFactor(carSize: String, carFuelType: String) {
-        factor = calculationValues.carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
+        factor = calculationValues
+            .carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
         val emissions = FloatArray(currRoutes.size)
         for (i in currRoutes.indices) {
             emissions[i] = currRoutes[i].legs[0].distance.inMeters * factor

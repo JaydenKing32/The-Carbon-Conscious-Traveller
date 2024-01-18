@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import kotlin.math.floor
 
-abstract class ResultFragment: Fragment() {
+abstract class ResultFragment : Fragment() {
     protected lateinit var rootScrollView: NestedScrollView
     protected lateinit var mainLayout: LinearLayout
 
@@ -300,10 +300,11 @@ abstract class ResultFragment: Fragment() {
                                 else -> errorText.text = getString(R.string.error_general)
                             }
                         }
+
                         is UnknownHostException -> {
                             errorText.text =
                                 "Could not calculate results due to network error.\n" +
-                                "Make sure you have a stable network connection."
+                                        "Make sure you have a stable network connection."
                             mainLayout.addView(retryBtn)
                         }
                     }
@@ -328,7 +329,7 @@ abstract class ResultFragment: Fragment() {
             }
         }
         lastClickedRoutePolylines = selectedPolylinePolylines
-        
+
         val steps = currRoutes[idx].legs[0].steps
         for (i in steps.indices) {
             selectedPolylinePolylines[i]?.zIndex = 1f
@@ -346,6 +347,7 @@ abstract class ResultFragment: Fragment() {
                     }
                     selectedPolylinePolylines[i]?.pattern = null
                 }
+
                 TravelMode.DRIVING -> {
                     selectedPolylinePolylines[i]?.color = resources.getColor(
                         R.color.polyline_private_vehicle,
@@ -353,6 +355,7 @@ abstract class ResultFragment: Fragment() {
                     )
                     selectedPolylinePolylines[i]?.pattern = null
                 }
+
                 TravelMode.WALKING, TravelMode.BICYCLING -> {
                     selectedPolylinePolylines[i]?.color = resources.getColor(
                         R.color.polyline_private_vehicle,
@@ -360,6 +363,7 @@ abstract class ResultFragment: Fragment() {
                     )
                     selectedPolylinePolylines[i]?.pattern = listOf(Dot(), Gap(10f))
                 }
+
                 else -> {
                     selectedPolylinePolylines[i]?.color = resources.getColor(
                         R.color.polyline_unselected,

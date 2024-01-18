@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 
-class MotorcycleQueryFragment: PrivateVehicleQueryFragment() {
+class MotorcycleQueryFragment : PrivateVehicleQueryFragment() {
     private lateinit var sizeInput: TextInputLayout
     private lateinit var sizeInputDropdown: MaterialAutoCompleteTextView
     private lateinit var sizeOptions: Array<String>
@@ -43,7 +43,8 @@ class MotorcycleQueryFragment: PrivateVehicleQueryFragment() {
         calBtn.setOnClickListener {
             mainActivity.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             calBtn.isEnabled = false
-            var motorcycleResultFrag = parentFragmentManager.findFragmentByTag(getString(R.string.tag_motorcycle_result)) as MotorcycleResultFragment?
+            var motorcycleResultFrag =
+                parentFragmentManager.findFragmentByTag(getString(R.string.tag_motorcycle_result)) as MotorcycleResultFragment?
             if (motorcycleResultFrag == null) {
                 mainActivity.enableButtons(false)
                 motorcycleResultFrag = MotorcycleResultFragment(sizeOptions[currSizeIdx])

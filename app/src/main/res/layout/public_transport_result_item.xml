@@ -2,79 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RtlHardcoded"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:baselineAligned="false"
-    android:background="?android:selectableItemBackground"
-    android:clickable="true"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:background="?android:selectableItemBackground"
+    android:baselineAligned="false"
+    android:clickable="true"
+    android:orientation="horizontal"
+    tools:ignore="RtlHardcoded">
+
     <View
         android:id="@+id/selection_indicator"
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_marginRight="16dp"
         android:background="?android:colorPrimary"
-        android:visibility="invisible"
-         />
+        android:visibility="invisible" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        android:orientation="vertical">
+
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/steps_icon_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:flexDirection="row"
-            app:flexWrap="wrap">
-        </com.google.android.flexbox.FlexboxLayout>
+            app:flexWrap="wrap" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/departure_arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:orientation="vertical"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
-        >
+        android:layout_weight="5"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emission_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
+
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/co2e"
                 app:tint="?android:textColorSecondary" />
         </LinearLayout>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/distance_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"/>
+            android:alpha="0.5" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/duration_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha="0.5"/>
+            android:alpha="0.5" />
+
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/tree_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:flexDirection="row"
-            app:flexWrap="wrap"/>
+            app:flexWrap="wrap" />
     </LinearLayout>
 </LinearLayout>

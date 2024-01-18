@@ -22,7 +22,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-class AirplaneResultFragment(private val requestBody: RequestBody) : DialogFragment()  {
+class AirplaneResultFragment(private val requestBody: RequestBody) : DialogFragment() {
     private lateinit var root: LinearLayout
     private lateinit var resultLayout: LinearLayout
     private lateinit var errorTextView: MaterialTextView
@@ -112,27 +112,35 @@ class AirplaneResultFragment(private val requestBody: RequestBody) : DialogFragm
             root.post {
                 if (response != null) {
                     if (response.flightEmissions[0].emissionsGramsPerPax != null) {
-                        (resultLayout[1] as MaterialTextView).text =
-                            CalculationUtils.formatEmissionWithCO2(response.flightEmissions[0].emissionsGramsPerPax?.first!!.toFloat(), false)
-                        (resultLayout[3] as MaterialTextView).text =
-                            CalculationUtils.formatEmissionWithCO2(response.flightEmissions[0].emissionsGramsPerPax?.business!!.toFloat(), false)
-                        (resultLayout[5] as MaterialTextView).text =
-                            CalculationUtils.formatEmissionWithCO2(response.flightEmissions[0].emissionsGramsPerPax?.premiumEconomy!!.toFloat(), false)
-                        (resultLayout[7] as MaterialTextView).text =
-                            CalculationUtils.formatEmissionWithCO2(response.flightEmissions[0].emissionsGramsPerPax?.economy!!.toFloat(), false)
+                        (resultLayout[1] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
+                            response.flightEmissions[0].emissionsGramsPerPax?.first!!.toFloat(),
+                            false
+                        )
+                        (resultLayout[3] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
+                            response.flightEmissions[0].emissionsGramsPerPax?.business!!.toFloat(),
+                            false
+                        )
+                        (resultLayout[5] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
+                            response.flightEmissions[0].emissionsGramsPerPax?.premiumEconomy!!.toFloat(),
+                            false
+                        )
+                        (resultLayout[7] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
+                            response.flightEmissions[0].emissionsGramsPerPax?.economy!!.toFloat(),
+                            false
+                        )
                         resultLayout.visibility = View.VISIBLE
                     } else {
                         errorTextView.text =
                             "Could not retrieve CO2 emission information with the given flight details.\n" +
-                            "Possible reasons:\n" +
-                            "    - flight is unknown to the server\n" +
-                            "    - flight details are incorrectly entered"
+                                    "Possible reasons:\n" +
+                                    "    - flight is unknown to the server\n" +
+                                    "    - flight details are incorrectly entered"
                         errorTextView.visibility = View.VISIBLE
                     }
                 } else {
                     errorTextView.text =
                         "There was an error whilst retrieving the information.\n" +
-                        "Please try again after a few seconds."
+                                "Please try again after a few seconds."
                     errorTextView.visibility = View.VISIBLE
                 }
                 progressBar.visibility = View.GONE

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.maps.model.TravelMode
 
-class MotorcycleResultFragment(private val motorcycleSize: String): PrivateVehicleResultFragment() {
+class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehicleResultFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING
@@ -22,6 +22,7 @@ class MotorcycleResultFragment(private val motorcycleSize: String): PrivateVehic
     ): View {
         return rootScrollView
     }
+
     fun updateFactor(motorcycleSize: String) {
         factor = calculationValues.motorcycleValueMap[motorcycleSize]!!
         val emissions = FloatArray(currRoutes.size)

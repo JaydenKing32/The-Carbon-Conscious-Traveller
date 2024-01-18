@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.radiobutton.MaterialRadioButton
 
-class TransportSelection(mainActivityContext: Context): RadioGroup(mainActivityContext) {
+class TransportSelection(mainActivityContext: Context) : RadioGroup(mainActivityContext) {
     private val mainActivity: MainActivity = mainActivityContext as MainActivity
     var currMode: TransportMode = TransportMode.CAR
 
@@ -21,6 +21,7 @@ class TransportSelection(mainActivityContext: Context): RadioGroup(mainActivityC
         R.drawable.outline_directions_subway_24,
         R.drawable.outline_flight_24
     )
+
     init {
         this.orientation = HORIZONTAL
         this.layoutParams = ViewGroup.LayoutParams(

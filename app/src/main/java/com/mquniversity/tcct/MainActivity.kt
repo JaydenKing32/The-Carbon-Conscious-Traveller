@@ -159,19 +159,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                     is CarResultFragment -> {
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                         supportFragmentManager.beginTransaction()
-                            .replace(
-                                R.id.fragment_container,
-                                supportFragmentManager.findFragmentByTag(getString(R.string.tag_car_query))!!)
+                            .replace(R.id.fragment_container, supportFragmentManager.findFragmentByTag(getString(R.string.tag_car_query))!!)
                             .commit()
                     }
+
                     is MotorcycleResultFragment -> {
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                         supportFragmentManager.beginTransaction()
                             .replace(
                                 R.id.fragment_container,
-                                supportFragmentManager.findFragmentByTag(getString(R.string.tag_motorcycle_query))!!)
+                                supportFragmentManager.findFragmentByTag(getString(R.string.tag_motorcycle_query))!!
+                            )
                             .commit()
                     }
+
                     else -> {
                         if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
                             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -247,6 +248,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                 origin = place
                 calculate(false)
             }
+
             override fun onError(status: Status) {
                 Log.i("Origin Input", "$status")
             }
@@ -271,6 +273,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                 dest = place
                 calculate(false)
             }
+
             override fun onError(status: Status) {
                 Log.i("Destination Input", "$status")
             }
@@ -281,11 +284,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
         // enters location and clicks on clear button before changing the visibility.
         // should not happen though
         Timer().schedule(2000) {
-            originInputClearBtn = originInput.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_clear_button) as ImageButton
+            originInputClearBtn = originInput.view?.findViewById(
+                com.google.android.libraries.places.R.id.places_autocomplete_clear_button
+            ) as ImageButton
             originInputClearBtn.post {
                 originInputClearBtn.isEnabled = false
             }
-            destInputClearBtn = destInput.view?.findViewById(com.google.android.libraries.places.R.id.places_autocomplete_clear_button) as ImageButton
+            destInputClearBtn = destInput.view?.findViewById(
+                com.google.android.libraries.places.R.id.places_autocomplete_clear_button
+            ) as ImageButton
             destInputClearBtn.post {
                 destInputClearBtn.isEnabled = false
             }
@@ -416,6 +423,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                     }
                 }
             }
+
             TransportMode.MOTORCYCLE -> {
                 frag = supportFragmentManager.findFragmentByTag(getString(R.string.tag_motorcycle_result))
                 if (frag == null) {
@@ -432,6 +440,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                     }
                 }
             }
+
             TransportMode.PUBLIC_TRANSPORT -> {
                 frag = supportFragmentManager.findFragmentByTag(getString(R.string.tag_public_transport_result))
                 if (frag == null) {
@@ -445,6 +454,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                     return
                 }
             }
+
             else -> throw IllegalArgumentException("TransportSelection.currMode is in wrong state")
         }
         if (frag is ResultFragment) {
@@ -481,9 +491,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                 .startCap(RoundCap())
                 .endCap(RoundCap())
                 .addAll(
-                    encodedPolyline.decodePath().map {
-                        latLng -> LatLng(latLng.lat, latLng.lng)
-                    }
+                    encodedPolyline.decodePath().map { latLng -> LatLng(latLng.lat, latLng.lng) }
                 )
         )
     }
@@ -586,7 +594,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
             val settingsClient: SettingsClient = LocationServices.getSettingsClient(this)
             val lsrTask: Task<LocationSettingsResponse> = settingsClient.checkLocationSettings(lsrBuilder.build())
             // Location is turned on so get current location, set search result location bias and move camera
-            lsrTask.addOnSuccessListener { lsr : LocationSettingsResponse? ->
+            lsrTask.addOnSuccessListener { lsr: LocationSettingsResponse? ->
                 if (lsr?.locationSettingsStates?.isLocationUsable == true) {
                     val currLocRequest = CurrentLocationRequest.Builder()
                         .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
@@ -626,7 +634,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         // The activity's onActivityResult method will be invoked after the user is done.
                         // If the resultCode is Activity.RESULT_OK, the application should try to connect again.
                         e.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
-                    } catch (_: IntentSender.SendIntentException) {}
+                    } catch (_: IntentSender.SendIntentException) {
+                    }
                 }
             }
             googleMap.isMyLocationEnabled = true

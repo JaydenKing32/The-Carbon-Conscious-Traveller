@@ -51,7 +51,9 @@ abstract class PrivateVehicleQueryFragment : Fragment() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         menu.hint = label
-        val dropDown = MaterialAutoCompleteTextView(ContextThemeWrapper(context, com.google.android.material.R.style.ThemeOverlay_Material3_AutoCompleteTextView_OutlinedBox))
+        val dropDown = MaterialAutoCompleteTextView(ContextThemeWrapper(
+            context, com.google.android.material.R.style.ThemeOverlay_Material3_AutoCompleteTextView_OutlinedBox
+        ))
         dropDown.inputType = InputType.TYPE_NULL
         dropDown.setSimpleItems(options)
         menu.addView(dropDown)

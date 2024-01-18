@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?android:colorBackground"
-    android:padding="24dp"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="24dp">
+
     <com.google.android.material.textview.MaterialTextView
-        android:text="Estimated CO2 Emissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"/>
+        android:text="Estimated CO2 Emissions"
+        android:textSize="32sp" />
+
     <Space
         android:layout_width="0dp"
-        android:layout_height="16dp">
-    </Space>
+        android:layout_height="16dp" />
+
     <LinearLayout
         android:id="@+id/airplane_result_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
-    </LinearLayout>
+        android:visibility="gone" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/airplane_error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
+
     <ProgressBar
         android:id="@+id/airplane_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-    />
+        android:layout_gravity="center" />
+
     <Space
         android:layout_width="0dp"
-        android:layout_height="16dp">
-    </Space>
+        android:layout_height="16dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/calculate_again_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calculate_again"
         android:layout_gravity="center_horizontal"
-        />
+        android:text="@string/calculate_again" />
 </LinearLayout>

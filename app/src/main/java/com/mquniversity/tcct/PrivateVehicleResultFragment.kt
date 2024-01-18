@@ -5,7 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 
-open class PrivateVehicleResultFragment: ResultFragment() {
+open class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
     protected var iconResId: Int? = null
 

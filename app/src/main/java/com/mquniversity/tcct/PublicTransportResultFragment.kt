@@ -20,7 +20,7 @@ import java.io.IOException
 import java.net.URL
 import java.time.format.DateTimeFormatter
 
-class PublicTransportResultFragment: ResultFragment() {
+class PublicTransportResultFragment : ResultFragment() {
     private val timePattern = "h:mm a"
     private val iconsMap: MutableMap<String, Bitmap> = mutableMapOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,8 @@ class PublicTransportResultFragment: ResultFragment() {
                                 if (bitmap != null) {
                                     iconsMap[iconURL] = bitmap
                                 }
-                            } catch (_: IOException) {}
+                            } catch (_: IOException) {
+                            }
                         }
                     }
                 }
@@ -113,11 +114,13 @@ class PublicTransportResultFragment: ResultFragment() {
                         VehicleType.HEAVY_RAIL,
                         VehicleType.HIGH_SPEED_TRAIN,
                         VehicleType.LONG_DISTANCE_TRAIN -> calculationValues.railValueMap["National rail"]!!
+
                         VehicleType.COMMUTER_TRAIN,
                         VehicleType.METRO_RAIL,
                         VehicleType.MONORAIL,
                         VehicleType.RAIL,
                         VehicleType.TRAM -> calculationValues.railValueMap["Light rail and tram"]!!
+
                         VehicleType.SUBWAY -> calculationValues.railValueMap["London Underground"]!!
                         VehicleType.FERRY -> calculationValues.ferryValueMap["Foot passenger"]!!
                         VehicleType.TROLLEYBUS -> calculationValues.trolleybusValue
@@ -184,6 +187,7 @@ class PublicTransportResultFragment: ResultFragment() {
                     stepEmissionText.text = CalculationUtils.formatEmission(stepEmission)
                     stepsIconContainer.addView(transitIconsContainer)
                 }
+
                 TravelMode.WALKING -> {
                     // walking icon
                     stepsIconContainer.addView(
@@ -199,6 +203,7 @@ class PublicTransportResultFragment: ResultFragment() {
                         }
                     )
                 }
+
                 else -> {}
             }
 

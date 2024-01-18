@@ -36,12 +36,16 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
         fuelTypes = mainActivity.calculationValues.carFuelTypes
         carValues = mainActivity.calculationValues.carValuesMatrix.toTypedArray()
 
-        sizeInput = TextInputLayout(ContextThemeWrapper(context, com.google.android.material.R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu))
+        sizeInput = TextInputLayout(ContextThemeWrapper(
+            context, com.google.android.material.R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu
+        ))
         sizeOptions = mainActivity.calculationValues.carSizes.toTypedArray()
         insertQuery(sizeInput, "Size", sizeOptions)
         sizeInputDropdown = sizeInput.editText as MaterialAutoCompleteTextView
 
-        fuelTypeInput = TextInputLayout(ContextThemeWrapper(context, com.google.android.material.R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu))
+        fuelTypeInput = TextInputLayout(ContextThemeWrapper(
+            context, com.google.android.material.R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu
+        ))
         insertQuery(fuelTypeInput, "Fuel Type", emptyArray())
         fuelTypeInputDropdown = fuelTypeInput.editText as MaterialAutoCompleteTextView
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="Car">
+        <SwitchPreferenceCompat
+            app:key="use_specified_car"
+            app:summary="Use the below settings for car mode"
+            app:title="Use specified car" />
+    </PreferenceCategory>
+</PreferenceScreen>

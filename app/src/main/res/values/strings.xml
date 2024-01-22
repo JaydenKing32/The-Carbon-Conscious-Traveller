@@ -19,6 +19,7 @@
     <string name="tag_public_transport_result">PUBLIC_TRANSPORT_RESULT</string>
     <string name="tag_airplane_query">AIRPLANE_QUERY</string>
     <string name="tag_airplane_result">AIRPLANE_RESULT</string>
+    <string name="tag_settings">SETTINGS</string>
 
     <string name="error_zero_results">"Routes were not found with current travel mode.\nPlease try again with different locations"</string>
     <string name="error_daily_limit_exceeded">T"he requesting account has exceeded its daily quota.\nPlease try again tomorrow."</string>
@@ -61,4 +62,5 @@
 
     <string name="github_link">https://github.com/kaismic/The-Carbon-Conscious-Traveller</string>
     <string name="privacy_link">https://github.com/kaismic/The-Carbon-Conscious-Traveller/blob/master/privacy.md</string>
+    <string name="settings_title">Settings</string>
 </resources>

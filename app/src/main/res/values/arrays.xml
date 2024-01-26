@@ -23,4 +23,9 @@
         <item>"Plug-in Hybrid Electric Vehicle"</item>
         <item>"Battery Electric Vehicle"</item>
     </string-array>
+    <string-array name="motorcycle_sizes">
+        <item>"Small"</item>
+        <item>"Medium"</item>
+        <item>"Large"</item>
+    </string-array>
 </resources>

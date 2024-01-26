@@ -69,4 +69,7 @@
     <string name="specified_car_fuel_key">specified_car_fuel</string>
     <string name="specified_car_size_default">Medium car</string>
     <string name="specified_car_fuel_default">Petrol</string>
+    <string name="use_specified_motorcycle_key">use_specified_motorcycle</string>
+    <string name="specified_motorcycle_size_key">specified_motorcycle_size</string>
+    <string name="specified_motorcycle_size_default">Medium</string>
 </resources>

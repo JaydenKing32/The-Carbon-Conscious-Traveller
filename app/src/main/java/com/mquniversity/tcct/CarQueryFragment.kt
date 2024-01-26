@@ -5,6 +5,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -26,6 +27,18 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val specifiedCar = pref.getBoolean(getString(R.string.use_specified_car_key), false)
+
+        if (specifiedCar) {
+            val carSize = pref.getString(getString(R.string.specified_car_size_key), getString(R.string.specified_car_size_default))
+            val carFuel = pref.getString(getString(R.string.specified_car_fuel_key), getString(R.string.specified_car_fuel_default))
+
+            setupResult(carSize!!, carFuel!!)
+            return
+        }
+
         headerText.text = getString(R.string.car)
         sizeDescBtn.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
@@ -64,23 +77,7 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
         }
 
         calBtn.setOnClickListener {
-            mainActivity.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            calBtn.isEnabled = false
-            var carResultFrag = parentFragmentManager.findFragmentByTag(getString(R.string.tag_car_result)) as CarResultFragment?
-            if (carResultFrag == null) {
-                mainActivity.enableButtons(false)
-                carResultFrag = CarResultFragment(sizeOptions[currSizeIdx], fuelTypeOptions[currFuelTypeIdx])
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, carResultFrag, getString(R.string.tag_car_result))
-                    .addToBackStack(getString(R.string.tag_car_result))
-                    .commit()
-            } else {
-                carResultFrag.updateFactor(sizeOptions[currSizeIdx], fuelTypeOptions[currFuelTypeIdx])
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, carResultFrag, getString(R.string.tag_car_result))
-                    .commit()
-            }
-            calBtn.isEnabled = true
+            setupResult(sizeOptions[currSizeIdx], fuelTypeOptions[currFuelTypeIdx])
         }
     }
 
@@ -104,5 +101,25 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
         }
         fuelTypeOptions = options.toTypedArray()
         fuelTypeInputDropdown.setSimpleItems(fuelTypeOptions)
+    }
+
+    private fun setupResult(carSize: String, carFuelType: String) {
+        mainActivity.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        calBtn.isEnabled = false
+        var carResultFrag = parentFragmentManager.findFragmentByTag(getString(R.string.tag_car_result)) as CarResultFragment?
+        if (carResultFrag == null) {
+            mainActivity.enableButtons(false)
+            carResultFrag = CarResultFragment(carSize, carFuelType)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, carResultFrag, getString(R.string.tag_car_result))
+                .addToBackStack(getString(R.string.tag_car_result))
+                .commit()
+        } else {
+            carResultFrag.updateFactor(carSize, carFuelType)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, carResultFrag, getString(R.string.tag_car_result))
+                .commit()
+        }
+        calBtn.isEnabled = true
     }
 }

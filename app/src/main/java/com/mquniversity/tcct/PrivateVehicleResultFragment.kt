@@ -5,7 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 
-open class PrivateVehicleResultFragment : ResultFragment() {
+abstract class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
     protected var iconResId: Int? = null
 
@@ -62,4 +62,6 @@ open class PrivateVehicleResultFragment : ResultFragment() {
         durationTexts.add(durationText)
         return route.legs[0].distance.inMeters * factor
     }
+
+    abstract fun getSpecifiedFactor(): Float
 }

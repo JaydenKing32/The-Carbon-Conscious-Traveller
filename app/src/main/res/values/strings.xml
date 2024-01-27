@@ -72,4 +72,6 @@
     <string name="use_specified_motorcycle_key">use_specified_motorcycle</string>
     <string name="specified_motorcycle_size_key">specified_motorcycle_size</string>
     <string name="specified_motorcycle_size_default">Medium</string>
+    <string name="specified_car_calculation_key">specified_car_calculation</string>
+    <string name="specified_motorcycle_calculation_key">specified_motorcycle_calculation</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.gms.maps.model.Dot
 import com.google.android.gms.maps.model.Gap
@@ -167,7 +168,18 @@ abstract class ResultFragment : Fragment() {
         if (routeEmissions.size <= 1) {
             return
         }
-        val max = routeEmissions.max()
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
+        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
+
+        val max: Float = if (this@ResultFragment is PrivateVehicleResultFragment && (specifiedCarCalc || specifiedBikeCalc)) {
+            val factor = getSpecifiedFactor()
+            currRoutes.maxOf { it.legs[0].distance.inMeters * factor }
+        } else {
+            routeEmissions.max()
+        }
+
         val emissionIconValues = arrayOf(
             CalculationUtils.TREE_CO2_GRAM,
             CalculationUtils.TREE_BRANCH_CO2_GRAM,

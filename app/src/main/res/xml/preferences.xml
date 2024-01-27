@@ -18,6 +18,10 @@
             android:entryValues="@array/car_fuels"
             android:key="@string/specified_car_fuel_key"
             android:title="Car fuel type" />
+        <!--Separate from use_specified_car as user may want to compare a new car with their current car-->
+        <CheckBoxPreference
+            app:key="@string/specified_car_calculation_key"
+            app:title="Use for calculations" />
     </PreferenceCategory>
     <PreferenceCategory app:title="Motorcycle">
         <CheckBoxPreference
@@ -30,5 +34,8 @@
             android:entryValues="@array/motorcycle_sizes"
             android:key="@string/specified_motorcycle_size_key"
             android:title="Motorcycle size" />
+        <CheckBoxPreference
+            app:key="@string/specified_motorcycle_calculation_key"
+            app:title="Use for calculations" />
     </PreferenceCategory>
 </PreferenceScreen>

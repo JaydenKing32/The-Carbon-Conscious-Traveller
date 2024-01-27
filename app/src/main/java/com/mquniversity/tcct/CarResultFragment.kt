@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.PreferenceManager
 import com.google.maps.model.TravelMode
 
 class CarResultFragment(
@@ -40,19 +39,5 @@ class CarResultFragment(
         }
         mainActivity.transportSelection.updateIcons(emissions)
         updateTreeIcons(emissions)
-    }
-
-    override fun getSpecifiedFactor(): Float {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
-
-        return if (specifiedCarCalc) {
-            val carSize = pref.getString(getString(R.string.specified_car_size_key), getString(R.string.specified_car_size_default))
-            val carFuel = pref.getString(getString(R.string.specified_car_fuel_key), getString(R.string.specified_car_fuel_default))
-            calculationValues
-                .carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuel)]
-        } else {
-            factor
-        }
     }
 }

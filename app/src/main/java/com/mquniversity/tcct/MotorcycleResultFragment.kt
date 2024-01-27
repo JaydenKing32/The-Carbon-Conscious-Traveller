@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.PreferenceManager
 import com.google.maps.model.TravelMode
 
 class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehicleResultFragment() {
@@ -34,17 +33,5 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
             durationTexts[i].text = currRoutes[i].legs[0].duration.humanReadable
         }
         mainActivity.transportSelection.updateIcons(emissions)
-    }
-
-    override fun getSpecifiedFactor(): Float {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
-
-        return if (specifiedBikeCalc) {
-            val bikeSize = pref.getString(getString(R.string.specified_motorcycle_size_key), getString(R.string.specified_motorcycle_size_default))
-            calculationValues.motorcycleValueMap[bikeSize]!!
-        } else {
-            factor
-        }
     }
 }

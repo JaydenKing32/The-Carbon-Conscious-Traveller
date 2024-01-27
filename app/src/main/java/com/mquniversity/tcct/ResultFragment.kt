@@ -190,7 +190,9 @@ abstract class ResultFragment : Fragment() {
             val treeContainer = resultLayouts[i]?.findViewById<FlexboxLayout>(R.id.tree_container)!!
             treeContainer.removeAllViews()
             var dividend = max - routeEmissions[i]
-            if (dividend == 0f) {
+            // Show nothing for no reduction in emissions
+            // TODO: show a different symbol for increased emissions
+            if (dividend == 0f || dividend < 0f) {
                 continue
             }
             if (dividend < CalculationUtils.ONE_LEAF_CO2_GRAM) {

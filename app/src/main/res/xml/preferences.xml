@@ -42,7 +42,8 @@
         app:key="@string/use_specified_motorcycle_instead_of_car_key"
         app:summary="If both a motorcycle and car are specified for use in calculations, use the specified motorcycle instead of the car, otherwise the car will be used"
         app:title="Use specified motorcycle instead of car" />
-    <PreferenceCategory app:title="Icon values">
+    <PreferenceCategory app:title="Symbol values">
+        <Preference android:summary="Set the values (in grams) for displaying symbols that represent carbon-saving" />
         <EditTextPreference
             android:defaultValue="@string/leaf_co2_default"
             android:icon="@drawable/leaf2"

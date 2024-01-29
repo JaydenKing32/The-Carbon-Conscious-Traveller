@@ -181,10 +181,10 @@ abstract class ResultFragment : Fragment() {
         }
 
         val emissionIconValues = arrayOf(
-            CalculationUtils.TREE_CO2_GRAM,
-            CalculationUtils.TREE_BRANCH_CO2_GRAM,
-            CalculationUtils.FOUR_LEAVES_CO2_GRAM,
-            CalculationUtils.ONE_LEAF_CO2_GRAM,
+            pref.getString(getString(R.string.tree_co2_key), CalculationUtils.DEFAULT_TREE_CO2_GRAM.toString())!!.toFloat(),
+            pref.getString(getString(R.string.branch_co2_key), CalculationUtils.DEFAULT_TREE_BRANCH_CO2_GRAM.toString())!!.toFloat(),
+            pref.getString(getString(R.string.leaf_bundle_co2_key), CalculationUtils.DEFAULT_FOUR_LEAVES_CO2_GRAM.toString())!!.toFloat(),
+            pref.getString(getString(R.string.leaf_co2_key), CalculationUtils.DEFAULT_ONE_LEAF_CO2_GRAM.toString())!!.toFloat()
         )
         for (i in routeEmissions.indices) {
             val treeContainer = resultLayouts[i]?.findViewById<FlexboxLayout>(R.id.tree_container)!!
@@ -195,7 +195,7 @@ abstract class ResultFragment : Fragment() {
             if (dividend == 0f || dividend < 0f) {
                 continue
             }
-            if (dividend < CalculationUtils.ONE_LEAF_CO2_GRAM) {
+            if (dividend < CalculationUtils.DEFAULT_ONE_LEAF_CO2_GRAM) {
                 treeContainer.addView(
                     ImageView(context).apply {
                         setImageResource(R.drawable.leaf2)

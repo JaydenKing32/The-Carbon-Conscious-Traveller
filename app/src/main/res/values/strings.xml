@@ -75,4 +75,12 @@
     <string name="specified_car_calculation_key">specified_car_calculation</string>
     <string name="specified_motorcycle_calculation_key">specified_motorcycle_calculation</string>
     <string name="use_specified_motorcycle_instead_of_car_key">use_specified_motorcycle_instead_of_car</string>
+    <string name="leaf_co2_key">leaf_co2</string>
+    <string name="leaf_bundle_co2_key">leaf_bundle_co2</string>
+    <string name="branch_co2_key">branch_co2</string>
+    <string name="tree_co2_key">tree_co2</string>
+    <string name="leaf_co2_default">100</string>
+    <string name="leaf_bundle_co2_default">1000</string>
+    <string name="branch_co2_default">5000</string>
+    <string name="tree_co2_default">29000</string>
 </resources>

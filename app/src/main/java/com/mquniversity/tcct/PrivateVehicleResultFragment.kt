@@ -4,7 +4,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.preference.PreferenceManager
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
@@ -64,23 +63,13 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         return route.legs[0].distance.inMeters * factor
     }
 
-    fun getSpecifiedFactor(): Float {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
-        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
-        val useBikeInsteadOfCar = pref.getBoolean(getString(R.string.use_specified_motorcycle_instead_of_car_key), false)
+    override fun getSpecifiedFactor(): Float {
+        val result = super.getSpecifiedFactor()
 
-        return if (specifiedCarCalc && !useBikeInsteadOfCar) {
-            val carSize = pref.getString(getString(R.string.specified_car_size_key), getString(R.string.specified_car_size_default))
-            val carFuel = pref.getString(getString(R.string.specified_car_fuel_key), getString(R.string.specified_car_fuel_default))
-            calculationValues.carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuel)]
-        } else if (specifiedBikeCalc && useBikeInsteadOfCar) {
-            val bikeSize = pref.getString(
-                getString(R.string.specified_motorcycle_size_key), getString(R.string.specified_motorcycle_size_default)
-            )
-            calculationValues.motorcycleValueMap[bikeSize]!!
-        } else {
+        return if (result == 0f) {
             factor
+        } else {
+            result
         }
     }
 }

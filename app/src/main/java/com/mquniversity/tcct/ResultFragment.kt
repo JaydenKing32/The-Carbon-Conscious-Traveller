@@ -173,7 +173,9 @@ abstract class ResultFragment : Fragment() {
         val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
         val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
 
-        val max: Float = if (this@ResultFragment is PrivateVehicleResultFragment && (specifiedCarCalc || specifiedBikeCalc)) {
+        // TODO: for PublicTransportResultFragment, will use the public transport route to calculate the CO2e emissions of car/bike,
+        //  but would make more sense to get the actual private vehicle route and use that for calculation
+        val max: Float = if (specifiedCarCalc || specifiedBikeCalc) {
             val factor = getSpecifiedFactor()
             currRoutes.maxOf { it.legs[0].distance.inMeters * factor }
         } else {
@@ -386,6 +388,26 @@ abstract class ResultFragment : Fragment() {
                     selectedPolylinePolylines[i]?.pattern = listOf(Dot(), Gap(10f))
                 }
             }
+        }
+    }
+
+    open fun getSpecifiedFactor(): Float {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
+        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
+        val useBikeInsteadOfCar = pref.getBoolean(getString(R.string.use_specified_motorcycle_instead_of_car_key), false)
+
+        return if (specifiedCarCalc && !useBikeInsteadOfCar) {
+            val carSize = pref.getString(getString(R.string.specified_car_size_key), getString(R.string.specified_car_size_default))
+            val carFuel = pref.getString(getString(R.string.specified_car_fuel_key), getString(R.string.specified_car_fuel_default))
+            calculationValues.carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuel)]
+        } else if (specifiedBikeCalc && useBikeInsteadOfCar) {
+            val bikeSize = pref.getString(
+                getString(R.string.specified_motorcycle_size_key), getString(R.string.specified_motorcycle_size_default)
+            )
+            calculationValues.motorcycleValueMap[bikeSize]!!
+        } else {
+            0f
         }
     }
 }

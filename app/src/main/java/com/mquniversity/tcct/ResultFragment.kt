@@ -187,7 +187,7 @@ abstract class ResultFragment : Fragment() {
             pref.getString(getString(R.string.branch_co2_key), CalculationUtils.DEFAULT_TREE_BRANCH_CO2_GRAM.toString())!!.toFloat(),
             pref.getString(getString(R.string.leaf_bundle_co2_key), CalculationUtils.DEFAULT_FOUR_LEAVES_CO2_GRAM.toString())!!.toFloat(),
             pref.getString(getString(R.string.leaf_co2_key), CalculationUtils.DEFAULT_ONE_LEAF_CO2_GRAM.toString())!!.toFloat()
-        )
+        ).sortedArrayDescending()
         for (i in routeEmissions.indices) {
             val treeContainer = resultLayouts[i]?.findViewById<FlexboxLayout>(R.id.tree_container)!!
             treeContainer.removeAllViews()

@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -16,6 +19,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
 import androidx.core.content.ContextCompat
@@ -36,6 +40,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.JointType
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -64,6 +70,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Timer
 import kotlin.concurrent.schedule
+
 
 /**
  * location bias radius for search result suggestion. Value range: [0 - 50000] in meters
@@ -497,20 +504,26 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
         )
     }
 
+    // https://stackoverflow.com/a/35574535
+    private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor {
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
     private fun moveMarkers() {
         if (originMarker == null) {
-            originMarker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(origin?.latLng!!)
-            )
+            val circleDrawable = AppCompatResources.getDrawable(this, R.drawable.outline_trip_origin_24)
+            val markerIcon: BitmapDescriptor = getMarkerIconFromDrawable(circleDrawable!!)
+            originMarker = googleMap.addMarker(MarkerOptions().position(origin?.latLng!!).icon(markerIcon))
         } else {
             originMarker!!.position = origin?.latLng!!
         }
         if (destMarker == null) {
-            destMarker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(dest?.latLng!!)
-            )
+            destMarker = googleMap.addMarker(MarkerOptions().position(dest?.latLng!!))
         } else {
             destMarker!!.position = dest?.latLng!!
         }

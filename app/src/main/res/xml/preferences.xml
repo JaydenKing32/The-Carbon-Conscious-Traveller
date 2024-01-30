@@ -49,24 +49,28 @@
             android:icon="@drawable/leaf2"
             android:inputType="number"
             android:key="@string/leaf_co2_key"
-            android:title="Leaf" />
+            android:title="Leaf"
+            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="@string/leaf_bundle_co2_default"
             android:icon="@drawable/four_leaves1"
             android:inputType="number"
             android:key="@string/leaf_bundle_co2_key"
-            android:title="Leaf bundle" />
+            android:title="Leaf bundle"
+            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="@string/branch_co2_default"
             android:icon="@drawable/tree_branch3"
             android:inputType="number"
             android:key="@string/branch_co2_key"
-            android:title="Branch" />
+            android:title="Branch"
+            app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="@string/tree_co2_default"
             android:icon="@drawable/tree2"
             android:inputType="number"
             android:key="@string/tree_co2_key"
-            android:title="Tree" />
+            android:title="Tree"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 </PreferenceScreen>

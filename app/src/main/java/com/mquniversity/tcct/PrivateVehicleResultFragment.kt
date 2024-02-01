@@ -47,6 +47,19 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
                 )
             }
 
+        val button = resultLayout.findViewById<LinearLayout>(R.id.add_remove_button)
+        var checked = false
+        button.setOnClickListener {
+            val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
+            checked = if (checked) {
+                image.setImageResource(R.drawable.outline_add_circle_outline_24)
+                false
+            } else {
+                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+                true
+            }
+        }
+
         val summaryText: TextView = resultLayout.findViewById(R.id.summary_text)
         summaryText.text = getString(R.string.summary_text, route.summary)
 

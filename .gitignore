@@ -368,3 +368,4 @@ cython_debug/
 .idea/csv-editor.xml
 .idea/intellij-javadocs-4.0.1.xml
 .idea/vcs.xml
+/app/schemas/

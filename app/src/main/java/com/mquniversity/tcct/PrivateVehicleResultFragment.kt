@@ -4,6 +4,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.Calendar
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
@@ -47,33 +51,57 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
                 )
             }
 
-        val button = resultLayout.findViewById<LinearLayout>(R.id.add_remove_button)
-        var checked = false
-        button.setOnClickListener {
-            val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
-            checked = if (checked) {
-                image.setImageResource(R.drawable.outline_add_circle_outline_24)
-                false
-            } else {
-                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-                true
-            }
-        }
-
         val summaryText: TextView = resultLayout.findViewById(R.id.summary_text)
         summaryText.text = getString(R.string.summary_text, route.summary)
 
+        val leg = route.legs[0]
+        val emission = leg.distance.inMeters * factor
+
         val emissionText: TextView = resultLayout.findViewById(R.id.emission_text)
-        emissionText.text = CalculationUtils.formatEmission(route.legs[0].distance.inMeters * factor)
+        emissionText.text = CalculationUtils.formatEmission(emission)
         val distText: TextView = resultLayout.findViewById(R.id.distance_text)
-        distText.text = route.legs[0].distance.humanReadable
+        distText.text = leg.distance.humanReadable
         val durationText: TextView = resultLayout.findViewById(R.id.duration_text)
-        durationText.text = route.legs[0].duration.humanReadable
+        durationText.text = leg.duration.humanReadable
 
         emissionTexts.add(emissionText)
         distTexts.add(distText)
         durationTexts.add(durationText)
-        return route.legs[0].distance.inMeters * factor
+
+        val button = resultLayout.findViewById<LinearLayout>(R.id.add_remove_button)
+        val db = AppDatabase.getInstance(resultLayout.context)
+
+        var checked = false
+
+        button.setOnClickListener {
+            val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
+            checked = if (checked) {
+                image.setImageResource(R.drawable.outline_add_circle_outline_24)
+                CoroutineScope(Dispatchers.IO).launch {
+                    db.tripDao().deleteLastRow()
+                }
+                false
+            } else {
+                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val trip = Trip(
+                        0,
+                        Calendar.getInstance().time,
+                        leg.startAddress,
+                        leg.endAddress,
+                        leg.distance.inMeters,
+                        getVehicleType(),
+                        getFuelType(),
+                        emission
+                    )
+                    db.tripDao().insert(trip)
+                }
+                true
+            }
+        }
+
+        return emission
     }
 
     override fun getSpecifiedFactor(): Float {
@@ -85,4 +113,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
             result
         }
     }
+
+    abstract fun getVehicleType(): String
+    abstract fun getFuelType(): String
 }

@@ -40,4 +40,12 @@ class CarResultFragment(
         mainActivity.transportSelection.updateIcons(emissions)
         updateTreeIcons(emissions)
     }
+
+    override fun getVehicleType(): String {
+        return carSize
+    }
+
+    override fun getFuelType(): String {
+        return carFuelType
+    }
 }

@@ -34,4 +34,12 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
         }
         mainActivity.transportSelection.updateIcons(emissions)
     }
+
+    override fun getVehicleType(): String {
+        return motorcycleSize
+    }
+
+    override fun getFuelType(): String {
+        return "Motorcycle"
+    }
 }

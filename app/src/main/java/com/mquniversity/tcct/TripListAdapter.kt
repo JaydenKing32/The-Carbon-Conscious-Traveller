@@ -3,26 +3,36 @@ package com.mquniversity.tcct
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class TripListAdapter : ListAdapter<Trip, TripListAdapter.TripViewHolder>(TripComparator()) {
+class TripListAdapter(private val bindFun: (Trip) -> Unit) : ListAdapter<Trip, TripListAdapter.TripViewHolder>(TripComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         return TripViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.destination)
+        holder.bind(current, bindFun)
     }
 
     class TripViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tripItemView: TextView = itemView.findViewById(R.id.trip_item)
+        private val tripItemView: ConstraintLayout = itemView.findViewById(R.id.trip_item)
 
-        fun bind(text: String?) {
-            tripItemView.text = text
+        fun bind(trip: Trip, clickFun: (Trip) -> Unit) {
+            val dateTextView = tripItemView.findViewById<TextView>(R.id.trip_item_date)
+            val emissionTextView = tripItemView.findViewById<TextView>(R.id.trip_item_emission)
+            val button = tripItemView.findViewById<ImageView>(R.id.trip_item_remove)
+
+            dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)
+            emissionTextView.text = CalculationUtils.formatEmission(trip.emissions)
+            button.setOnClickListener { clickFun(trip) }
         }
 
         companion object {

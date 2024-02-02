@@ -11,6 +11,7 @@ class TripViewModel(private val repository: TripRepository) : ViewModel() {
     val allTrips: LiveData<List<Trip>> = repository.allTrips.asLiveData()
 
     fun insert(trip: Trip) = viewModelScope.launch { repository.insert(trip) }
+    fun delete(trip: Trip) = viewModelScope.launch { repository.delete(trip) }
     fun deleteLast() = viewModelScope.launch { repository.deleteLast() }
 }
 

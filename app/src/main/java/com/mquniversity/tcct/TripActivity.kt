@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class TripActivity : AppCompatActivity() {
-    val tripViewModel: TripViewModel by viewModels {
+    private val tripViewModel: TripViewModel by viewModels {
         TripViewModelFactory((application as TripApplication).repository)
     }
 
@@ -20,7 +20,7 @@ class TripActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val recyclerView = findViewById<RecyclerView>(R.id.trip_recyclerview)
-        val adapter = TripListAdapter()
+        val adapter = TripListAdapter { tripViewModel.delete(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

@@ -4,24 +4,25 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TripDao {
-    @Query("SELECT * FROM trip")
-    fun getAll(): List<Trip>
+    @Query("SELECT * FROM trip ORDER BY date DESC")
+    fun getAll(): Flow<List<Trip>>
 
     @Query("SELECT EXISTS(SELECT * FROM trip WHERE id = :id)")
-    fun doesIdExist(id: Int): Boolean
+    suspend fun doesIdExist(id: Int): Boolean
 
     @Insert
-    fun insert(trip: Trip)
+    suspend fun insert(trip: Trip)
 
     @Delete
-    fun delete(trip: Trip)
+    suspend fun delete(trip: Trip)
 
     @Query("DELETE FROM trip WHERE id = :id")
-    fun deleteById(id: Int)
+    suspend fun deleteById(id: Int)
 
     @Query("DELETE FROM trip WHERE id = (SELECT MAX(id) FROM trip)")
-    fun deleteLastRow()
+    suspend fun deleteLast()
 }

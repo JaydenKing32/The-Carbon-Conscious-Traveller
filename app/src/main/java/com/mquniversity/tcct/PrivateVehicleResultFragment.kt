@@ -4,9 +4,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
@@ -69,34 +66,26 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         durationTexts.add(durationText)
 
         val button = resultLayout.findViewById<LinearLayout>(R.id.add_remove_button)
-        val db = AppDatabase.getInstance(resultLayout.context)
-
         var checked = false
 
         button.setOnClickListener {
             val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
             checked = if (checked) {
                 image.setImageResource(R.drawable.outline_add_circle_outline_24)
-                CoroutineScope(Dispatchers.IO).launch {
-                    db.tripDao().deleteLastRow()
-                }
+                tripViewModel.deleteLast()
                 false
             } else {
                 image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    val trip = Trip(
-                        0,
-                        Calendar.getInstance().time,
-                        leg.startAddress,
-                        leg.endAddress,
-                        leg.distance.inMeters,
-                        getVehicleType(),
-                        getFuelType(),
-                        emission
-                    )
-                    db.tripDao().insert(trip)
-                }
+                tripViewModel.insert(Trip(
+                    0,
+                    Calendar.getInstance().time,
+                    leg.startAddress,
+                    leg.endAddress,
+                    leg.distance.inMeters,
+                    getVehicleType(),
+                    getFuelType(),
+                    emission
+                ))
                 true
             }
         }

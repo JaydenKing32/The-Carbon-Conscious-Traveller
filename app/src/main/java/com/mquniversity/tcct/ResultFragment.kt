@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.gms.maps.model.Dot
@@ -56,6 +57,10 @@ abstract class ResultFragment : Fragment() {
     private var currSelectedIndicator: View? = null
 
     protected var travelMode = TravelMode.DRIVING
+
+    protected val tripViewModel: TripViewModel by activityViewModels {
+        TripViewModelFactory((mainActivity.application as TripApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

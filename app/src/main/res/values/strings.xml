@@ -83,4 +83,6 @@
     <string name="leaf_bundle_co2_default">1000</string>
     <string name="branch_co2_default">5000</string>
     <string name="tree_co2_default">29000</string>
+
+    <string name="trip_title">Trips</string>
 </resources>

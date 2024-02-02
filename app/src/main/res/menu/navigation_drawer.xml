@@ -11,5 +11,9 @@
     <item
         android:id="@+id/item_settings"
         android:icon="@drawable/outline_settings_24"
-        android:title="Settings" />
+        android:title="@string/settings_title" />
+    <item
+        android:id="@+id/item_trip"
+        android:icon="@drawable/outline_history_24"
+        android:title="@string/trip_title" />
 </menu>

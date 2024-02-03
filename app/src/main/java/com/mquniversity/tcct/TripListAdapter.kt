@@ -26,10 +26,16 @@ class TripListAdapter(private val bindFun: (Trip) -> Unit) : ListAdapter<Trip, T
         private val tripItemView: ConstraintLayout = itemView.findViewById(R.id.trip_item)
 
         fun bind(trip: Trip, clickFun: (Trip) -> Unit) {
+            val icon = tripItemView.findViewById<ImageView>(R.id.trip_item_icon)
             val dateTextView = tripItemView.findViewById<TextView>(R.id.trip_item_date)
             val emissionTextView = tripItemView.findViewById<TextView>(R.id.trip_item_emission)
             val button = tripItemView.findViewById<ImageView>(R.id.trip_item_remove)
 
+            when (trip.fuel) {
+                "Motorcycle" -> icon.setImageResource(R.drawable.outline_sports_motorsports_24)
+                "Public" -> icon.setImageResource(R.drawable.outline_directions_subway_24)
+                else -> icon.setImageResource(R.drawable.outline_directions_car_24)
+            }
             dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)
             emissionTextView.text = CalculationUtils.formatEmission(trip.emissions)
             button.setOnClickListener { clickFun(trip) }

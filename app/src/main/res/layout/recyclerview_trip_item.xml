@@ -11,13 +11,22 @@
         android:layout_height="match_parent"
         android:background="@drawable/border">
 
+        <ImageView
+            android:id="@+id/trip_item_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/trip_item_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/trip_item_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/trip_item_emission"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/trip_item_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

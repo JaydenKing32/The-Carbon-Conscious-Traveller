@@ -12,6 +12,11 @@ class TripRepository(private val tripDao: TripDao) {
     }
 
     @WorkerThread
+    suspend fun insert(trip: Trip, listener: InsertListener) {
+        listener.onInsert(tripDao.insert(trip))
+    }
+
+    @WorkerThread
     suspend fun delete(trip: Trip) {
         tripDao.delete(trip)
     }
@@ -25,4 +30,9 @@ class TripRepository(private val tripDao: TripDao) {
     suspend fun deleteLast() {
         tripDao.deleteLast()
     }
+}
+
+// https://stackoverflow.com/a/63044090
+interface InsertListener {
+    fun onInsert(id: Long)
 }

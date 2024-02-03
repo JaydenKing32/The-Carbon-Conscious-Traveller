@@ -4,9 +4,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
@@ -81,20 +78,22 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
                 image.setImageResource(R.drawable.outline_add_circle_outline_24)
                 false
             } else {
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (!tripMap.containsKey(idx)) {
-                        val trip = Trip(
-                            0,
-                            Calendar.getInstance().time,
-                            leg.startAddress,
-                            leg.endAddress,
-                            leg.distance.inMeters,
-                            getVehicleType(),
-                            getFuelType(),
-                            emission
-                        )
-                        tripMap[idx] = tripViewModel.repository.insert(trip)
-                    }
+                if (!tripMap.containsKey(idx)) {
+                    val trip = Trip(
+                        0,
+                        Calendar.getInstance().time,
+                        leg.startAddress,
+                        leg.endAddress,
+                        leg.distance.inMeters,
+                        getVehicleType(),
+                        getFuelType(),
+                        emission
+                    )
+                    tripViewModel.insert(trip, object : InsertListener {
+                        override fun onInsert(id: Long) {
+                            tripMap[idx] = id
+                        }
+                    })
                 }
                 image.setImageResource(R.drawable.outline_remove_circle_outline_24)
                 true

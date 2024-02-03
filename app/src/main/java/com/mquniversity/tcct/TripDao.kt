@@ -15,7 +15,7 @@ interface TripDao {
     suspend fun doesIdExist(id: Int): Boolean
 
     @Insert
-    suspend fun insert(trip: Trip)
+    suspend fun insert(trip: Trip): Long
 
     @Delete
     suspend fun delete(trip: Trip)

@@ -65,7 +65,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         distTexts.add(distText)
         durationTexts.add(durationText)
 
-        val button = resultLayout.findViewById<LinearLayout>(R.id.add_remove_button)
+        val button = resultLayout.findViewById<LinearLayout>(R.id.private_add_remove_button)
         var checked = false
 
         button.setOnClickListener {

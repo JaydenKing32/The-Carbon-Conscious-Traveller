@@ -19,6 +19,7 @@ import com.google.maps.model.TravelMode
 import java.io.IOException
 import java.net.URL
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 class PublicTransportResultFragment : ResultFragment() {
     private val timePattern = "h:mm a"
@@ -209,6 +210,43 @@ class PublicTransportResultFragment : ResultFragment() {
         }
         stepsIconContainer.removeViewAt(stepsIconContainer.childCount - 1)
         emissionText.text = CalculationUtils.formatEmission(totalEmissionInGram)
+
+        val button = resultLayout.findViewById<LinearLayout>(R.id.public_add_remove_button)
+        var checked = false
+        val vehicleList = steps.filter { it.travelMode == TravelMode.TRANSIT }.map { it.transitDetails.line.vehicle.type }.joinToString("!")
+
+        button.setOnClickListener {
+            val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
+            checked = if (checked) {
+                if (tripMap.containsKey(idx)) {
+                    val trip = tripMap.remove(idx)!!
+                    tripViewModel.delete(trip)
+                }
+                image.setImageResource(R.drawable.outline_add_circle_outline_24)
+                false
+            } else {
+                if (!tripMap.containsKey(idx)) {
+                    val trip = Trip(
+                        0,
+                        Calendar.getInstance().time,
+                        leg.startAddress,
+                        leg.endAddress,
+                        leg.distance.inMeters,
+                        vehicleList,
+                        "Public",
+                        totalEmissionInGram
+                    )
+                    tripViewModel.insert(trip, object : InsertListener {
+                        override fun onInsert(id: Long) {
+                            tripMap[idx] = id
+                        }
+                    })
+                }
+                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+                true
+            }
+        }
+
         return totalEmissionInGram
     }
 }

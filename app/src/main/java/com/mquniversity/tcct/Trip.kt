@@ -2,7 +2,9 @@ package com.mquniversity.tcct
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 // https://developer.android.com/training/data-storage/room
 @Entity
@@ -33,5 +35,30 @@ data class Trip(
         var result = id
         result = 31 * result + date.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return arrayOf(
+            id,
+            SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(date),
+            "'${origin}' -> '${destination}'",
+            "${distance}m",
+            vehicle,
+            fuel,
+            CalculationUtils.formatEmission(emissions)
+        ).joinToString(", ")
+    }
+
+    fun multilineString(): String {
+        return buildString {
+            appendLine("id = $id")
+            appendLine("date = ${SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(date)}")
+            appendLine("origin = $origin")
+            appendLine("destination = $destination")
+            appendLine("distance = ${distance}m")
+            appendLine("vehicle type = $vehicle")
+            appendLine("fuel type = $fuel")
+            appendLine("emissions = ${CalculationUtils.formatEmission(emissions)}")
+        }
     }
 }

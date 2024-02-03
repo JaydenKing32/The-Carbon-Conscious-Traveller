@@ -1,5 +1,6 @@
 package com.mquniversity.tcct
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,9 @@ class TripListAdapter(private val bindFun: (Trip) -> Unit) : ListAdapter<Trip, T
             dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)
             emissionTextView.text = CalculationUtils.formatEmission(trip.emissions)
             button.setOnClickListener { clickFun(trip) }
+            dateTextView.setOnClickListener {
+                AlertDialog.Builder(context).setMessage(trip.multilineString()).create().show()
+            }
         }
 
         companion object {

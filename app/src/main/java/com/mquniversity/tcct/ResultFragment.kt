@@ -254,6 +254,7 @@ abstract class ResultFragment : Fragment() {
             .destination(LatLng(mainActivity.dest?.latLng!!.latitude, mainActivity.dest?.latLng!!.longitude))
             .mode(travelMode)
             .alternatives(true)
+        tripMap.clear()
 
         CoroutineScope(Dispatchers.IO).launch {
             try {

@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.color.MaterialColors
 import com.google.maps.model.TravelMode
-import com.google.maps.model.VehicleType
 import java.io.IOException
 import java.net.URL
 import java.time.format.DateTimeFormatter
@@ -88,16 +87,17 @@ class PublicTransportResultFragment : ResultFragment() {
 
         val resultLayout = resultLayouts[idx]!!
         val route = currRoutes[idx]
+        val leg = route.legs[0]
 
         val emissionText: TextView = resultLayout.findViewById(R.id.emission_text)
         val distText: TextView = resultLayout.findViewById(R.id.distance_text)
-        distText.text = route.legs[0].distance.humanReadable
+        distText.text = leg.distance.humanReadable
         val durationText: TextView = resultLayout.findViewById(R.id.duration_text)
-        durationText.text = route.legs[0].duration.humanReadable
+        durationText.text = leg.duration.humanReadable
 
         val timeTextView: TextView = resultLayout.findViewById(R.id.departure_arrival_time)
-        val depTime = route.legs[0].departureTime
-        val arrivalTime = route.legs[0].arrivalTime
+        val depTime = leg.departureTime
+        val arrivalTime = leg.arrivalTime
         if (depTime != null && arrivalTime != null) {
             val departureTimeText = depTime.format(DateTimeFormatter.ofPattern(timePattern))
             val arrivalTimeText = arrivalTime.format(DateTimeFormatter.ofPattern(timePattern))
@@ -105,30 +105,12 @@ class PublicTransportResultFragment : ResultFragment() {
         }
 
         val stepsIconContainer: FlexboxLayout = resultLayout.findViewById(R.id.steps_icon_container)
-        val steps = route.legs[0].steps
+        val steps = leg.steps
         var totalEmissionInGram = 0f
         for (step in steps) {
             when (step.travelMode) {
                 TravelMode.TRANSIT -> {
-                    val factor: Float = when (step.transitDetails.line.vehicle.type) {
-                        VehicleType.BUS -> calculationValues.busValueMap["Average local bus"]!!
-                        VehicleType.INTERCITY_BUS -> calculationValues.busValueMap["Coach"]!!
-                        VehicleType.HEAVY_RAIL,
-                        VehicleType.HIGH_SPEED_TRAIN,
-                        VehicleType.LONG_DISTANCE_TRAIN -> calculationValues.railValueMap["National rail"]!!
-
-                        VehicleType.COMMUTER_TRAIN,
-                        VehicleType.METRO_RAIL,
-                        VehicleType.MONORAIL,
-                        VehicleType.RAIL,
-                        VehicleType.TRAM -> calculationValues.railValueMap["Light rail and tram"]!!
-
-                        VehicleType.SUBWAY -> calculationValues.railValueMap["London Underground"]!!
-                        VehicleType.FERRY -> calculationValues.ferryValueMap["Foot passenger"]!!
-                        VehicleType.TROLLEYBUS -> calculationValues.trolleybusValue
-                        VehicleType.CABLE_CAR -> calculationValues.cableCarValue
-                        else -> 0f
-                    }
+                    val factor: Float = calculationValues.getPublicFactor(step.transitDetails.line.vehicle.type)
                     val stepEmission = step.distance.inMeters * factor
                     totalEmissionInGram += stepEmission
 

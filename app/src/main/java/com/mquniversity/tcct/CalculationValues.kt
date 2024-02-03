@@ -1,6 +1,7 @@
 package com.mquniversity.tcct
 
 import android.content.Context
+import com.google.maps.model.VehicleType
 import com.opencsv.CSVReader
 
 const val CAR = "car"
@@ -14,16 +15,16 @@ class CalculationValues(context: Context) {
     val carFuelTypes: Array<String>
     val carValuesMatrix = mutableListOf<FloatArray>()
 
-    val motorcycleSizes: MutableList<String> = mutableListOf<String>()
+    val motorcycleSizes: MutableList<String> = mutableListOf()
     val motorcycleValueMap: HashMap<String, Float> = HashMap()
 
-    val busTypes: MutableList<String> = mutableListOf<String>()
+    val busTypes: MutableList<String> = mutableListOf()
     val busValueMap: HashMap<String, Float> = HashMap()
 
-    val railTypes: MutableList<String> = mutableListOf<String>()
+    val railTypes: MutableList<String> = mutableListOf()
     val railValueMap: HashMap<String, Float> = HashMap()
 
-    val ferryTypes: MutableList<String> = mutableListOf<String>()
+    val ferryTypes: MutableList<String> = mutableListOf()
     val ferryValueMap: HashMap<String, Float> = HashMap()
 
     // CO2e kg/km per passenger
@@ -104,6 +105,28 @@ class CalculationValues(context: Context) {
             }
             ferryTypes.add(nextLine[0])
             ferryValueMap[nextLine[0]] = nextLine[1].toFloat()
+        }
+    }
+
+    fun getPublicFactor(vehicleType: VehicleType): Float {
+        return when (vehicleType) {
+            VehicleType.BUS -> busValueMap["Average local bus"]!!
+            VehicleType.INTERCITY_BUS -> busValueMap["Coach"]!!
+            VehicleType.HEAVY_RAIL,
+            VehicleType.HIGH_SPEED_TRAIN,
+            VehicleType.LONG_DISTANCE_TRAIN -> railValueMap["National rail"]!!
+
+            VehicleType.COMMUTER_TRAIN,
+            VehicleType.METRO_RAIL,
+            VehicleType.MONORAIL,
+            VehicleType.RAIL,
+            VehicleType.TRAM -> railValueMap["Light rail and tram"]!!
+
+            VehicleType.SUBWAY -> railValueMap["London Underground"]!!
+            VehicleType.FERRY -> ferryValueMap["Foot passenger"]!!
+            VehicleType.TROLLEYBUS -> trolleybusValue
+            VehicleType.CABLE_CAR -> cableCarValue
+            else -> 0f
         }
     }
 }

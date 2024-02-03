@@ -42,6 +42,6 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
     }
 
     override fun getFuelType(): String {
-        return "Motorcycle"
+        return getString(R.string.motorcycle_trip_key)
     }
 }

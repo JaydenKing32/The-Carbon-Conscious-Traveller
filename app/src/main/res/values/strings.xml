@@ -85,4 +85,7 @@
     <string name="tree_co2_default">29000</string>
 
     <string name="trip_title">Trips</string>
+    <string name="car_trip_key">Car</string>
+    <string name="motorcycle_trip_key">Motorcycle</string>
+    <string name="public_transport_trip_key">Public Transport</string>
 </resources>

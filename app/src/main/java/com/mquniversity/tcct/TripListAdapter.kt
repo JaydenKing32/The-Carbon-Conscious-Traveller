@@ -30,10 +30,11 @@ class TripListAdapter(private val bindFun: (Trip) -> Unit) : ListAdapter<Trip, T
             val dateTextView = tripItemView.findViewById<TextView>(R.id.trip_item_date)
             val emissionTextView = tripItemView.findViewById<TextView>(R.id.trip_item_emission)
             val button = tripItemView.findViewById<ImageView>(R.id.trip_item_remove)
+            val context = tripItemView.context
 
             when (trip.fuel) {
-                "Motorcycle" -> icon.setImageResource(R.drawable.outline_sports_motorsports_24)
-                "Public" -> icon.setImageResource(R.drawable.outline_directions_subway_24)
+                context.getString(R.string.motorcycle_trip_key) -> icon.setImageResource(R.drawable.outline_sports_motorsports_24)
+                context.getString(R.string.public_transport_trip_key) -> icon.setImageResource(R.drawable.outline_directions_subway_24)
                 else -> icon.setImageResource(R.drawable.outline_directions_car_24)
             }
             dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)

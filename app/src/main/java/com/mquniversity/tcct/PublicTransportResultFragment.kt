@@ -233,7 +233,7 @@ class PublicTransportResultFragment : ResultFragment() {
                         leg.endAddress,
                         leg.distance.inMeters,
                         vehicleList,
-                        "Public",
+                        getString(R.string.public_transport_trip_key),
                         totalEmissionInGram
                     )
                     tripViewModel.insert(trip, object : InsertListener {

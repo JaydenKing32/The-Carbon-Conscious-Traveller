@@ -61,6 +61,7 @@ abstract class ResultFragment : Fragment() {
     protected val tripViewModel: TripViewModel by activityViewModels {
         TripViewModelFactory((mainActivity.application as TripApplication).repository)
     }
+    protected abstract val tripMap: HashMap<Int, Long>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

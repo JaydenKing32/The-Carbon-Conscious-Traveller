@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import com.google.maps.model.TravelMode
 
 class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehicleResultFragment() {
+    override val tripMap: HashMap<Int, Long> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING

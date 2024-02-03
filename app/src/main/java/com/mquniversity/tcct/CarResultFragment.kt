@@ -10,6 +10,8 @@ class CarResultFragment(
     private val carSize: String,
     private val carFuelType: String
 ) : PrivateVehicleResultFragment() {
+    override val tripMap: HashMap<Int, Long> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING

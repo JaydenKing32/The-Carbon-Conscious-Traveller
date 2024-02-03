@@ -23,6 +23,8 @@ import java.time.format.DateTimeFormatter
 class PublicTransportResultFragment : ResultFragment() {
     private val timePattern = "h:mm a"
     private val iconsMap: MutableMap<String, Bitmap> = mutableMapOf()
+    override val tripMap: HashMap<Int, Long> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.TRANSIT

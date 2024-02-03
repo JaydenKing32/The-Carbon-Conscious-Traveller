@@ -17,6 +17,11 @@ class TripRepository(private val tripDao: TripDao) {
     }
 
     @WorkerThread
+    suspend fun delete(id: Long) {
+        tripDao.delete(id)
+    }
+
+    @WorkerThread
     suspend fun deleteLast() {
         tripDao.deleteLast()
     }

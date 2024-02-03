@@ -21,7 +21,7 @@ interface TripDao {
     suspend fun delete(trip: Trip)
 
     @Query("DELETE FROM trip WHERE id = :id")
-    suspend fun deleteById(id: Int)
+    suspend fun delete(id: Long)
 
     @Query("DELETE FROM trip WHERE id = (SELECT MAX(id) FROM trip)")
     suspend fun deleteLast()

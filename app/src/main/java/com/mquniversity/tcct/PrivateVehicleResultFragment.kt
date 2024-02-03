@@ -4,6 +4,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
@@ -71,21 +74,29 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         button.setOnClickListener {
             val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
             checked = if (checked) {
+                if (tripMap.containsKey(idx)) {
+                    val trip = tripMap.remove(idx)!!
+                    tripViewModel.delete(trip)
+                }
                 image.setImageResource(R.drawable.outline_add_circle_outline_24)
-                tripViewModel.deleteLast()
                 false
             } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!tripMap.containsKey(idx)) {
+                        val trip = Trip(
+                            0,
+                            Calendar.getInstance().time,
+                            leg.startAddress,
+                            leg.endAddress,
+                            leg.distance.inMeters,
+                            getVehicleType(),
+                            getFuelType(),
+                            emission
+                        )
+                        tripMap[idx] = tripViewModel.repository.insert(trip)
+                    }
+                }
                 image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-                tripViewModel.insert(Trip(
-                    0,
-                    Calendar.getInstance().time,
-                    leg.startAddress,
-                    leg.endAddress,
-                    leg.distance.inMeters,
-                    getVehicleType(),
-                    getFuelType(),
-                    emission
-                ))
                 true
             }
         }

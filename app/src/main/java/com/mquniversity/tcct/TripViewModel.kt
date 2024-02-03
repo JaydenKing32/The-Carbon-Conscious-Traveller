@@ -7,11 +7,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class TripViewModel(private val repository: TripRepository) : ViewModel() {
+class TripViewModel(val repository: TripRepository) : ViewModel() {
     val allTrips: LiveData<List<Trip>> = repository.allTrips.asLiveData()
 
     fun insert(trip: Trip) = viewModelScope.launch { repository.insert(trip) }
     fun delete(trip: Trip) = viewModelScope.launch { repository.delete(trip) }
+    fun delete(id: Long) = viewModelScope.launch { repository.delete(id) }
     fun deleteLast() = viewModelScope.launch { repository.deleteLast() }
 }
 

@@ -55,6 +55,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -72,11 +73,7 @@ import java.util.Timer
 import kotlin.concurrent.schedule
 
 
-/**
- * location bias radius for search result suggestion. Value range: [0 - 50000] in meters
- */
-@Suppress("unused")
-private const val BIAS_RADIUS: Double = 5000.0
+private const val BIAS_RADIUS: Double = 0.1
 private const val DEFAULT_ZOOM = 15f
 
 /**
@@ -624,9 +621,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                                 location.longitude
                             )
                             // set location bias for search results
-//                            val bound = CircularBounds.newInstance(ll, BIAS_RADIUS)
-//                            originInput.setLocationBias(bound)
-//                            destInput.setLocationBias(bound)
+                            val bound = RectangularBounds.newInstance(
+                                LatLng(ll.latitude - BIAS_RADIUS, ll.longitude - BIAS_RADIUS),
+                                LatLng(ll.latitude + BIAS_RADIUS, ll.longitude + BIAS_RADIUS)
+                            )
+                            originInput.setLocationBias(bound)
+                            destInput.setLocationBias(bound)
                             // move camera center to the current location
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, DEFAULT_ZOOM))
                         }

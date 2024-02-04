@@ -47,7 +47,7 @@ class CarResultFragment(
         return TransportMode.CAR
     }
 
-    override fun getVehicleType(): String {
+    override fun getVehicleType(index: Int): String {
         return carSize
     }
 

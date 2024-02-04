@@ -41,7 +41,7 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
         return TransportMode.MOTORCYCLE
     }
 
-    override fun getVehicleType(): String {
+    override fun getVehicleType(index: Int): String {
         return motorcycleSize
     }
 

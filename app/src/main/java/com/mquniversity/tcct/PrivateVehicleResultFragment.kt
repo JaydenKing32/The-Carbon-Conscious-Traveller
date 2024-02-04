@@ -4,7 +4,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import java.util.Calendar
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
@@ -73,37 +72,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         var checked = false
 
         button.setOnClickListener {
-            val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
-            checked = if (checked) {
-                if (tripMap.containsKey(idx)) {
-                    val trip = tripMap.remove(idx)!!
-                    tripViewModel.delete(trip)
-                }
-                image.setImageResource(R.drawable.outline_add_circle_outline_24)
-                false
-            } else {
-                if (!tripMap.containsKey(idx)) {
-                    val trip = Trip(
-                        0,
-                        Calendar.getInstance().time,
-                        leg.startAddress,
-                        leg.endAddress,
-                        leg.distance.inMeters,
-                        getTransportMode(),
-                        getVehicleType(),
-                        getFuelType(),
-                        emission,
-                        getMaxEmission() - emission
-                    )
-                    tripViewModel.insert(trip, object : InsertListener {
-                        override fun onInsert(id: Long) {
-                            tripMap[idx] = id
-                        }
-                    })
-                }
-                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-                true
-            }
+            checked = addOrRemoveTrip(it, checked, idx, leg, emission)
         }
 
         return emission
@@ -118,8 +87,4 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
             result
         }
     }
-
-    abstract fun getTransportMode(): TransportMode
-    abstract fun getVehicleType(): String
-    abstract fun getFuelType(): String
 }

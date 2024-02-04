@@ -26,6 +26,7 @@ import com.google.maps.errors.ApiException
 import com.google.maps.errors.OverDailyLimitException
 import com.google.maps.errors.OverQueryLimitException
 import com.google.maps.errors.ZeroResultsException
+import com.google.maps.model.DirectionsLeg
 import com.google.maps.model.DirectionsRoute
 import com.google.maps.model.LatLng
 import com.google.maps.model.TravelMode
@@ -33,6 +34,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
+import java.util.Calendar
 import kotlin.math.floor
 
 abstract class ResultFragment : Fragment() {
@@ -422,4 +424,42 @@ abstract class ResultFragment : Fragment() {
             0f
         }
     }
+
+    protected fun addOrRemoveTrip(button: View, flag: Boolean, index: Int, leg: DirectionsLeg, emission: Float): Boolean {
+        val image = button.findViewById<ImageView>(R.id.add_remove_button_image)
+        return if (flag) {
+            if (tripMap.containsKey(index)) {
+                val trip = tripMap.remove(index)!!
+                tripViewModel.delete(trip)
+            }
+            image.setImageResource(R.drawable.outline_add_circle_outline_24)
+            false
+        } else {
+            if (!tripMap.containsKey(index)) {
+                val trip = Trip(
+                    0,
+                    Calendar.getInstance().time,
+                    leg.startAddress,
+                    leg.endAddress,
+                    leg.distance.inMeters,
+                    getTransportMode(),
+                    getVehicleType(index),
+                    getFuelType(),
+                    emission,
+                    getMaxEmission() - emission
+                )
+                tripViewModel.insert(trip, object : InsertListener {
+                    override fun onInsert(id: Long) {
+                        tripMap[index] = id
+                    }
+                })
+            }
+            image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+            true
+        }
+    }
+
+    abstract fun getTransportMode(): TransportMode
+    abstract fun getVehicleType(index: Int): String
+    abstract fun getFuelType(): String
 }

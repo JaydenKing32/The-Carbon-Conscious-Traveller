@@ -40,7 +40,11 @@ class CarResultFragment(
             durationTexts[i].text = currRoutes[i].legs[0].duration.humanReadable
         }
         mainActivity.transportSelection.updateIcons(emissions)
-        updateTreeIcons(emissions)
+        updateTreeIcons()
+    }
+
+    override fun getTransportMode(): TransportMode {
+        return TransportMode.CAR
     }
 
     override fun getVehicleType(): String {

@@ -26,6 +26,10 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         super.update(reload)
     }
 
+    override fun getRouteEmissions(): FloatArray {
+        return currRoutes.map { it.legs[0].distance.inMeters * factor }.toFloatArray()
+    }
+
     override fun insertRouteResult(idx: Int): Float {
         resultLayouts[idx] = layoutInflater.inflate(
             R.layout.private_vehicle_result_item,
@@ -85,9 +89,11 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
                         leg.startAddress,
                         leg.endAddress,
                         leg.distance.inMeters,
+                        getTransportMode(),
                         getVehicleType(),
                         getFuelType(),
-                        emission
+                        emission,
+                        getMaxEmission() - emission
                     )
                     tripViewModel.insert(trip, object : InsertListener {
                         override fun onInsert(id: Long) {
@@ -113,6 +119,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         }
     }
 
+    abstract fun getTransportMode(): TransportMode
     abstract fun getVehicleType(): String
     abstract fun getFuelType(): String
 }

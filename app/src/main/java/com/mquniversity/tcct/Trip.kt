@@ -14,9 +14,11 @@ data class Trip(
     val origin: String,
     val destination: String,
     val distance: Long,
+    val mode: TransportMode,
     val vehicle: String,
     val fuel: String,
-    val emissions: Float
+    val emissions: Float,
+    val reduction: Float
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -25,10 +27,12 @@ data class Trip(
         if (date != other.date) return false
         if (origin != other.origin) return false
         if (destination != other.destination) return false
+        if (mode != other.mode) return false
         if (distance != other.distance) return false
         if (vehicle != other.vehicle) return false
         if (fuel != other.fuel) return false
-        return emissions == other.emissions
+        if (emissions != other.emissions) return false
+        return reduction == other.reduction
     }
 
     override fun hashCode(): Int {
@@ -43,9 +47,11 @@ data class Trip(
             SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(date),
             "'${origin}' -> '${destination}'",
             "${distance}m",
+            mode,
             vehicle,
             fuel,
-            CalculationUtils.formatEmission(emissions)
+            CalculationUtils.formatEmission(emissions),
+            CalculationUtils.formatEmission(reduction)
         ).joinToString(", ")
     }
 
@@ -55,10 +61,12 @@ data class Trip(
             appendLine("date = ${SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(date)}")
             appendLine("origin = $origin")
             appendLine("destination = $destination")
+            appendLine("mode = $mode")
             appendLine("distance = ${distance}m")
             appendLine("vehicle type = $vehicle")
             appendLine("fuel type = $fuel")
             appendLine("emissions = ${CalculationUtils.formatEmission(emissions)}")
+            appendLine("emission reduction = ${CalculationUtils.formatEmission(reduction)}")
         }
     }
 }

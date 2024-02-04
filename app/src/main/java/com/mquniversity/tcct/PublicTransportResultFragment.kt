@@ -80,6 +80,17 @@ class PublicTransportResultFragment : ResultFragment() {
         super.update(reload)
     }
 
+    override fun getRouteEmissions(): FloatArray {
+        return currRoutes.map {
+            it.legs[0].steps.sumOf { step ->
+                when (step.travelMode) {
+                    TravelMode.TRANSIT -> calculationValues.getPublicFactor(step.transitDetails.line.vehicle.type) * step.distance.inMeters.toDouble()
+                    else -> 0.0
+                }
+            }.toFloat()
+        }.toFloatArray()
+    }
+
     override fun insertRouteResult(idx: Int): Float {
         resultLayouts[idx] = layoutInflater.inflate(
             R.layout.public_transport_result_item,
@@ -213,7 +224,9 @@ class PublicTransportResultFragment : ResultFragment() {
 
         val button = resultLayout.findViewById<LinearLayout>(R.id.public_add_remove_button)
         var checked = false
-        val vehicleList = steps.filter { it.travelMode == TravelMode.TRANSIT }.map { it.transitDetails.line.vehicle.type }.joinToString("!")
+        val vehicleList = steps.filter { it.travelMode == TravelMode.TRANSIT }
+            .map { it.transitDetails.line.vehicle.type }
+            .toSet().joinToString("!")
 
         button.setOnClickListener {
             val image = it.findViewById<ImageView>(R.id.add_remove_button_image)
@@ -232,9 +245,11 @@ class PublicTransportResultFragment : ResultFragment() {
                         leg.startAddress,
                         leg.endAddress,
                         leg.distance.inMeters,
+                        TransportMode.PUBLIC_TRANSPORT,
                         vehicleList,
-                        getString(R.string.public_transport_trip_key),
-                        totalEmissionInGram
+                        getString(R.string.no_value),
+                        totalEmissionInGram,
+                        getMaxEmission() - totalEmissionInGram
                     )
                     tripViewModel.insert(trip, object : InsertListener {
                         override fun onInsert(id: Long) {

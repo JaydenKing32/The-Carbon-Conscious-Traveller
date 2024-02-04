@@ -30,16 +30,20 @@ class TripListAdapter(private val bindFun: (Trip) -> Unit) : ListAdapter<Trip, T
             val icon = tripItemView.findViewById<ImageView>(R.id.trip_item_icon)
             val dateTextView = tripItemView.findViewById<TextView>(R.id.trip_item_date)
             val emissionTextView = tripItemView.findViewById<TextView>(R.id.trip_item_emission)
+            val reductionTextView = tripItemView.findViewById<TextView>(R.id.trip_item_reduction)
             val button = tripItemView.findViewById<ImageView>(R.id.trip_item_remove)
             val context = tripItemView.context
 
-            when (trip.fuel) {
-                context.getString(R.string.motorcycle_trip_key) -> icon.setImageResource(R.drawable.outline_sports_motorsports_24)
-                context.getString(R.string.public_transport_trip_key) -> icon.setImageResource(R.drawable.outline_directions_subway_24)
-                else -> icon.setImageResource(R.drawable.outline_directions_car_24)
-            }
+            icon.setImageResource(when (trip.mode) {
+                TransportMode.CAR -> R.drawable.outline_directions_car_24
+                TransportMode.MOTORCYCLE -> R.drawable.outline_sports_motorsports_24
+                TransportMode.PUBLIC_TRANSPORT -> R.drawable.outline_directions_subway_24
+                TransportMode.AIRPLANE -> R.drawable.outline_flight_24
+                // else -> R.drawable.outline_directions_walk_24
+            })
             dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)
             emissionTextView.text = CalculationUtils.formatEmission(trip.emissions)
+            reductionTextView.text = CalculationUtils.formatEmission(trip.reduction)
             button.setOnClickListener { clickFun(trip) }
             dateTextView.setOnClickListener {
                 AlertDialog.Builder(context).setMessage(trip.multilineString()).create().show()

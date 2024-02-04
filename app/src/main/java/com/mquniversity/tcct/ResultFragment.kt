@@ -170,23 +170,14 @@ abstract class ResultFragment : Fragment() {
                 && mainActivity.dest?.latLng == currDest?.latLng)
     }
 
-    protected fun updateTreeIcons(routeEmissions: FloatArray) {
+    protected fun updateTreeIcons() {
+        val routeEmissions = getRouteEmissions()
         if (routeEmissions.size <= 1) {
             return
         }
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
-        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
-
-        // TODO: for PublicTransportResultFragment, will use the public transport route to calculate the CO2e emissions of car/bike,
-        //  but would make more sense to get the actual private vehicle route and use that for calculation
-        val max: Float = if (specifiedCarCalc || specifiedBikeCalc) {
-            val factor = getSpecifiedFactor()
-            currRoutes.maxOf { it.legs[0].distance.inMeters * factor }
-        } else {
-            routeEmissions.max()
-        }
+        val max = getMaxEmission()
 
         val emissionIconValues = arrayOf(
             pref.getString(getString(R.string.tree_co2_key), CalculationUtils.DEFAULT_TREE_CO2_GRAM.toString())!!.toFloat(),
@@ -243,6 +234,23 @@ abstract class ResultFragment : Fragment() {
         }
     }
 
+    protected fun getMaxEmission(): Float {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val specifiedCarCalc = pref.getBoolean(getString(R.string.specified_car_calculation_key), false)
+        val specifiedBikeCalc = pref.getBoolean(getString(R.string.specified_motorcycle_calculation_key), false)
+
+        // TODO: for PublicTransportResultFragment, will use the public transport route to calculate the CO2e emissions of car/bike,
+        //  but would make more sense to get the actual private vehicle route and use that for calculation
+        return if (specifiedCarCalc || specifiedBikeCalc) {
+            val factor = getSpecifiedFactor()
+            currRoutes.maxOf { it.legs[0].distance.inMeters * factor }
+        } else {
+            getRouteEmissions().max()
+        }
+    }
+
+    abstract fun getRouteEmissions(): FloatArray
+
     open fun update(reload: Boolean) {
         mainLayout.removeAllViews()
 
@@ -274,11 +282,8 @@ abstract class ResultFragment : Fragment() {
                 selectionIndicators = arrayOfNulls(currRoutes.size)
                 mainLayout.post {
                     mainLayout.removeAllViews()
-                    val routeEmissions = FloatArray(currRoutes.size)
-                    for (i in currRoutes.indices) {
-                        routeEmissions[i] = insertRouteResult(i)
-                    }
-                    updateTreeIcons(routeEmissions)
+                    val routeEmissions = currRoutes.indices.map { insertRouteResult(it) }.toFloatArray()
+                    updateTreeIcons()
                     mainActivity.transportSelection.updateIcons(routeEmissions)
                     highlightRoute(0)
                     highlightResult(0)

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class TripViewModel(private val repository: TripRepository) : ViewModel() {
     val allTrips: LiveData<List<Trip>> = repository.allTrips.asLiveData()
@@ -15,6 +16,10 @@ class TripViewModel(private val repository: TripRepository) : ViewModel() {
     fun delete(trip: Trip) = viewModelScope.launch { repository.delete(trip) }
     fun delete(id: Long) = viewModelScope.launch { repository.delete(id) }
     fun deleteLast() = viewModelScope.launch { repository.deleteLast() }
+    fun tripsFromDay(date: Date) = repository.tripsFromDay(date).asLiveData()
+    fun tripsFromWeek(date: Date) = repository.tripsFromWeek(date).asLiveData()
+    fun tripsFromMonth(date: Date) = repository.tripsFromMonth(date).asLiveData()
+    fun tripsFromYear(date: Date) = repository.tripsFromYear(date).asLiveData()
 }
 
 class TripViewModelFactory(private val repository: TripRepository) : ViewModelProvider.Factory {

@@ -25,4 +25,20 @@ interface TripDao {
 
     @Query("DELETE FROM trip WHERE id = (SELECT MAX(id) FROM trip)")
     suspend fun deleteLast()
+
+    @Query("SELECT * FROM trip WHERE 0 + strftime('%d', date / 1000, 'unixepoch', 'localtime') = :day AND " +
+            "0 + strftime('%m', date / 1000, 'unixepoch', 'localtime') = :month AND " +
+            "0 + strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year")
+    fun tripsFromDay(year: Int, month: Int, day: Int): Flow<List<Trip>>
+
+    @Query("SELECT * FROM trip WHERE 0 + strftime('%W', date / 1000, 'unixepoch', 'localtime') = :week AND " +
+            "0 + strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year")
+    fun tripsFromWeek(year: Int, week: Int): Flow<List<Trip>>
+
+    @Query("SELECT * FROM trip WHERE 0 + strftime('%m', date / 1000, 'unixepoch', 'localtime') = :month AND " +
+            "0 + strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year")
+    fun tripsFromMonth(year: Int, month: Int): Flow<List<Trip>>
+
+    @Query("SELECT * FROM trip WHERE 0 + strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year")
+    fun tripsFromYear(year: Int): Flow<List<Trip>>
 }

@@ -16,4 +16,8 @@
         android:id="@+id/item_trip"
         android:icon="@drawable/outline_history_24"
         android:title="@string/trip_title" />
+    <item
+        android:id="@+id/item_stats"
+        android:icon="@drawable/outline_show_chart_24"
+        android:title="@string/stats_title" />
 </menu>

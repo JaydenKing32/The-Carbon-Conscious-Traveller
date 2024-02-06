@@ -86,4 +86,5 @@
 
     <string name="trip_title">Trips</string>
     <string name="no_value">none</string>
+    <string name="stats_title">Statistics</string>
 </resources>

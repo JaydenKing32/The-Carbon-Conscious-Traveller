@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                 R.id.item_privacy -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_link))))
                 R.id.item_settings -> startActivity(Intent(this, SettingsActivity::class.java))
                 R.id.item_trip -> startActivity(Intent(this, TripActivity::class.java))
+                R.id.item_stats -> startActivity(Intent(this, StatsActivity::class.java))
                 else -> {}
             }
             return@setNavigationItemSelectedListener false

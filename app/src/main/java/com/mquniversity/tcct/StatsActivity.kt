@@ -11,15 +11,16 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import java.text.DateFormat
+import java.time.Year
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class StatsActivity : AppCompatActivity() {
     private val tripViewModel: TripViewModel by viewModels {
         TripViewModelFactory((application as TripApplication).repository)
     }
+    private var year = Calendar.getInstance().get(Calendar.YEAR)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +37,19 @@ class StatsActivity : AppCompatActivity() {
         xAxis.granularity = 1f
         xAxis.valueFormatter = object : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
-                return DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(TimeUnit.DAYS.toMillis(value.toLong()))
+                return Year.of(year).atDay(value.toInt()).format(DateTimeFormatter.ofPattern("dd/MM", Locale.getDefault()))
             }
         }
 
         val leftAxis = chart.axisLeft
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
 
+        // TODO: retrieve trips from a specified date
         val cal = Calendar.getInstance()
         tripViewModel.tripsFromMonth(cal.time).observe(this) {
-            val days = it.groupBy { trip -> Calendar.Builder().setInstant(trip.date).build().get(Calendar.DAY_OF_YEAR) }
+            val days = it.groupBy { trip -> trip.dayOfYear() }
             val set = BarDataSet(days.map { (_, trips) ->
-                // FIXME rounding issue
-                BarEntry(TimeUnit.MILLISECONDS.toDays(trips[0].date.time).toFloat(), trips.sumOf { t -> t.emissions.toDouble() }.toFloat())
+                BarEntry(trips.first().dayOfYear().toFloat(), trips.sumOf { t -> t.emissions.toDouble() }.toFloat())
             }, "Emissions")
 
             val data = BarData(listOf(set))

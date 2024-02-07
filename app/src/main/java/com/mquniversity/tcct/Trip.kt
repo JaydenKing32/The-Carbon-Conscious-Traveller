@@ -3,6 +3,7 @@ package com.mquniversity.tcct
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -20,6 +21,8 @@ data class Trip(
     val emissions: Float,
     val reduction: Float
 ) {
+    fun dayOfYear() = Calendar.Builder().setInstant(date).build().get(Calendar.DAY_OF_YEAR)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Trip) return false

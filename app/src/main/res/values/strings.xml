@@ -87,4 +87,7 @@
     <string name="trip_title">Trips</string>
     <string name="no_value">none</string>
     <string name="stats_title">Statistics</string>
+    <string name="chart_left_button_description">Select previous time period</string>
+    <string name="chart_right_button_description">Select next time period</string>
+    <string name="chart_no_data">No data available for this time period</string>
 </resources>

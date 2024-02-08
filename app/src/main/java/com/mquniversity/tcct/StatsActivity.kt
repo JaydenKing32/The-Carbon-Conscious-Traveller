@@ -18,8 +18,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.utils.ViewPortHandler
 import java.text.SimpleDateFormat
 import java.time.MonthDay
 import java.time.Year
@@ -135,6 +137,15 @@ class StatsActivity : AppCompatActivity() {
             reductionSet.color = Color.GREEN
 
             chart.data = BarData(emissionSet, reductionSet)
+            chart.barData.setValueFormatter(object : IValueFormatter {
+                override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
+                    return if (value > 0) {
+                        value.toInt().toString()
+                    } else {
+                        ""
+                    }
+                }
+            })
 
             // (0.02 + 0.45) * 2 + 0.06 = 1.00 -> interval per group
             val groupSpace = 0.06f

@@ -47,6 +47,7 @@ class StatsActivity : AppCompatActivity() {
 
         chart = findViewById(R.id.chart)
         chart.setNoDataText(getString(R.string.chart_no_data))
+        chart.description.isEnabled = false
 
         val xAxis = chart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
@@ -69,15 +70,15 @@ class StatsActivity : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             override fun refreshContent(e: Entry?, highlight: Highlight?) {
                 super.refreshContent(e, highlight)
-                markerText.text = "${xAxisFormatter.getFormattedValue(e!!.x, null)}: ${e.y.toInt()}"
+                markerText.text = "${xAxisFormatter.getFormattedValue(e!!.x, null)}: %.2f".format(e.y)
             }
         }
         markerView.chartView = chart
         chart.marker = markerView
         xAxis.valueFormatter = xAxisFormatter
 
-        val leftAxis = chart.axisLeft
-        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
+        chart.axisLeft.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
+        chart.axisRight.isEnabled = false
 
         val leftButton = findViewById<Button>(R.id.chart_left_button)
         val rightButton = findViewById<Button>(R.id.chart_right_button)
@@ -124,8 +125,8 @@ class StatsActivity : AppCompatActivity() {
             for (i in 0..<maxDaysInMonth) {
                 val dayIndex = i + minDayOfYear
                 if (days.containsKey(dayIndex)) {
-                    emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.emissions.toDouble() }.toFloat()))
-                    reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.reduction.toDouble() }.toFloat()))
+                    emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.emissions.toDouble() / 1000 }.toFloat()))
+                    reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.reduction.toDouble() / 1000 }.toFloat()))
                 } else {
                     emissions.add(BarEntry(dayIndex.toFloat(), 0f))
                     reductions.add(BarEntry(dayIndex.toFloat(), 0f))
@@ -140,7 +141,7 @@ class StatsActivity : AppCompatActivity() {
             chart.barData.setValueFormatter(object : IValueFormatter {
                 override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
                     return if (value > 0) {
-                        value.toInt().toString()
+                        "%.2f".format(value)
                     } else {
                         ""
                     }

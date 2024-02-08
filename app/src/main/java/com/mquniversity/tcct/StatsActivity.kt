@@ -1,5 +1,6 @@
 package com.mquniversity.tcct
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -10,12 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import java.text.SimpleDateFormat
 import java.time.MonthDay
 import java.time.Year
@@ -45,7 +49,8 @@ class StatsActivity : AppCompatActivity() {
         val xAxis = chart.xAxis
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.granularity = 1f
-        xAxis.valueFormatter = object : IndexAxisValueFormatter() {
+
+        val xAxisFormatter = object : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
                 return if (value == 0f) {
                     ""
@@ -55,6 +60,19 @@ class StatsActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val markerView = object : MarkerView(this, R.layout.chart_marker) {
+            private var markerText: TextView = this.findViewById(R.id.marker_text)
+
+            @SuppressLint("SetTextI18n")
+            override fun refreshContent(e: Entry?, highlight: Highlight?) {
+                super.refreshContent(e, highlight)
+                markerText.text = "${xAxisFormatter.getFormattedValue(e!!.x, null)}: ${e.y.toInt()}"
+            }
+        }
+        markerView.chartView = chart
+        chart.marker = markerView
+        xAxis.valueFormatter = xAxisFormatter
 
         val leftAxis = chart.axisLeft
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)

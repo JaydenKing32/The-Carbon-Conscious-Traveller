@@ -142,10 +142,9 @@ class StatsActivity : AppCompatActivity() {
             val barWidth = 0.45f
 
             chart.barData.barWidth = barWidth
-            chart.xAxis.axisMinimum = 1f
-            chart.xAxis.axisMaximum = 1 + chart.barData.getGroupWidth(groupSpace, barSpace) * maxDaysInMonth
-            chart.groupBars(1f, groupSpace, barSpace)
-            chart.xAxis.setCenterAxisLabels(true)
+            chart.xAxis.axisMinimum = minDayOfYear.toFloat()
+            chart.xAxis.axisMaximum = minDayOfYear + chart.barData.getGroupWidth(groupSpace, barSpace) * maxDaysInMonth
+            chart.groupBars(minDayOfYear.toFloat(), groupSpace, barSpace)
 
             chart.invalidate()
         }

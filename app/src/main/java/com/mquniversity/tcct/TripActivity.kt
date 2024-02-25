@@ -1,6 +1,5 @@
 package com.mquniversity.tcct
 
-import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,41 +25,6 @@ class TripActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         tripViewModel.allTrips.observe(this) { trips -> trips.let { adapter.submitList(it) } }
-
-        // val cal = Calendar.getInstance()
-        // tripViewModel.tripsFromYear(cal.time).observe(this) {
-        //     println()
-        //     for (trip in it) {
-        //         println(trip)
-        //     }
-        // }
-        // tripViewModel.tripsFromMonth(cal.time).observe(this) {
-        //     println()
-        //     for (trip in it) {
-        //         println(trip)
-        //     }
-        // }
-        // tripViewModel.tripsFromWeek(cal.time).observe(this) {
-        //     println()
-        //     for (trip in it) {
-        //         println(trip)
-        //     }
-        // }
-        // val cal2 = Calendar.getInstance()
-        // cal2.add(Calendar.WEEK_OF_YEAR, -1)
-        // tripViewModel.tripsFromWeek(cal2.time).observe(this) {
-        //     println()
-        //     for (trip in it) {
-        //         println(trip)
-        //     }
-        // }
-        // tripViewModel.tripsFromDay(cal.time).observe(this) {
-        //     println()
-        //     for (trip in it) {
-        //         println(trip)
-        //     }
-        // }
-        // println("test")
     }
 
     override fun onSupportNavigateUp(): Boolean {

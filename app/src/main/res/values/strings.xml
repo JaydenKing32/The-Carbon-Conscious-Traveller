@@ -83,9 +83,12 @@
     <string name="leaf_bundle_co2_default">1000</string>
     <string name="branch_co2_default">5000</string>
     <string name="tree_co2_default">29000</string>
+    <string name="no_value">none</string>
 
     <string name="trip_title">Trips</string>
-    <string name="no_value">none</string>
+    <string name="trip_header_date">Date</string>
+    <string name="trip_header_emission">Emission</string>
+    <string name="trip_header_reduction">Reduction</string>
     <string name="stats_title">Statistics</string>
     <string name="chart_left_button_description">Select previous time period</string>
     <string name="chart_right_button_description">Select next time period</string>

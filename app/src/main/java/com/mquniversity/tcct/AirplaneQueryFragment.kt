@@ -16,6 +16,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Calendar
 
+// Could just ask for the flight code and date, retrieve necessary info from
+// https://www.flightaware.com/aeroapi/portal/documentation#get-/flights/-ident-
 class AirplaneQueryFragment : DialogFragment() {
     private lateinit var backPressedCallback: OnBackPressedCallback
 

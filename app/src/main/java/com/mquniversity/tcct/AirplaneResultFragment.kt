@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
+import com.mquniversity.tcct.CalculationUtils.formatEmissionWithCO2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,10 +51,10 @@ class AirplaneResultFragment(private val requestBody: RequestBody) : DialogFragm
             }
             resultLayout.addView(textView)
         }
-        (resultLayout[0] as MaterialTextView).text = "First"
-        (resultLayout[2] as MaterialTextView).text = "Business"
-        (resultLayout[4] as MaterialTextView).text = "Premium Economy"
-        (resultLayout[6] as MaterialTextView).text = "Economy"
+        (resultLayout[0] as MaterialTextView).text = getString(R.string.cabin_class_first)
+        (resultLayout[2] as MaterialTextView).text = getString(R.string.cabin_class_business)
+        (resultLayout[4] as MaterialTextView).text = getString(R.string.cabin_class_premium_economy)
+        (resultLayout[6] as MaterialTextView).text = getString(R.string.cabin_class_economy)
 
         errorTextView = root.findViewById(R.id.airplane_error_text)
 
@@ -110,37 +111,20 @@ class AirplaneResultFragment(private val requestBody: RequestBody) : DialogFragm
             connection.disconnect()
 
             root.post {
-                if (response != null) {
-                    if (response.flightEmissions[0].emissionsGramsPerPax != null) {
-                        (resultLayout[1] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
-                            response.flightEmissions[0].emissionsGramsPerPax?.first!!.toFloat(),
-                            false
-                        )
-                        (resultLayout[3] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
-                            response.flightEmissions[0].emissionsGramsPerPax?.business!!.toFloat(),
-                            false
-                        )
-                        (resultLayout[5] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
-                            response.flightEmissions[0].emissionsGramsPerPax?.premiumEconomy!!.toFloat(),
-                            false
-                        )
-                        (resultLayout[7] as MaterialTextView).text = CalculationUtils.formatEmissionWithCO2(
-                            response.flightEmissions[0].emissionsGramsPerPax?.economy!!.toFloat(),
-                            false
-                        )
+                if (response?.flightEmissions != null) {
+                    val emissions = response.flightEmissions[0].emissionsGramsPerPax
+                    if (emissions != null) {
+                        (resultLayout[1] as MaterialTextView).text = formatEmissionWithCO2(emissions.first.toFloat(), false)
+                        (resultLayout[3] as MaterialTextView).text = formatEmissionWithCO2(emissions.business.toFloat(), false)
+                        (resultLayout[5] as MaterialTextView).text = formatEmissionWithCO2(emissions.premiumEconomy.toFloat(), false)
+                        (resultLayout[7] as MaterialTextView).text = formatEmissionWithCO2(emissions.economy.toFloat(), false)
                         resultLayout.visibility = View.VISIBLE
                     } else {
-                        errorTextView.text =
-                            "Could not retrieve CO2 emission information with the given flight details.\n" +
-                                    "Possible reasons:\n" +
-                                    "    - flight is unknown to the server\n" +
-                                    "    - flight details are incorrectly entered"
+                        errorTextView.text = getString(R.string.flight_request_error)
                         errorTextView.visibility = View.VISIBLE
                     }
                 } else {
-                    errorTextView.text =
-                        "There was an error whilst retrieving the information.\n" +
-                                "Please try again after a few seconds."
+                    errorTextView.text = getString(R.string.flight_error)
                     errorTextView.visibility = View.VISIBLE
                 }
                 progressBar.visibility = View.GONE

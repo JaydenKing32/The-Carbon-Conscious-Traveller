@@ -94,4 +94,14 @@
     <string name="chart_right_button_description">Select next time period</string>
     <string name="chart_no_data">No data available for this time period</string>
     <string name="chart_y_title">kg CO2e</string>
+    <string name="cabin_class_first">First</string>
+    <string name="cabin_class_business">Business</string>
+    <string name="cabin_class_premium_economy">Premium Economy</string>
+    <string name="cabin_class_economy">Economy</string>
+    <string name="flight_request_error">Could not retrieve CO2 emission information with the given flight details.\n
+        Possible reasons:\n
+            - flight is unknown to the server\n
+            - flight details are incorrectly entered
+    </string>
+    <string name="flight_error">There was an error whilst retrieving the information.\nPlease try again after a few seconds.</string>
 </resources>

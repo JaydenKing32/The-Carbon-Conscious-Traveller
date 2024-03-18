@@ -20,7 +20,10 @@ class TripActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val recyclerView = findViewById<RecyclerView>(R.id.trip_recyclerview)
-        val adapter = TripListAdapter { tripViewModel.delete(it) }
+        val adapter = TripListAdapter(
+            { trip: Trip -> tripViewModel.delete(trip) },
+            { trip: Trip -> tripViewModel.update(trip) }
+        )
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

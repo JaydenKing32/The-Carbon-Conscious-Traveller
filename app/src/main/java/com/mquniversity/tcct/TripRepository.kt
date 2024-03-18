@@ -33,6 +33,11 @@ class TripRepository(private val tripDao: TripDao) {
         tripDao.deleteLast()
     }
 
+    @WorkerThread
+    suspend fun update(trip: Trip) {
+        tripDao.update(trip)
+    }
+
     fun tripsFromDay(date: Date): Flow<List<Trip>> {
         val cal = Calendar.getInstance()
         cal.time = date

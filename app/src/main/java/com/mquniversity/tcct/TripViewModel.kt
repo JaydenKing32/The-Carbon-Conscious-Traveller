@@ -16,6 +16,7 @@ class TripViewModel(private val repository: TripRepository) : ViewModel() {
     fun delete(trip: Trip) = viewModelScope.launch { repository.delete(trip) }
     fun delete(id: Long) = viewModelScope.launch { repository.delete(id) }
     fun deleteLast() = viewModelScope.launch { repository.deleteLast() }
+    fun update(trip: Trip) = viewModelScope.launch { repository.update(trip) }
     fun tripsFromDay(date: Date) = repository.tripsFromDay(date).asLiveData()
     fun tripsFromWeek(date: Date) = repository.tripsFromWeek(date).asLiveData()
     fun tripsFromMonth(date: Date) = repository.tripsFromMonth(date).asLiveData()

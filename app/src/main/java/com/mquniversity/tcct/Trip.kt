@@ -1,5 +1,6 @@
 package com.mquniversity.tcct
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
@@ -19,7 +20,9 @@ data class Trip(
     val vehicle: String,
     val fuel: String,
     val emissions: Float,
-    val reduction: Float
+    val reduction: Float,
+    @ColumnInfo(defaultValue = "0")
+    var complete: Boolean = false
 ) {
     fun dayOfYear() = Calendar.Builder().setInstant(date).build().get(Calendar.DAY_OF_YEAR)
 
@@ -35,7 +38,8 @@ data class Trip(
         if (vehicle != other.vehicle) return false
         if (fuel != other.fuel) return false
         if (emissions != other.emissions) return false
-        return reduction == other.reduction
+        if (reduction != other.reduction) return false
+        return complete == other.complete
     }
 
     override fun hashCode(): Int {
@@ -54,7 +58,8 @@ data class Trip(
             vehicle,
             fuel,
             CalculationUtils.formatEmission(emissions),
-            CalculationUtils.formatEmission(reduction)
+            CalculationUtils.formatEmission(reduction),
+            complete
         ).joinToString(", ")
     }
 
@@ -70,6 +75,7 @@ data class Trip(
             appendLine("fuel type = $fuel")
             appendLine("emissions = ${CalculationUtils.formatEmission(emissions)}")
             appendLine("emission reduction = ${CalculationUtils.formatEmission(reduction)}")
+            appendLine("complete = $complete")
         }
     }
 }

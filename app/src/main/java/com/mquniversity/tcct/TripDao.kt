@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,6 +26,9 @@ interface TripDao {
 
     @Query("DELETE FROM trip WHERE id = (SELECT MAX(id) FROM trip)")
     suspend fun deleteLast()
+
+    @Update
+    suspend fun update(trip: Trip)
 
     @Query("SELECT * FROM trip WHERE 0 + strftime('%d', date / 1000, 'unixepoch', 'localtime') = :day AND " +
             "0 + strftime('%m', date / 1000, 'unixepoch', 'localtime') = :month AND " +

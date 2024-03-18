@@ -125,8 +125,12 @@ class StatsActivity : AppCompatActivity() {
             for (i in 0..<maxDaysInMonth) {
                 val dayIndex = i + minDayOfYear
                 if (days.containsKey(dayIndex)) {
-                    emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.emissions.toDouble() / 1000 }.toFloat()))
-                    reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t -> t.reduction.toDouble() / 1000 }.toFloat()))
+                    emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
+                        if (t.complete) t.emissions.toDouble() / 1000 else 0.0
+                    }.toFloat()))
+                    reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
+                        if (t.complete) t.reduction.toDouble() / 1000 else 0.0
+                    }.toFloat()))
                 } else {
                     emissions.add(BarEntry(dayIndex.toFloat(), 0f))
                     reductions.add(BarEntry(dayIndex.toFloat(), 0f))

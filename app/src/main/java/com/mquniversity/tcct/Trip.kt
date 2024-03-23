@@ -14,7 +14,15 @@ data class Trip(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val date: Date,
     val origin: String,
+    @ColumnInfo(defaultValue = "0")
+    val origLat: Double,
+    @ColumnInfo(defaultValue = "0")
+    val origLng: Double,
     val destination: String,
+    @ColumnInfo(defaultValue = "0")
+    val destLat: Double,
+    @ColumnInfo(defaultValue = "0")
+    val destLng: Double,
     val distance: Long,
     val mode: TransportMode,
     val vehicle: String,
@@ -30,11 +38,16 @@ data class Trip(
         if (this === other) return true
         if (other !is Trip) return false
 
+        if (id != other.id) return false
         if (date != other.date) return false
         if (origin != other.origin) return false
+        if (origLat != other.origLat) return false
+        if (origLng != other.origLng) return false
         if (destination != other.destination) return false
-        if (mode != other.mode) return false
+        if (destLat != other.destLat) return false
+        if (destLng != other.destLng) return false
         if (distance != other.distance) return false
+        if (mode != other.mode) return false
         if (vehicle != other.vehicle) return false
         if (fuel != other.fuel) return false
         if (emissions != other.emissions) return false

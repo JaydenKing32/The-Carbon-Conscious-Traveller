@@ -9,9 +9,12 @@ import androidx.room.TypeConverters
 
 // https://developer.android.com/codelabs/android-room-with-a-view-kotlin
 @Database(
-    version = 2,
+    version = 3,
     entities = [Trip::class],
-    autoMigrations = [AutoMigration(1, 2)]
+    autoMigrations = [
+        AutoMigration(1, 2),
+        AutoMigration(2, 3)
+    ]
 )
 @TypeConverters(Converters::class)
 abstract class TripDatabase : RoomDatabase() {

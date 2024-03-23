@@ -1,5 +1,7 @@
 package com.mquniversity.tcct
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,10 +19,14 @@ import androidx.preference.PreferenceManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.gms.maps.model.Dot
 import com.google.android.gms.maps.model.Gap
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Polyline
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import com.google.maps.DirectionsApi
 import com.google.maps.errors.ApiException
@@ -36,6 +43,8 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import java.util.Calendar
 import kotlin.math.floor
+
+import com.google.android.gms.maps.model.LatLng as gmsLatLng
 
 abstract class ResultFragment : Fragment() {
     protected lateinit var rootScrollView: NestedScrollView
@@ -435,7 +444,40 @@ abstract class ResultFragment : Fragment() {
             image.tag = getString(R.string.button_tag_add)
             image.setImageResource(R.drawable.outline_add_circle_outline_24)
         } else {
-            if (!tripMap.containsKey(index)) {
+            if (tripMap.containsKey(index)) {
+                // Trip already exists
+                return
+            }
+
+            val context = requireContext()
+            if (
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Snackbar.make(button.rootView, "Location needs to be enabled to retrieve current location", Snackbar.LENGTH_SHORT).show()
+                return
+            }
+
+            val placesClient = Places.createClient(context)
+            val request = FindCurrentPlaceRequest.newInstance(listOf(Place.Field.LAT_LNG))
+            val placeResult = placesClient.findCurrentPlace(request)
+
+            placeResult.addOnCompleteListener { task ->
+                if (!task.isSuccessful || task.result == null) {
+                    return@addOnCompleteListener
+                }
+                val curPlace = task.result.placeLikelihoods[0].place
+
+                val bound = LatLngBounds(
+                    gmsLatLng(leg.startLocation.lat - BIAS_RADIUS, leg.startLocation.lng - BIAS_RADIUS),
+                    gmsLatLng(leg.startLocation.lat + BIAS_RADIUS, leg.startLocation.lng + BIAS_RADIUS)
+                )
+
+                if (!bound.contains(curPlace.latLng!!)) {
+                    Snackbar.make(button.rootView, "Current location does not match start location", Snackbar.LENGTH_SHORT).show()
+                    return@addOnCompleteListener
+                }
+
                 val trip = Trip(
                     0,
                     Calendar.getInstance().time,
@@ -453,9 +495,10 @@ abstract class ResultFragment : Fragment() {
                         tripMap[index] = id
                     }
                 })
+
+                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+                image.tag = getString(R.string.button_tag_remove)
             }
-            image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-            image.tag = getString(R.string.button_tag_remove)
         }
     }
 

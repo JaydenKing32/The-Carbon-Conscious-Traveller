@@ -91,8 +91,8 @@ class TripListAdapter(
                         val curPlace = task.result.placeLikelihoods[0].place
 
                         val bound = LatLngBounds(
-                            LatLng(trip.destLat - BIAS_RADIUS, trip.destLng - BIAS_RADIUS),
-                            LatLng(trip.destLat + BIAS_RADIUS, trip.destLng + BIAS_RADIUS)
+                            LatLng(trip.destLat - VERIFICATION_RADIUS, trip.destLng - VERIFICATION_RADIUS),
+                            LatLng(trip.destLat + VERIFICATION_RADIUS, trip.destLng + VERIFICATION_RADIUS)
                         )
 
                         if (!bound.contains(curPlace.latLng!!)) {

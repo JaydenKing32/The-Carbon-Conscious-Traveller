@@ -469,8 +469,8 @@ abstract class ResultFragment : Fragment() {
                 val curPlace = task.result.placeLikelihoods[0].place
 
                 val bound = LatLngBounds(
-                    gmsLatLng(leg.startLocation.lat - BIAS_RADIUS, leg.startLocation.lng - BIAS_RADIUS),
-                    gmsLatLng(leg.startLocation.lat + BIAS_RADIUS, leg.startLocation.lng + BIAS_RADIUS)
+                    gmsLatLng(leg.startLocation.lat - VERIFICATION_RADIUS, leg.startLocation.lng - VERIFICATION_RADIUS),
+                    gmsLatLng(leg.startLocation.lat + VERIFICATION_RADIUS, leg.startLocation.lng + VERIFICATION_RADIUS)
                 )
 
                 if (!bound.contains(curPlace.latLng!!)) {

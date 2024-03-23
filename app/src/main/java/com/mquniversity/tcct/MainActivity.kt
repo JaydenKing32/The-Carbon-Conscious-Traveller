@@ -73,7 +73,8 @@ import java.util.Timer
 import kotlin.concurrent.schedule
 
 
-const val BIAS_RADIUS: Double = 0.1
+const val VERIFICATION_RADIUS: Double = 0.01
+private const val BIAS_RADIUS: Double = 0.1
 private const val DEFAULT_ZOOM = 15f
 
 /**

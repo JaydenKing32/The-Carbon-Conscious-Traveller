@@ -1,15 +1,24 @@
 package com.mquniversity.tcct
 
+import android.Manifest
 import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -57,9 +66,45 @@ class TripListAdapter(
             } else {
                 completeButton.setImageResource(R.drawable.outline_cross_circle_24)
                 completeButton.setOnClickListener {
-                    trip.complete = true
-                    updateFun(trip)
-                    completeButton.setImageResource(R.drawable.outline_check_circle_24)
+                    if (
+                        ContextCompat.checkSelfPermission(
+                            context, Manifest.permission.ACCESS_FINE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(
+                            context, Manifest.permission.ACCESS_COARSE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        Snackbar.make(
+                            completeButton.rootView, "Location needs to be enabled to retrieve current location", Snackbar.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+
+                    val placesClient = Places.createClient(context)
+                    val request = FindCurrentPlaceRequest.newInstance(listOf(Place.Field.LAT_LNG))
+                    val placeResult = placesClient.findCurrentPlace(request)
+
+                    placeResult.addOnCompleteListener { task ->
+                        if (!task.isSuccessful || task.result == null) {
+                            return@addOnCompleteListener
+                        }
+                        val curPlace = task.result.placeLikelihoods[0].place
+
+                        val bound = LatLngBounds(
+                            LatLng(trip.destLat - BIAS_RADIUS, trip.destLng - BIAS_RADIUS),
+                            LatLng(trip.destLat + BIAS_RADIUS, trip.destLng + BIAS_RADIUS)
+                        )
+
+                        if (!bound.contains(curPlace.latLng!!)) {
+                            Snackbar.make(
+                                completeButton.rootView, "Current location does not match end location", Snackbar.LENGTH_SHORT
+                            ).show()
+                            return@addOnCompleteListener
+                        }
+                        trip.complete = true
+                        completeButton.setImageResource(R.drawable.outline_check_circle_24)
+                        updateFun(trip)
+                    }
                 }
             }
         }

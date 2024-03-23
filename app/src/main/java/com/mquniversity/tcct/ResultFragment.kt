@@ -425,15 +425,15 @@ abstract class ResultFragment : Fragment() {
         }
     }
 
-    protected fun addOrRemoveTrip(button: View, flag: Boolean, index: Int, leg: DirectionsLeg, emission: Float): Boolean {
+    protected fun addOrRemoveTrip(button: View, index: Int, leg: DirectionsLeg, emission: Float) {
         val image = button.findViewById<ImageView>(R.id.add_remove_button_image)
-        return if (flag) {
+        if (image.tag.equals(getString(R.string.button_tag_remove))) {
             if (tripMap.containsKey(index)) {
                 val trip = tripMap.remove(index)!!
                 tripViewModel.delete(trip)
             }
+            image.tag = getString(R.string.button_tag_add)
             image.setImageResource(R.drawable.outline_add_circle_outline_24)
-            false
         } else {
             if (!tripMap.containsKey(index)) {
                 val trip = Trip(
@@ -455,7 +455,7 @@ abstract class ResultFragment : Fragment() {
                 })
             }
             image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-            true
+            image.tag = getString(R.string.button_tag_remove)
         }
     }
 

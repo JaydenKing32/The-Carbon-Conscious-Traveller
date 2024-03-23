@@ -222,11 +222,7 @@ class PublicTransportResultFragment : ResultFragment() {
         emissionText.text = CalculationUtils.formatEmission(totalEmissionInGram)
 
         val button = resultLayout.findViewById<LinearLayout>(R.id.public_add_remove_button)
-        var checked = false
-
-        button.setOnClickListener {
-            checked = addOrRemoveTrip(it, checked, idx, leg, totalEmissionInGram)
-        }
+        button.setOnClickListener { addOrRemoveTrip(it, idx, leg, totalEmissionInGram) }
 
         return totalEmissionInGram
     }

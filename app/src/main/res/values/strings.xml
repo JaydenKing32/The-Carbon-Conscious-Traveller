@@ -104,4 +104,6 @@
             - flight details are incorrectly entered
     </string>
     <string name="flight_error">There was an error whilst retrieving the information.\nPlease try again after a few seconds.</string>
+    <string name="button_tag_add">add</string>
+    <string name="button_tag_remove">remove</string>
 </resources>

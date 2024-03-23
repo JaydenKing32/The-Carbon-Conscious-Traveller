@@ -69,11 +69,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         durationTexts.add(durationText)
 
         val button = resultLayout.findViewById<LinearLayout>(R.id.private_add_remove_button)
-        var checked = false
-
-        button.setOnClickListener {
-            checked = addOrRemoveTrip(it, checked, idx, leg, emission)
-        }
+        button.setOnClickListener { addOrRemoveTrip(it, idx, leg, emission) }
 
         return emission
     }

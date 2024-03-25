@@ -13,11 +13,18 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.CurrentLocationRequest
+import com.google.android.gms.location.Granularity
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -80,30 +87,49 @@ class TripListAdapter(
                         return@setOnClickListener
                     }
 
-                    val placesClient = Places.createClient(context)
-                    val request = FindCurrentPlaceRequest.newInstance(listOf(Place.Field.LAT_LNG))
-                    val placeResult = placesClient.findCurrentPlace(request)
-
-                    placeResult.addOnCompleteListener { task ->
-                        if (!task.isSuccessful || task.result == null) {
-                            return@addOnCompleteListener
+                    val locationRequest = LocationRequest.create()
+                    locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
+                    val lsrBuilder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest).setAlwaysShow(false)
+                    val settingsClient: SettingsClient = LocationServices.getSettingsClient(context)
+                    val lsrTask: Task<LocationSettingsResponse> = settingsClient.checkLocationSettings(lsrBuilder.build())
+                    lsrTask.addOnSuccessListener lsrTask@{ lsr: LocationSettingsResponse? ->
+                        if (lsr?.locationSettingsStates?.isLocationUsable != true) {
+                            return@lsrTask
                         }
-                        val curPlace = task.result.placeLikelihoods[0].place
+                        val currLocRequest = CurrentLocationRequest.Builder()
+                            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                            .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+                            .build()
+                        val cts = CancellationTokenSource()
+                        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                        val locTask = fusedLocationClient.getCurrentLocation(currLocRequest, cts.token)
+                        locTask.addOnSuccessListener locTask@{ curLoc ->
+                            if (curLoc == null) {
+                                return@locTask
+                            }
+                            val bound = LatLngBounds(
+                                LatLng(trip.destLat - VERIFICATION_RADIUS, trip.destLng - VERIFICATION_RADIUS),
+                                LatLng(trip.destLat + VERIFICATION_RADIUS, trip.destLng + VERIFICATION_RADIUS)
+                            )
 
-                        val bound = LatLngBounds(
-                            LatLng(trip.destLat - VERIFICATION_RADIUS, trip.destLng - VERIFICATION_RADIUS),
-                            LatLng(trip.destLat + VERIFICATION_RADIUS, trip.destLng + VERIFICATION_RADIUS)
-                        )
+                            if (!bound.contains(LatLng(curLoc.latitude, curLoc.longitude))) {
+                                Snackbar.make(
+                                    completeButton.rootView, "Current location does not match end location", Snackbar.LENGTH_SHORT
+                                ).show()
+                                return@locTask
+                            }
 
-                        if (!bound.contains(curPlace.latLng!!)) {
+                            trip.complete = true
+                            completeButton.setImageResource(R.drawable.outline_check_circle_24)
+                            updateFun(trip)
+                        }
+                        locTask.addOnFailureListener {
                             Snackbar.make(
-                                completeButton.rootView, "Current location does not match end location", Snackbar.LENGTH_SHORT
+                                completeButton.rootView,
+                                "Could not retrieve current location. Please try again later.",
+                                Snackbar.LENGTH_SHORT
                             ).show()
-                            return@addOnCompleteListener
                         }
-                        trip.complete = true
-                        completeButton.setImageResource(R.drawable.outline_check_circle_24)
-                        updateFun(trip)
                     }
                 }
             }

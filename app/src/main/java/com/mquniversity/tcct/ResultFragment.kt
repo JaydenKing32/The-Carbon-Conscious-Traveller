@@ -17,13 +17,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.gms.location.CurrentLocationRequest
+import com.google.android.gms.location.Granularity
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.Dot
 import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Polyline
-import com.google.android.libraries.places.api.Places
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -43,7 +51,6 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import java.util.Calendar
 import kotlin.math.floor
-
 import com.google.android.gms.maps.model.LatLng as gmsLatLng
 
 abstract class ResultFragment : Fragment() {
@@ -458,50 +465,66 @@ abstract class ResultFragment : Fragment() {
                 return
             }
 
-            val placesClient = Places.createClient(context)
-            val request = FindCurrentPlaceRequest.newInstance(listOf(Place.Field.LAT_LNG))
-            val placeResult = placesClient.findCurrentPlace(request)
-
-            placeResult.addOnCompleteListener { task ->
-                if (!task.isSuccessful || task.result == null) {
-                    return@addOnCompleteListener
+            val locationRequest = LocationRequest.create()
+            locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
+            val lsrBuilder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest).setAlwaysShow(false)
+            val settingsClient: SettingsClient = LocationServices.getSettingsClient(context)
+            val lsrTask: Task<LocationSettingsResponse> = settingsClient.checkLocationSettings(lsrBuilder.build())
+            lsrTask.addOnSuccessListener lsrTask@{ lsr: LocationSettingsResponse? ->
+                if (lsr?.locationSettingsStates?.isLocationUsable != true) {
+                    return@lsrTask
                 }
-                val curPlace = task.result.placeLikelihoods[0].place
-
-                val bound = LatLngBounds(
-                    gmsLatLng(leg.startLocation.lat - VERIFICATION_RADIUS, leg.startLocation.lng - VERIFICATION_RADIUS),
-                    gmsLatLng(leg.startLocation.lat + VERIFICATION_RADIUS, leg.startLocation.lng + VERIFICATION_RADIUS)
-                )
-
-                if (!bound.contains(curPlace.latLng!!)) {
-                    Snackbar.make(button.rootView, "Current location does not match start location", Snackbar.LENGTH_SHORT).show()
-                    return@addOnCompleteListener
-                }
-
-                val trip = Trip(
-                    0,
-                    Calendar.getInstance().time,
-                    leg.startAddress,
-                    leg.startLocation.lat,
-                    leg.startLocation.lng,
-                    leg.endAddress,
-                    leg.endLocation.lat,
-                    leg.endLocation.lng,
-                    leg.distance.inMeters,
-                    getTransportMode(),
-                    getVehicleType(index),
-                    getFuelType(),
-                    emission,
-                    getMaxEmission() - emission
-                )
-                tripViewModel.insert(trip, object : InsertListener {
-                    override fun onInsert(id: Long) {
-                        tripMap[index] = id
+                val currLocRequest = CurrentLocationRequest.Builder()
+                    .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                    .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+                    .build()
+                val cts = CancellationTokenSource()
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                val locTask = fusedLocationClient.getCurrentLocation(currLocRequest, cts.token)
+                locTask.addOnSuccessListener locTask@{ curLoc ->
+                    if (curLoc == null) {
+                        return@locTask
                     }
-                })
+                    val bound = LatLngBounds(
+                        gmsLatLng(leg.startLocation.lat - VERIFICATION_RADIUS, leg.startLocation.lng - VERIFICATION_RADIUS),
+                        gmsLatLng(leg.startLocation.lat + VERIFICATION_RADIUS, leg.startLocation.lng + VERIFICATION_RADIUS)
+                    )
 
-                image.setImageResource(R.drawable.outline_remove_circle_outline_24)
-                image.tag = getString(R.string.button_tag_remove)
+                    if (!bound.contains(gmsLatLng(curLoc.latitude, curLoc.longitude))) {
+                        Snackbar.make(button.rootView, "Current location does not match start location", Snackbar.LENGTH_SHORT).show()
+                        return@locTask
+                    }
+
+                    val trip = Trip(
+                        0,
+                        Calendar.getInstance().time,
+                        leg.startAddress,
+                        leg.startLocation.lat,
+                        leg.startLocation.lng,
+                        leg.endAddress,
+                        leg.endLocation.lat,
+                        leg.endLocation.lng,
+                        leg.distance.inMeters,
+                        getTransportMode(),
+                        getVehicleType(index),
+                        getFuelType(),
+                        emission,
+                        getMaxEmission() - emission
+                    )
+                    tripViewModel.insert(trip, object : InsertListener {
+                        override fun onInsert(id: Long) {
+                            tripMap[index] = id
+                        }
+                    })
+
+                    image.setImageResource(R.drawable.outline_remove_circle_outline_24)
+                    image.tag = getString(R.string.button_tag_remove)
+                }
+                locTask.addOnFailureListener {
+                    Snackbar.make(
+                        button.rootView, "Could not retrieve current location. Please try again later.", Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

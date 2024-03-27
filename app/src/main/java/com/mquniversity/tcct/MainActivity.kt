@@ -8,10 +8,14 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -56,7 +60,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.RectangularBounds
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
@@ -107,14 +110,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var placesClient: PlacesClient
 
-    var origin: Place? = null
-    var dest: Place? = null
+    var origin: Location? = null
+    var dest: Location? = null
     private lateinit var originInput: AutocompleteSupportFragment
     private lateinit var destInput: AutocompleteSupportFragment
     private var originMarker: Marker? = null
     private var destMarker: Marker? = null
-    private var lastOrigin: Place? = null
-    private var lastDest: Place? = null
+    private var lastOrigin: Location? = null
+    private var lastDest: Location? = null
     private lateinit var originInputClearBtn: ImageButton
     private lateinit var destInputClearBtn: ImageButton
 
@@ -240,7 +243,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         originInputClearBtn.visibility = View.GONE
                     }
                 }
-                if (dest != null && place.latLng == dest?.latLng) {
+                if (dest != null && place.latLng == locationToLatLng(dest!!)) {
                     // delay is needed probably because after fetching the Place
                     // with the API, the AutocompleteSupportFragment sets the text to the place name.
                     // and since this API request is asynchronous and takes time,
@@ -253,7 +256,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         .show()
                     return
                 }
-                origin = place
+                place.latLng?.let { origin = latLngToLocation(it) }
                 calculate(false)
             }
 
@@ -269,7 +272,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         destInputClearBtn.visibility = View.GONE
                     }
                 }
-                if (origin != null && place.latLng == origin?.latLng) {
+                if (origin != null && place.latLng == locationToLatLng(origin!!)) {
                     Timer().schedule(50) {
                         destInput.setText(null)
                     }
@@ -278,7 +281,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         .show()
                     return
                 }
-                dest = place
+                place.latLng?.let { dest = latLngToLocation(it) }
                 calculate(false)
             }
 
@@ -315,8 +318,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
             val prevDest = dest
             origin = prevDest
             dest = prevOrigin
-            originInput.setText(prevDest?.name)
-            destInput.setText(prevOrigin?.name)
+            prevDest?.let { dest -> useLocationAddress(dest) { originInput.setText(it[0].getAddressLine(0)) } }
+            prevOrigin?.let { dest -> useLocationAddress(dest) { destInput.setText(it[0].getAddressLine(0)) } }
             originInputClearBtn.visibility = View.GONE
             destInputClearBtn.visibility = View.GONE
             // hide clear button i.e. disable it
@@ -348,37 +351,33 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                 val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 if (!LocationManagerCompat.isLocationEnabled(locationManager)) {
                     enableButtons(true)
-                    Snackbar.make(
-                        binding.root,
-                        "Location needs to be enabled to retrieve current location",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    Snackbar.make(binding.root, "Location needs to be enabled to retrieve current location", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val request = FindCurrentPlaceRequest.newInstance(
-                    listOf(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME)
-                )
-                Snackbar.make(
-                    binding.root,
-                    "Retrieving current location...",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-                val placeResult = placesClient.findCurrentPlace(request)
-                placeResult.addOnCompleteListener { task ->
-                    if (task.isSuccessful && task.result != null) {
-                        val curPlace = task.result.placeLikelihoods[0].place
-                        origin = curPlace
-                        originInput.setText(curPlace.address)
-                        // hide clear button i.e. disable it
-                        Timer().schedule(50) {
-                            originInputClearBtn.post {
-                                originInputClearBtn.visibility = View.GONE
-                            }
-                        }
-                        calculate(false)
-                    } else {
-                        enableButtons(true)
+
+                Snackbar.make(binding.root, "Retrieving current location...", Snackbar.LENGTH_SHORT).show()
+                val currLocRequest = CurrentLocationRequest.Builder()
+                    .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                    .setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+                    .build()
+                val cts = CancellationTokenSource()
+                val locTask = fusedLocationClient.getCurrentLocation(currLocRequest, cts.token)
+                locTask.addOnSuccessListener { location ->
+                    if (location == null) {
+                        return@addOnSuccessListener
                     }
+
+                    origin = location
+                    useLocationAddress(location) { originInput.setText(it[0].getAddressLine(0)) }
+
+                    // hide clear button i.e. disable it
+                    Timer().schedule(50) { originInputClearBtn.post { originInputClearBtn.visibility = View.GONE } }
+                    calculate(false)
+                }
+                locTask.addOnFailureListener {
+                    Snackbar.make(
+                        binding.root, "Could not retrieve current location. Please try again later.", Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             } else {
                 enableButtons(true)
@@ -518,25 +517,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
         if (originMarker == null) {
             val circleDrawable = AppCompatResources.getDrawable(this, R.drawable.outline_trip_origin_24)
             val markerIcon: BitmapDescriptor = getMarkerIconFromDrawable(circleDrawable!!)
-            originMarker = googleMap.addMarker(MarkerOptions().position(origin?.latLng!!).icon(markerIcon))
+            origin?.let { originMarker = googleMap.addMarker(MarkerOptions().position(locationToLatLng(it)).icon(markerIcon)) }
         } else {
-            originMarker!!.position = origin?.latLng!!
+            origin?.let { originMarker!!.position = locationToLatLng(it) }
         }
         if (destMarker == null) {
-            destMarker = googleMap.addMarker(MarkerOptions().position(dest?.latLng!!))
+            dest?.let { destMarker = googleMap.addMarker(MarkerOptions().position(locationToLatLng(it))) }
         } else {
-            destMarker!!.position = dest?.latLng!!
+            dest?.let { destMarker!!.position = locationToLatLng(it) }
         }
     }
 
     private fun moveCameraBetween() {
-        val bounds = LatLngBounds.Builder()
-            .include(origin?.latLng!!)
-            .include(dest?.latLng!!)
-            .build()
-        googleMap.animateCamera(
-            CameraUpdateFactory.newLatLngBounds(bounds, 64)
-        )
+        if (origin != null && dest != null) {
+            val bounds = LatLngBounds.Builder().include(locationToLatLng(origin!!)).include(locationToLatLng(dest!!)).build()
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
+        }
     }
 
     fun enableButtons(enable: Boolean) {
@@ -741,5 +737,28 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
             geoApiContext.shutdown()
         }
         super.onDestroy()
+    }
+
+    private fun latLngToLocation(latLng: LatLng): Location {
+        val location = Location("")
+        location.latitude = latLng.latitude
+        location.longitude = latLng.longitude
+        return location
+    }
+
+    private fun locationToLatLng(location: Location): LatLng {
+        return LatLng(location.latitude, location.longitude)
+    }
+
+    private fun useLocationAddress(location: Location, addressListFun: (List<Address>) -> Unit) {
+        val geocoder = Geocoder(this)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            // Use deprecated method for API < 33
+            @Suppress("DEPRECATION")
+            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            addresses?.let { addressListFun(it) }
+        } else {
+            geocoder.getFromLocation(location.latitude, location.longitude, 1) { addressListFun(it) }
+        }
     }
 }

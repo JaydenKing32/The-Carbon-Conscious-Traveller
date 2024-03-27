@@ -3,6 +3,7 @@ package com.mquniversity.tcct
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -31,7 +32,6 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -60,8 +60,8 @@ abstract class ResultFragment : Fragment() {
     protected lateinit var mainActivity: MainActivity
     protected lateinit var calculationValues: CalculationValues
 
-    private var currOrigin: Place? = null
-    private var currDest: Place? = null
+    private var currOrigin: Location? = null
+    private var currDest: Location? = null
 
     protected lateinit var currRoutes: Array<DirectionsRoute>
 
@@ -183,9 +183,11 @@ abstract class ResultFragment : Fragment() {
     }
 
     protected fun areLocationsSameAsBefore(): Boolean {
-        return (currOrigin != null && currDest != null
-                && mainActivity.origin?.latLng == currOrigin?.latLng
-                && mainActivity.dest?.latLng == currDest?.latLng)
+        return ((currOrigin != null && currDest != null) &&
+                (mainActivity.origin?.latitude == currOrigin?.latitude) &&
+                (mainActivity.origin?.longitude == currOrigin?.longitude) &&
+                (mainActivity.dest?.latitude == currDest?.latitude) &&
+                (mainActivity.dest?.longitude == currDest?.longitude))
     }
 
     protected fun updateTreeIcons() {
@@ -276,8 +278,8 @@ abstract class ResultFragment : Fragment() {
         mainLayout.addView(progressBar)
 
         val request = DirectionsApi.newRequest(mainActivity.geoApiContext)
-            .origin(LatLng(mainActivity.origin?.latLng!!.latitude, mainActivity.origin?.latLng!!.longitude))
-            .destination(LatLng(mainActivity.dest?.latLng!!.latitude, mainActivity.dest?.latLng!!.longitude))
+            .origin(LatLng(mainActivity.origin?.latitude!!, mainActivity.origin?.longitude!!))
+            .destination(LatLng(mainActivity.dest?.latitude!!, mainActivity.dest?.longitude!!))
             .mode(travelMode)
             .alternatives(true)
         tripMap.clear()

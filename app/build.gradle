@@ -1,8 +1,8 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'com.google.devtools.ksp' version '1.9.21-1.0.15'
+    alias libs.plugins.android.application
+    alias libs.plugins.android.kotlin
+    alias libs.plugins.secrets.gradle
+    alias libs.plugins.devtools.ksp
 }
 
 android {
@@ -10,19 +10,19 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.mquniversity.tcct"
+        applicationId 'com.mquniversity.tcct'
         minSdk 26
         targetSdk 34
         versionCode 8
-        versionName "1.2"
+        versionName '1.2'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
         debug {
             minifyEnabled false
-            applicationIdSuffix ".debug"
+            applicationIdSuffix '.debug'
             debuggable true
         }
         release {
@@ -49,30 +49,28 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.13.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
-    implementation 'com.google.android.gms:play-services-maps:18.2.0'
-    implementation 'com.google.maps:google-maps-services:2.2.0'
-    implementation 'com.google.android.libraries.places:places:3.4.0'
-    implementation 'com.opencsv:opencsv:5.9'
-    implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    implementation "androidx.preference:preference-ktx:1.2.1"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.play.services.maps
+    implementation libs.google.maps.services
+    implementation libs.places
+    implementation libs.opencsv
+    implementation libs.flexbox
+    implementation libs.androidx.preference.ktx
+    implementation libs.androidx.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
 
-    def roomVersion = '2.6.1'
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    ksp "androidx.room:room-compiler:$roomVersion"
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    annotationProcessor libs.androidx.room.compiler
+    ksp libs.androidx.room.compiler
 
-    def lifecycleVersion = '2.7.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.common.java8
 
-    implementation 'com.github.AppDevNext:AndroidChart:3.1.0.20'
+    implementation libs.android.chart
 }

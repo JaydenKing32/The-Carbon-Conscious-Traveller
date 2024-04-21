@@ -1,0 +1,51 @@
+[versions]
+androidchart = "3.1.0.20"
+androidGradlePlugin = "8.3.2"
+appcompat = "1.6.1"
+constraintlayout = "2.1.4"
+coreKtx = "1.13.0"
+espressoCore = "3.5.1"
+flexbox = "3.0.0"
+googleMapsServices = "2.2.0"
+junit = "4.13.2"
+junitAndroidX = "1.1.5"
+kotlinPlugin = "1.9.21"
+ksp = "1.9.21-1.0.15"
+lifecycle = "2.7.0"
+material = "1.11.0"
+opencsv = "5.9"
+places = "3.4.0"
+playServicesMaps = "18.2.0"
+preferenceKtx = "1.2.1"
+room = "2.6.1"
+secretsGradle = "2.0.1"
+
+[libraries]
+android-chart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitAndroidX" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
+google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
+junit = { module = "junit:junit", version.ref = "junit" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+secrets-gradle = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradle" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradle" }

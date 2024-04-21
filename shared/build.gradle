@@ -1,0 +1,43 @@
+plugins {
+    alias libs.plugins.android.library
+    // Error when using "alias"
+    id 'org.jetbrains.kotlin.multiplatform'
+}
+
+kotlin {
+    androidTarget {
+        compilations.configureEach {
+            kotlinOptions {
+                jvmTarget = '21'
+            }
+        }
+    }
+
+    [iosX64(), iosArm64(), iosSimulatorArm64()].each {
+        it.binaries.framework {
+            baseName = 'shared'
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            //put your multiplatform dependencies here
+        }
+        commonTest.dependencies {
+
+        }
+    }
+}
+
+android {
+    namespace = 'com.mquniversity.tcct.shared'
+    compileSdk 34
+    defaultConfig {
+        minSdk 26
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}

@@ -2,33 +2,24 @@ package com.mquniversity.tcct
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.mquniversity.tcct.shared.Trip
+import com.mquniversity.tcct.shared.TripSdk
 import kotlinx.coroutines.launch
-import java.util.Date
+import kotlinx.datetime.Instant
 
-class TripViewModel(private val repository: TripRepository) : ViewModel() {
-    val allTrips: LiveData<List<Trip>> = repository.allTrips.asLiveData()
+class TripViewModel(private val sdk: TripSdk) : ViewModel() {
+    val allTrips: LiveData<List<Trip>> = sdk.getAll().asLiveData()
 
-    fun insert(trip: Trip) = viewModelScope.launch { repository.insert(trip) }
-    fun insert(trip: Trip, listener: InsertListener) = viewModelScope.launch { repository.insert(trip, listener) }
-    fun delete(trip: Trip) = viewModelScope.launch { repository.delete(trip) }
-    fun delete(id: Long) = viewModelScope.launch { repository.delete(id) }
-    fun deleteLast() = viewModelScope.launch { repository.deleteLast() }
-    fun update(trip: Trip) = viewModelScope.launch { repository.update(trip) }
-    fun tripsFromDay(date: Date) = repository.tripsFromDay(date).asLiveData()
-    fun tripsFromWeek(date: Date) = repository.tripsFromWeek(date).asLiveData()
-    fun tripsFromMonth(date: Date) = repository.tripsFromMonth(date).asLiveData()
-    fun tripsFromYear(date: Date) = repository.tripsFromYear(date).asLiveData()
-}
+    fun insert(trip: Trip) = viewModelScope.launch { sdk.insert(trip) }
+    fun insert(trip: Trip, listener: (Long) -> Unit) = viewModelScope.launch { listener(sdk.insert(trip)) }
+    fun delete(trip: Trip) = viewModelScope.launch { sdk.delete(trip) }
+    fun delete(id: Long) = viewModelScope.launch { sdk.delete(id) }
+    fun setComplete(trip: Trip) = viewModelScope.launch { sdk.setComplete(trip) }
 
-class TripViewModelFactory(private val repository: TripRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TripViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return TripViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
+    fun tripsFromDay(instant: Instant): LiveData<List<Trip>> = sdk.tripsFromDay(instant).asLiveData()
+    fun tripsFromWeek(instant: Instant): LiveData<List<Trip>> = sdk.tripsFromWeek(instant).asLiveData()
+    fun tripsFromMonth(instant: Instant): LiveData<List<Trip>> = sdk.tripsFromMonth(instant).asLiveData()
+    fun tripsFromYear(instant: Instant): LiveData<List<Trip>> = sdk.tripsFromYear(instant).asLiveData()
 }

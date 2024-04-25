@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.maps.model.TravelMode
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
+import com.mquniversity.tcct.shared.TransportMode
 
 class CarResultFragment(
     private val carSize: String,
@@ -35,7 +37,7 @@ class CarResultFragment(
         val emissions = FloatArray(currRoutes.size)
         for (i in currRoutes.indices) {
             emissions[i] = currRoutes[i].legs[0].distance.inMeters * factor
-            emissionTexts[i].text = CalculationUtils.formatEmission(emissions[i])
+            emissionTexts[i].text = formatEmission(emissions[i])
             distTexts[i].text = currRoutes[i].legs[0].distance.humanReadable
             durationTexts[i].text = currRoutes[i].legs[0].duration.humanReadable
         }

@@ -4,6 +4,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
 
 abstract class PrivateVehicleResultFragment : ResultFragment() {
     protected var factor = 0f
@@ -58,7 +59,7 @@ abstract class PrivateVehicleResultFragment : ResultFragment() {
         val emission = leg.distance.inMeters * factor
 
         val emissionText: TextView = resultLayout.findViewById(R.id.emission_text)
-        emissionText.text = CalculationUtils.formatEmission(emission)
+        emissionText.text = formatEmission(emission)
         val distText: TextView = resultLayout.findViewById(R.id.distance_text)
         distText.text = leg.distance.humanReadable
         val durationText: TextView = resultLayout.findViewById(R.id.duration_text)

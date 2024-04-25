@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart
@@ -22,6 +21,8 @@ import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.ViewPortHandler
+import kotlinx.datetime.Instant
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.time.MonthDay
 import java.time.Year
@@ -31,9 +32,7 @@ import java.util.Locale
 
 
 class StatsActivity : AppCompatActivity() {
-    private val tripViewModel: TripViewModel by viewModels {
-        TripViewModelFactory((application as TripApplication).repository)
-    }
+    private val tripViewModel: TripViewModel by viewModel<TripViewModel>()
     private val calendar = Calendar.getInstance()
     private lateinit var chart: BarChart
 
@@ -104,7 +103,7 @@ class StatsActivity : AppCompatActivity() {
         val chartTitle = findViewById<TextView>(R.id.chart_title)
         chartTitle.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(calendar.time)
 
-        tripViewModel.tripsFromMonth(calendar.time).observe(this) {
+        tripViewModel.tripsFromMonth(Instant.fromEpochMilliseconds(calendar.time.time)).observe(this) {
             if (it.isEmpty()) {
                 val paint: Paint = chart.getPaint(Chart.PAINT_INFO)
                 paint.textSize = 60f
@@ -115,7 +114,7 @@ class StatsActivity : AppCompatActivity() {
             }
 
             val maxDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-            val days = it.groupBy { trip -> trip.dayOfYear() }
+            val days = it.groupBy { trip -> trip.dayOfYear }
             val emissions = ArrayList<BarEntry>(maxDaysInMonth)
             val reductions = ArrayList<BarEntry>(maxDaysInMonth)
 

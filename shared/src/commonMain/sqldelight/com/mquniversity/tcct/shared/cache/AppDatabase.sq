@@ -1,0 +1,69 @@
+import com.mquniversity.tcct.shared.TransportMode;
+import kotlin.Boolean;
+import kotlinx.datetime.Instant;
+
+CREATE TABLE Trip  (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  date INTEGER AS Instant NOT NULL,
+  origin TEXT NOT NULL,
+  origLat REAL NOT NULL,
+  origLng REAL NOT NULL,
+  destination TEXT NOT NULL,
+  destLat REAL NOT NULL,
+  destLng REAL NOT NULL,
+  distance INTEGER NOT NULL,
+  mode TEXT AS TransportMode NOT NULL,
+  vehicle TEXT NOT NULL,
+  fuel TEXT NOT NULL,
+  emissions REAL NOT NULL,
+  reduction REAL NOT NULL,
+  complete INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+
+getAll:
+SELECT Trip.*
+FROM Trip
+ORDER BY id DESC;
+
+insert {
+INSERT INTO Trip(date, origin, origLat, origLng, destination, destLat, destLng, distance, mode, vehicle, fuel, emissions, reduction, complete)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+SELECT last_insert_rowid();
+}
+
+deleteAll:
+DELETE FROM Trip;
+
+delete:
+DELETE FROM Trip
+WHERE id = ?;
+
+setComplete:
+UPDATE Trip
+SET complete = 1
+WHERE id = ?;
+
+tripsFromDay:
+SELECT Trip.*
+FROM Trip
+WHERE strftime('%Y', date, 'unixepoch', 'localtime') = :year
+AND strftime('%m', date, 'unixepoch', 'localtime') = :month
+AND strftime('%d', date, 'unixepoch', 'localtime') = :day;
+
+tripsFromWeek:
+SELECT Trip.*
+FROM Trip
+WHERE strftime('%Y', date, 'unixepoch', 'localtime') = :year
+AND strftime('%W', date, 'unixepoch', 'localtime') = :week;
+
+tripsFromMonth:
+SELECT Trip.*
+FROM Trip
+WHERE strftime('%Y', date, 'unixepoch', 'localtime') = :year
+AND strftime('%m', date, 'unixepoch', 'localtime') = :month;
+
+tripsFromYear:
+SELECT Trip.*
+FROM Trip
+WHERE strftime('%Y', date, 'unixepoch', 'localtime') = :year;

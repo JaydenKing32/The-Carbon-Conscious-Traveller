@@ -15,7 +15,6 @@ import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.gms.location.CurrentLocationRequest
@@ -45,11 +44,15 @@ import com.google.maps.model.DirectionsLeg
 import com.google.maps.model.DirectionsRoute
 import com.google.maps.model.LatLng
 import com.google.maps.model.TravelMode
+import com.mquniversity.tcct.shared.CalculationUtils
+import com.mquniversity.tcct.shared.TransportMode
+import com.mquniversity.tcct.shared.Trip
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.UnknownHostException
-import java.util.Calendar
 import kotlin.math.floor
 import com.google.android.gms.maps.model.LatLng as gmsLatLng
 
@@ -76,9 +79,7 @@ abstract class ResultFragment : Fragment() {
 
     protected var travelMode = TravelMode.DRIVING
 
-    protected val tripViewModel: TripViewModel by activityViewModels {
-        TripViewModelFactory((mainActivity.application as TripApplication).repository)
-    }
+    private val tripViewModel: TripViewModel by viewModel<TripViewModel>()
     protected abstract val tripMap: HashMap<Int, Long>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -498,8 +499,8 @@ abstract class ResultFragment : Fragment() {
                     }
 
                     val trip = Trip(
-                        0,
-                        Calendar.getInstance().time,
+                        0L,
+                        Clock.System.now(),
                         leg.startAddress,
                         leg.startLocation.lat,
                         leg.startLocation.lng,
@@ -513,11 +514,7 @@ abstract class ResultFragment : Fragment() {
                         emission,
                         getMaxEmission() - emission
                     )
-                    tripViewModel.insert(trip, object : InsertListener {
-                        override fun onInsert(id: Long) {
-                            tripMap[index] = id
-                        }
-                    })
+                    tripViewModel.insert(trip) { tripMap[index] = it }
 
                     image.setImageResource(R.drawable.outline_remove_circle_outline_24)
                     image.tag = getString(R.string.button_tag_remove)

@@ -4,11 +4,13 @@ androidGradlePlugin = "8.2.2"
 appcompat = "1.6.1"
 constraintlayout = "2.1.4"
 coreKtx = "1.13.0"
+dateTimeVersion = "0.6.0-RC.2"
 espressoCore = "3.5.1"
 flexbox = "3.0.0"
 googleMapsServices = "2.2.0"
 junit = "4.13.2"
 junitAndroidX = "1.1.5"
+koin = "3.5.3"
 kotlinPlugin = "1.9.23"
 ksp = "1.9.23-1.0.20"
 lifecycle = "2.7.0"
@@ -17,11 +19,12 @@ opencsv = "5.9"
 places = "3.4.0"
 playServicesMaps = "18.2.0"
 preferenceKtx = "1.2.1"
-room = "2.6.1"
 secretsGradle = "2.0.1"
+sqlDelight = "2.0.2"
 
 [libraries]
 android-chart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
+android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -31,16 +34,20 @@ androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-commo
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
 junit = { module = "junit:junit", version.ref = "junit" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTimeVersion" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
 opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv" }
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqlDelight" }
+runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 secrets-gradle = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradle" }
 
 [plugins]
@@ -49,3 +56,4 @@ android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlu
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradle" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }

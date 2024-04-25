@@ -1,4 +1,4 @@
-package com.mquniversity.tcct
+package com.mquniversity.tcct.shared
 
 enum class TransportMode {
     CAR,

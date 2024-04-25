@@ -7,6 +7,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.radiobutton.MaterialRadioButton
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
+import com.mquniversity.tcct.shared.TransportMode
 
 class TransportSelection(mainActivityContext: Context) : RadioGroup(mainActivityContext) {
     private val mainActivity: MainActivity = mainActivityContext as MainActivity
@@ -72,9 +74,9 @@ class TransportSelection(mainActivityContext: Context) : RadioGroup(mainActivity
     }
 
     fun updateIcons(emissions: FloatArray) {
-        val rangeText = CalculationUtils.formatEmission(emissions.min()) +
+        val rangeText = formatEmission(emissions.min()) +
                 " - " +
-                CalculationUtils.formatEmission(emissions.max())
+                formatEmission(emissions.max())
         radioBtns[currMode.ordinal].text = rangeText
     }
 

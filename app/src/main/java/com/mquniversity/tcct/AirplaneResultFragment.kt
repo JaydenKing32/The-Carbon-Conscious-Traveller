@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
-import com.mquniversity.tcct.CalculationUtils.formatEmissionWithCO2
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmissionWithCO2
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

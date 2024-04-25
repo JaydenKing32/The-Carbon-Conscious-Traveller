@@ -26,8 +26,9 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
+import com.mquniversity.tcct.shared.TransportMode
+import com.mquniversity.tcct.shared.Trip
 
 class TripListAdapter(
     private val deleteFun: (Trip) -> Unit,
@@ -61,9 +62,9 @@ class TripListAdapter(
                 TransportMode.AIRPLANE -> R.drawable.outline_flight_24
                 // else -> R.drawable.outline_directions_walk_24
             })
-            dateTextView.text = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.forLanguageTag("en_AU")).format(trip.date)
-            emissionTextView.text = CalculationUtils.formatEmission(trip.emissions)
-            reductionTextView.text = CalculationUtils.formatEmission(trip.reduction)
+            dateTextView.text = trip.dateString()
+            emissionTextView.text = formatEmission(trip.emissions)
+            reductionTextView.text = formatEmission(trip.reduction)
             removeButton.setOnClickListener { deleteFun(trip) }
             dateTextView.setOnClickListener {
                 AlertDialog.Builder(context).setMessage(trip.multilineString()).create().show()

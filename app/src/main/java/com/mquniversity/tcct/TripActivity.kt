@@ -1,15 +1,14 @@
 package com.mquniversity.tcct
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mquniversity.tcct.shared.Trip
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TripActivity : AppCompatActivity() {
-    private val tripViewModel: TripViewModel by viewModels {
-        TripViewModelFactory((application as TripApplication).repository)
-    }
+    private val tripViewModel: TripViewModel by viewModel<TripViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +21,7 @@ class TripActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.trip_recyclerview)
         val adapter = TripListAdapter(
             { trip: Trip -> tripViewModel.delete(trip) },
-            { trip: Trip -> tripViewModel.update(trip) }
+            { trip: Trip -> tripViewModel.setComplete(trip) }
         )
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)

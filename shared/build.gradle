@@ -2,6 +2,7 @@ plugins {
     alias libs.plugins.android.library
     // Error when using "alias"
     id 'org.jetbrains.kotlin.multiplatform'
+    alias libs.plugins.sqldelight
 }
 
 kotlin {
@@ -22,10 +23,17 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            implementation libs.runtime
+            implementation libs.primitive.adapters
+            implementation libs.koin.core
+            implementation libs.kotlinx.datetime
+            implementation libs.coroutines.extensions
         }
-        commonTest.dependencies {
-
+        androidMain.dependencies {
+            implementation libs.android.driver
+        }
+        iosMain.dependencies {
+            implementation libs.native.driver
         }
     }
 }
@@ -39,5 +47,13 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
+    }
+}
+
+sqldelight {
+    databases {
+        AppDatabase {
+            packageName = 'com.mquniversity.tcct.shared.cache'
+        }
     }
 }

@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.color.MaterialColors
 import com.google.maps.model.TravelMode
+import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
+import com.mquniversity.tcct.shared.TransportMode
 import java.io.IOException
 import java.net.URL
 import java.time.format.DateTimeFormatter
@@ -181,7 +183,7 @@ class PublicTransportResultFragment : ResultFragment() {
                         }
                     }
                     val stepEmissionText: TextView = transitIconsContainer.findViewById(R.id.transit_step_emission)
-                    stepEmissionText.text = CalculationUtils.formatEmission(stepEmission)
+                    stepEmissionText.text = formatEmission(stepEmission)
                     stepsIconContainer.addView(transitIconsContainer)
                 }
 
@@ -219,7 +221,7 @@ class PublicTransportResultFragment : ResultFragment() {
             )
         }
         stepsIconContainer.removeViewAt(stepsIconContainer.childCount - 1)
-        emissionText.text = CalculationUtils.formatEmission(totalEmissionInGram)
+        emissionText.text = formatEmission(totalEmissionInGram)
 
         val button = resultLayout.findViewById<LinearLayout>(R.id.public_add_remove_button)
         button.setOnClickListener { addOrRemoveTrip(it, idx, leg, totalEmissionInGram) }

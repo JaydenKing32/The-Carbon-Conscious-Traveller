@@ -47,6 +47,10 @@ import com.google.maps.model.TravelMode
 import com.mquniversity.tcct.shared.CalculationUtils
 import com.mquniversity.tcct.shared.TransportMode
 import com.mquniversity.tcct.shared.Trip
+import com.mquniversity.tcct.shared.carFuelTypes
+import com.mquniversity.tcct.shared.carSizes
+import com.mquniversity.tcct.shared.carValuesMatrix
+import com.mquniversity.tcct.shared.motorcycleValueMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,7 +65,6 @@ abstract class ResultFragment : Fragment() {
     protected lateinit var mainLayout: LinearLayout
 
     protected lateinit var mainActivity: MainActivity
-    protected lateinit var calculationValues: CalculationValues
 
     private var currOrigin: Location? = null
     private var currDest: Location? = null
@@ -98,7 +101,6 @@ abstract class ResultFragment : Fragment() {
         rootScrollView.addView(mainLayout)
 
         mainActivity = requireActivity() as MainActivity
-        calculationValues = mainActivity.calculationValues
     }
 
     override fun onCreateView(
@@ -433,12 +435,12 @@ abstract class ResultFragment : Fragment() {
         return if (specifiedCarCalc && !useBikeInsteadOfCar) {
             val carSize = pref.getString(getString(R.string.specified_car_size_key), getString(R.string.specified_car_size_default))
             val carFuel = pref.getString(getString(R.string.specified_car_fuel_key), getString(R.string.specified_car_fuel_default))
-            calculationValues.carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuel)]
+            carValuesMatrix[carSizes.indexOf(carSize)][carFuelTypes.indexOf(carFuel)]
         } else if (specifiedBikeCalc && useBikeInsteadOfCar) {
             val bikeSize = pref.getString(
                 getString(R.string.specified_motorcycle_size_key), getString(R.string.specified_motorcycle_size_default)
             )
-            calculationValues.motorcycleValueMap[bikeSize]!!
+            motorcycleValueMap[bikeSize]!!
         } else {
             0f
         }

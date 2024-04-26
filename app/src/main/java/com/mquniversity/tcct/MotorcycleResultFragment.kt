@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.google.maps.model.TravelMode
 import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
 import com.mquniversity.tcct.shared.TransportMode
+import com.mquniversity.tcct.shared.motorcycleValueMap
 
 class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehicleResultFragment() {
     override val tripMap: HashMap<Int, Long> = HashMap()
@@ -15,7 +16,7 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING
         iconResId = R.drawable.outline_sports_motorsports_24
-        factor = calculationValues.motorcycleValueMap[motorcycleSize]!!
+        factor = motorcycleValueMap[motorcycleSize]!!
         update(false)
     }
 
@@ -28,7 +29,7 @@ class MotorcycleResultFragment(private val motorcycleSize: String) : PrivateVehi
     }
 
     fun updateFactor(motorcycleSize: String) {
-        factor = calculationValues.motorcycleValueMap[motorcycleSize]!!
+        factor = motorcycleValueMap[motorcycleSize]!!
         val emissions = FloatArray(currRoutes.size)
         for (i in currRoutes.indices) {
             emissions[i] = currRoutes[i].legs[0].distance.inMeters * factor

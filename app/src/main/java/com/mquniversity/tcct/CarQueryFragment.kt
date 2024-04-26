@@ -10,20 +10,19 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
+import com.mquniversity.tcct.shared.carFuelTypes
+import com.mquniversity.tcct.shared.carSizes
+import com.mquniversity.tcct.shared.carValuesMatrix
 
 class CarQueryFragment : PrivateVehicleQueryFragment() {
     private lateinit var sizeInput: TextInputLayout
     private lateinit var sizeInputDropdown: MaterialAutoCompleteTextView
-    private lateinit var sizeOptions: Array<String>
     private var currSizeIdx = -1
 
     private lateinit var fuelTypeInput: TextInputLayout
     private lateinit var fuelTypeInputDropdown: MaterialAutoCompleteTextView
     private lateinit var fuelTypeOptions: Array<String>
     private var currFuelTypeIdx = -1
-
-    private lateinit var fuelTypes: Array<String>
-    private lateinit var carValues: Array<FloatArray>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +45,10 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
                 .show()
         }
 
-        fuelTypes = mainActivity.calculationValues.carFuelTypes
-        carValues = mainActivity.calculationValues.carValuesMatrix.toTypedArray()
-
         sizeInput = TextInputLayout(ContextThemeWrapper(
             context, com.google.android.material.R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu
         ))
-        sizeOptions = mainActivity.calculationValues.carSizes.toTypedArray()
-        insertQuery(sizeInput, "Size", sizeOptions)
+        insertQuery(sizeInput, "Size", carSizes)
         sizeInputDropdown = sizeInput.editText as MaterialAutoCompleteTextView
 
         fuelTypeInput = TextInputLayout(ContextThemeWrapper(
@@ -77,7 +72,7 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
         }
 
         calBtn.setOnClickListener {
-            setupResult(sizeOptions[currSizeIdx], fuelTypeOptions[currFuelTypeIdx])
+            setupResult(carSizes[currSizeIdx], fuelTypeOptions[currFuelTypeIdx])
         }
     }
 
@@ -94,9 +89,9 @@ class CarQueryFragment : PrivateVehicleQueryFragment() {
         calBtn.isEnabled = false
         val options = mutableListOf<String>()
         fuelTypeInputDropdown.text = null
-        for (i in carValues[selectedSizeIdx].indices) {
-            if (carValues[selectedSizeIdx][i] != 0f) {
-                options.add(fuelTypes[i])
+        for (i in carValuesMatrix[selectedSizeIdx].indices) {
+            if (carValuesMatrix[selectedSizeIdx][i] != 0f) {
+                options.add(carFuelTypes[i])
             }
         }
         fuelTypeOptions = options.toTypedArray()

@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import com.google.maps.model.TravelMode
 import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
 import com.mquniversity.tcct.shared.TransportMode
+import com.mquniversity.tcct.shared.carFuelTypes
+import com.mquniversity.tcct.shared.carSizes
+import com.mquniversity.tcct.shared.carValuesMatrix
 
 class CarResultFragment(
     private val carSize: String,
@@ -18,8 +21,7 @@ class CarResultFragment(
         super.onCreate(savedInstanceState)
         travelMode = TravelMode.DRIVING
         iconResId = R.drawable.outline_directions_car_24
-        factor = calculationValues
-            .carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
+        factor = carValuesMatrix[carSizes.indexOf(carSize)][carFuelTypes.indexOf(carFuelType)]
         update(false)
     }
 
@@ -32,8 +34,7 @@ class CarResultFragment(
     }
 
     fun updateFactor(carSize: String, carFuelType: String) {
-        factor = calculationValues
-            .carValuesMatrix[calculationValues.carSizes.indexOf(carSize)][calculationValues.carFuelTypes.indexOf(carFuelType)]
+        factor = carValuesMatrix[carSizes.indexOf(carSize)][carFuelTypes.indexOf(carFuelType)]
         val emissions = FloatArray(currRoutes.size)
         for (i in currRoutes.indices) {
             emissions[i] = currRoutes[i].legs[0].distance.inMeters * factor

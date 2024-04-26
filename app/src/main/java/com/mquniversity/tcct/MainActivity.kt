@@ -127,8 +127,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
     lateinit var transportSelection: TransportSelection
     private lateinit var backPressedHandler: OnBackPressedCallback
 
-    lateinit var calculationValues: CalculationValues
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -149,8 +147,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
             }
             return@setNavigationItemSelectedListener false
         }
-
-        calculationValues = CalculationValues(this)
 
         // add TransportSelectionLayout to the transport_mode_selection view (HorizontalScrollView)
         transportSelection = TransportSelection(this)

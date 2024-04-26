@@ -18,6 +18,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.maps.model.TravelMode
 import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
 import com.mquniversity.tcct.shared.TransportMode
+import com.mquniversity.tcct.shared.getPublicFactor
 import java.io.IOException
 import java.net.URL
 import java.time.format.DateTimeFormatter
@@ -85,7 +86,7 @@ class PublicTransportResultFragment : ResultFragment() {
         return currRoutes.map {
             it.legs[0].steps.sumOf { step ->
                 when (step.travelMode) {
-                    TravelMode.TRANSIT -> calculationValues.getPublicFactor(step.transitDetails.line.vehicle.type) * step.distance.inMeters.toDouble()
+                    TravelMode.TRANSIT -> getPublicFactor(step.transitDetails.line.vehicle.type.name) * step.distance.inMeters.toDouble()
                     else -> 0.0
                 }
             }.toFloat()
@@ -125,7 +126,7 @@ class PublicTransportResultFragment : ResultFragment() {
         for (step in steps) {
             when (step.travelMode) {
                 TravelMode.TRANSIT -> {
-                    val factor: Float = calculationValues.getPublicFactor(step.transitDetails.line.vehicle.type)
+                    val factor: Float = getPublicFactor(step.transitDetails.line.vehicle.type.name)
                     val stepEmission = step.distance.inMeters * factor
                     totalEmissionInGram += stepEmission
 

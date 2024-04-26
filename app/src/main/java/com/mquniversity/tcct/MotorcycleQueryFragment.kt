@@ -10,11 +10,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
+import com.mquniversity.tcct.shared.motorcycleSizes
 
 class MotorcycleQueryFragment : PrivateVehicleQueryFragment() {
     private lateinit var sizeInput: TextInputLayout
     private lateinit var sizeInputDropdown: MaterialAutoCompleteTextView
-    private lateinit var sizeOptions: Array<String>
     private var currSizeIdx = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +44,7 @@ class MotorcycleQueryFragment : PrivateVehicleQueryFragment() {
                     .R.style.Widget_Material3_TextInputLayout_OutlinedBox_ExposedDropdownMenu
             )
         )
-        sizeOptions = mainActivity.calculationValues.motorcycleSizes.toTypedArray()
-        insertQuery(sizeInput, "Size", sizeOptions)
+        insertQuery(sizeInput, "Size", motorcycleSizes)
         sizeInputDropdown = (sizeInput.editText as MaterialAutoCompleteTextView)
         sizeInputDropdown.setOnItemClickListener { _, _, idx, _ ->
             currSizeIdx = idx
@@ -53,7 +52,7 @@ class MotorcycleQueryFragment : PrivateVehicleQueryFragment() {
         }
 
         calBtn.setOnClickListener {
-            setupResult(sizeOptions[currSizeIdx])
+            setupResult(motorcycleSizes[currSizeIdx])
         }
     }
 

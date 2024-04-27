@@ -1,39 +1,39 @@
 plugins {
-    alias libs.plugins.android.library
-    alias libs.plugins.kotlin.multiplatform
-    alias libs.plugins.sqldelight
-    alias libs.plugins.native.cocoapods
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.native.cocoapods)
 }
 
 kotlin {
     androidTarget {
-        compilations.configureEach {
+        compilations.all {
             kotlinOptions {
-                jvmTarget = '21'
+                jvmTarget = "21"
             }
         }
     }
 
-    [iosX64(), iosArm64(), iosSimulatorArm64()].each {
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = 'shared'
+            baseName = "shared"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            implementation libs.runtime
-            implementation libs.primitive.adapters
-            implementation libs.koin.core
-            implementation libs.kotlinx.datetime
-            implementation libs.coroutines.extensions
+            implementation(libs.runtime)
+            implementation(libs.primitive.adapters)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.coroutines.extensions)
         }
         androidMain.dependencies {
-            implementation libs.android.driver
+            implementation(libs.android.driver)
         }
         iosMain.dependencies {
-            implementation libs.native.driver
+            implementation(libs.native.driver)
         }
     }
 
@@ -59,7 +59,6 @@ kotlin {
             isStatic = false
             // Dependency export
             // export(project(":anotherKMMModule"))
-            transitiveExport = false // This is default.
             // Bitcode embedding
             // embedBitcode(BITCODE)
         }
@@ -71,21 +70,21 @@ kotlin {
 }
 
 android {
-    namespace = 'com.mquniversity.tcct.shared'
-    compileSdk 34
+    namespace = "com.mquniversity.tcct.shared"
+    compileSdk = 34
     defaultConfig {
-        minSdk 26
+        minSdk = 26
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
 sqldelight {
     databases {
-        AppDatabase {
-            packageName = 'com.mquniversity.tcct.shared.cache'
+        create("AppDatabase") {
+            packageName.set("com.mquniversity.tcct.shared.cache")
         }
     }
 }

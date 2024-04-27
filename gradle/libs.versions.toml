@@ -56,5 +56,6 @@ android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlu
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinPlugin" }
+native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinPlugin" }
 secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradle" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }

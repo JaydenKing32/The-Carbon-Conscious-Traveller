@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.mquniversity.tcct"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.mquniversity.tcct"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toInt()
+        targetSdk = libs.versions.androidCompileSdk.get().toInt()
         versionCode = 8
         versionName = "1.2"
 
@@ -38,7 +38,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "21"
+        jvmTarget = libs.versions.kotlinJvmTarget.get()
     }
     buildFeatures {
         viewBinding = true

@@ -9,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "21"
+                jvmTarget = libs.versions.kotlinJvmTarget.get()
             }
         }
     }
@@ -71,9 +71,9 @@ kotlin {
 
 android {
     namespace = "com.mquniversity.tcct.shared"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.androidMinSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -83,7 +83,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 

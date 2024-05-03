@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.secrets.gradle)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.jetbrains.compose)
 }
 
 android {
@@ -70,4 +71,14 @@ dependencies {
 
     implementation(libs.koin.androidx.compose)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(compose.runtime)
+    implementation(compose.foundation)
+    implementation(compose.material)
+    implementation(compose.ui)
+    implementation(compose.components.resources)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
 }

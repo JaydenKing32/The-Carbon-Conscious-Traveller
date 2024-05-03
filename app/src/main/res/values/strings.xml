@@ -86,9 +86,14 @@
     <string name="no_value">none</string>
 
     <string name="trip_title">Trips</string>
+    <string name="trip_header_vehicle">Vehicle</string>
     <string name="trip_header_date">Date</string>
     <string name="trip_header_emission">Emission</string>
     <string name="trip_header_reduction">Reduction</string>
+    <string name="trip_header_complete">Complete</string>
+    <string name="trip_header_delete">Delete</string>
+    <string name="trip_complete_button_description">Mark trip as complete</string>
+    <string name="trip_delete_button_description">Delete trip</string>
     <string name="stats_title">Statistics</string>
     <string name="chart_left_button_description">Select previous time period</string>
     <string name="chart_right_button_description">Select next time period</string>

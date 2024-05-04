@@ -19,7 +19,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.CurrentLocationRequest
@@ -49,6 +54,8 @@ import com.google.android.gms.tasks.Task
 import com.mquniversity.tcct.shared.CalculationUtils.formatEmission
 import com.mquniversity.tcct.shared.TransportMode
 import com.mquniversity.tcct.shared.Trip
+import com.mquniversity.tcct.ui.theme.colors
+import com.mquniversity.tcct.ui.theme.typography
 import org.koin.androidx.compose.koinViewModel
 
 class TripActivity : AppCompatActivity() {
@@ -56,17 +63,13 @@ class TripActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip)
 
-        setSupportActionBar(findViewById(R.id.trip_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
         val composeView = findViewById<ComposeView>(R.id.trip_compose)
         composeView.apply {
             setViewCompositionStrategy(
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
             setContent {
-                TripList()
+                TripsAppBar(::onSupportNavigateUp)
             }
         }
     }
@@ -77,18 +80,35 @@ class TripActivity : AppCompatActivity() {
     }
 }
 
-@Preview
 @Composable
-fun TripList() {
+fun TripsAppBar(backFunction: () -> Boolean) {
+    MaterialTheme(colors, typography) {
+        Scaffold(
+            topBar = {
+                TopAppBar({ Text(stringResource(R.string.trip_title)) },
+                    // TODO: replace backFunction with navController
+                    navigationIcon = { IconButton({ backFunction() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } }
+                )
+            }
+        ) {
+            TripList(Modifier.padding(it))
+        }
+    }
+}
+
+
+@Composable
+fun TripList(modifier: Modifier) {
     val viewModel = koinViewModel<TripViewModel>()
     val state by remember { viewModel.state }
 
-    val dateWeight = 0.4f
-    val emissionWeight = 0.15f
+    // dateWeight + emissionWeight * 2 + buttonWeight * 3 = 1
+    val dateWeight = 0.35f
+    val emissionWeight = 0.175f
     val buttonWeight = 0.1f
     val context = LocalContext.current
 
-    LazyColumn(Modifier.fillMaxSize().padding(2.dp)) {
+    LazyColumn(modifier.fillMaxSize()) {
         item {
             Row(Modifier.background(Color.Gray)) {
                 TableCell(stringResource(R.string.trip_header_vehicle), buttonWeight)

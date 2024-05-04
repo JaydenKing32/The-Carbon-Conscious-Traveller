@@ -485,5 +485,6 @@ Temporary Items
 .idea/csv-editor.xml
 .idea/intellij-javadocs-4.0.1.xml
 .idea/vcs.xml
+.idea/deploymentTargetSelector.xml
 /app/schemas/
 /shared/shared.podspec

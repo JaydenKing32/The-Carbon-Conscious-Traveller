@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.kotlin) apply false
     alias(libs.plugins.secrets.gradle) apply false
-    alias(libs.plugins.devtools.ksp) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.native.cocoapods) apply false
 }

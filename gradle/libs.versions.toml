@@ -19,7 +19,6 @@ koin = "3.5.3"
 kotlinCompilerExtension = "1.5.13"
 kotlinJvmTarget = "21"
 kotlinPlugin = "1.9.23"
-ksp = "1.9.23-1.0.20"
 lifecycle = "2.7.0"
 material = "1.11.0"
 opencsv = "5.9"
@@ -43,7 +42,12 @@ androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "l
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composePlugin" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
@@ -66,7 +70,6 @@ secrets-gradle = { module = "com.google.android.libraries.mapsplatform.secrets-g
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "composePlugin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinPlugin" }
 native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinPlugin" }

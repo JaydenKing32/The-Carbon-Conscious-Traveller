@@ -31,6 +31,17 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.android.driver)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.compose.activity)
+            implementation(libs.compose.livedata)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.ui.tooling.preview)
         }
         iosMain.dependencies {
             implementation(libs.native.driver)

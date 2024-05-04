@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.secrets.gradle)
-    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.jetbrains.compose)
 }
 
@@ -43,6 +42,10 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 
@@ -74,11 +77,11 @@ dependencies {
     implementation(libs.compose.activity)
     implementation(libs.compose.livedata)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(compose.runtime)
-    implementation(compose.foundation)
-    implementation(compose.material)
-    implementation(compose.ui)
-    implementation(compose.components.resources)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.components.resources)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 }

@@ -1,3 +1,6 @@
+rootProject.name = "The_Carbon-Conscious_Traveller"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google()
@@ -5,14 +8,14 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven("https://jitpack.io")
     }
 }
-rootProject.name = "The Carbon-Conscious Traveller"
-include ':app'
-include ':shared'
+
+include(":app")
+include(":shared")

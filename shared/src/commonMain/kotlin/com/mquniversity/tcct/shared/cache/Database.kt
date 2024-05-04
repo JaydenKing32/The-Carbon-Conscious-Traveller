@@ -2,14 +2,8 @@ package com.mquniversity.tcct.shared.cache
 
 import app.cash.sqldelight.ColumnAdapter
 import app.cash.sqldelight.EnumColumnAdapter
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.mquniversity.tcct.shared.TransportMode
 import com.mquniversity.tcct.shared.Trip
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Instant
 
 internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
@@ -23,7 +17,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         ))
     private val dbQuery = database.appDatabaseQueries
 
-    internal fun getAll(): Flow<List<Trip>> = dbQuery.getAll(::mapTrip).asFlow().mapToList(Dispatchers.IO)
+    internal fun getAll(): List<Trip> = dbQuery.getAll(::mapTrip).executeAsList()
     internal fun insert(trip: Trip): Long = dbQuery.insert(
         trip.date,
         trip.origin,
@@ -46,44 +40,36 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     internal fun delete(trip: Long) = dbQuery.delete(trip)
     internal fun setComplete(trip: Trip) = dbQuery.setComplete(trip.id)
 
-    fun tripsFromDay(year: Int, month: Int, day: Int): Flow<List<Trip>> =
-        dbQuery.tripsFromDay(year.toString(), month.toString().padStart(2, '0'), day.toString().padStart(2, '0')).asFlow().map { query ->
-            query.executeAsList().map {
-                mapTrip(
-                    it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
-                    it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
-                )
-            }
+    fun tripsFromDay(year: Int, month: Int, day: Int): List<Trip> =
+        dbQuery.tripsFromDay(year.toString(), month.toString().padStart(2, '0'), day.toString().padStart(2, '0')).executeAsList().map {
+            mapTrip(
+                it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
+                it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
+            )
         }
 
-    fun tripsFromWeek(year: Int, week: Int): Flow<List<Trip>> =
-        dbQuery.tripsFromWeek(year.toString(), week.toString()).asFlow().map { query ->
-            query.executeAsList().map {
-                mapTrip(
-                    it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
-                    it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
-                )
-            }
+    fun tripsFromWeek(year: Int, week: Int): List<Trip> =
+        dbQuery.tripsFromWeek(year.toString(), week.toString()).executeAsList().map {
+            mapTrip(
+                it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
+                it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
+            )
         }
 
-    fun tripsFromMonth(year: Int, month: Int): Flow<List<Trip>> =
-        dbQuery.tripsFromMonth(year.toString(), month.toString().padStart(2, '0')).asFlow().map { query ->
-            query.executeAsList().map {
-                mapTrip(
-                    it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
-                    it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
-                )
-            }
+    fun tripsFromMonth(year: Int, month: Int): List<Trip> =
+        dbQuery.tripsFromMonth(year.toString(), month.toString().padStart(2, '0')).executeAsList().map {
+            mapTrip(
+                it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
+                it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
+            )
         }
 
-    fun tripsFromYear(year: Int): Flow<List<Trip>> =
-        dbQuery.tripsFromYear(year.toString()).asFlow().map { query ->
-            query.executeAsList().map {
-                mapTrip(
-                    it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
-                    it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
-                )
-            }
+    fun tripsFromYear(year: Int): List<Trip> =
+        dbQuery.tripsFromYear(year.toString()).executeAsList().map {
+            mapTrip(
+                it.id, it.date, it.origin, it.origLat, it.origLng, it.destination, it.destLat, it.destLng,
+                it.distance, it.mode, it.vehicle, it.fuel, it.emissions, it.reduction, it.complete
+            )
         }
 
     private fun mapTrip(

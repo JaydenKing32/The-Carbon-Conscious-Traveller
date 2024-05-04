@@ -102,66 +102,65 @@ class StatsActivity : AppCompatActivity() {
     private fun setData() {
         val chartTitle = findViewById<TextView>(R.id.chart_title)
         chartTitle.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(calendar.time)
+        val trips = tripViewModel.tripsFromMonth(Instant.fromEpochMilliseconds(calendar.time.time))
 
-        tripViewModel.tripsFromMonth(Instant.fromEpochMilliseconds(calendar.time.time)).observe(this) {
-            if (it.isEmpty()) {
-                val paint: Paint = chart.getPaint(Chart.PAINT_INFO)
-                paint.textSize = 60f
-                paint.color = Color.BLACK
-                chart.clear()
-                chart.invalidate()
-                return@observe
-            }
-
-            val maxDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-            val days = it.groupBy { trip -> trip.dayOfYear }
-            val emissions = ArrayList<BarEntry>(maxDaysInMonth)
-            val reductions = ArrayList<BarEntry>(maxDaysInMonth)
-
-            val time = Year.of(calendar.get(Calendar.YEAR)).atMonthDay(MonthDay.of(calendar.get(Calendar.MONTH) + 1, 1))
-            val minDayOfYear = time.dayOfYear
-
-            for (i in 0..<maxDaysInMonth) {
-                val dayIndex = i + minDayOfYear
-                if (days.containsKey(dayIndex)) {
-                    emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
-                        if (t.complete) t.emissions.toDouble() / 1000 else 0.0
-                    }.toFloat()))
-                    reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
-                        if (t.complete) t.reduction.toDouble() / 1000 else 0.0
-                    }.toFloat()))
-                } else {
-                    emissions.add(BarEntry(dayIndex.toFloat(), 0f))
-                    reductions.add(BarEntry(dayIndex.toFloat(), 0f))
-                }
-            }
-
-            val emissionSet = BarDataSet(emissions, "Total emissions")
-            val reductionSet = BarDataSet(reductions, "Emission reduction")
-            reductionSet.color = Color.GREEN
-
-            chart.data = BarData(emissionSet, reductionSet)
-            chart.barData.setValueFormatter(object : IValueFormatter {
-                override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
-                    return if (value > 0) {
-                        "%.2f".format(value)
-                    } else {
-                        ""
-                    }
-                }
-            })
-
-            // (0.02 + 0.45) * 2 + 0.06 = 1.00 -> interval per group
-            val groupSpace = 0.06f
-            val barSpace = 0.02f
-            val barWidth = 0.45f
-
-            chart.barData.barWidth = barWidth
-            chart.xAxis.axisMinimum = minDayOfYear.toFloat()
-            chart.xAxis.axisMaximum = minDayOfYear + chart.barData.getGroupWidth(groupSpace, barSpace) * maxDaysInMonth
-            chart.groupBars(minDayOfYear.toFloat(), groupSpace, barSpace)
-
+        if (trips.isEmpty()) {
+            val paint: Paint = chart.getPaint(Chart.PAINT_INFO)
+            paint.textSize = 60f
+            paint.color = Color.BLACK
+            chart.clear()
             chart.invalidate()
+            return
         }
+
+        val maxDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val days = trips.groupBy { trip -> trip.dayOfYear }
+        val emissions = ArrayList<BarEntry>(maxDaysInMonth)
+        val reductions = ArrayList<BarEntry>(maxDaysInMonth)
+
+        val time = Year.of(calendar.get(Calendar.YEAR)).atMonthDay(MonthDay.of(calendar.get(Calendar.MONTH) + 1, 1))
+        val minDayOfYear = time.dayOfYear
+
+        for (i in 0..<maxDaysInMonth) {
+            val dayIndex = i + minDayOfYear
+            if (days.containsKey(dayIndex)) {
+                emissions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
+                    if (t.complete) t.emissions.toDouble() / 1000 else 0.0
+                }.toFloat()))
+                reductions.add(BarEntry(dayIndex.toFloat(), days[dayIndex]!!.sumOf { t ->
+                    if (t.complete) t.reduction.toDouble() / 1000 else 0.0
+                }.toFloat()))
+            } else {
+                emissions.add(BarEntry(dayIndex.toFloat(), 0f))
+                reductions.add(BarEntry(dayIndex.toFloat(), 0f))
+            }
+        }
+
+        val emissionSet = BarDataSet(emissions, "Total emissions")
+        val reductionSet = BarDataSet(reductions, "Emission reduction")
+        reductionSet.color = Color.GREEN
+
+        chart.data = BarData(emissionSet, reductionSet)
+        chart.barData.setValueFormatter(object : IValueFormatter {
+            override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
+                return if (value > 0) {
+                    "%.2f".format(value)
+                } else {
+                    ""
+                }
+            }
+        })
+
+        // (0.02 + 0.45) * 2 + 0.06 = 1.00 -> interval per group
+        val groupSpace = 0.06f
+        val barSpace = 0.02f
+        val barWidth = 0.45f
+
+        chart.barData.barWidth = barWidth
+        chart.xAxis.axisMinimum = minDayOfYear.toFloat()
+        chart.xAxis.axisMaximum = minDayOfYear + chart.barData.getGroupWidth(groupSpace, barSpace) * maxDaysInMonth
+        chart.groupBars(minDayOfYear.toFloat(), groupSpace, barSpace)
+
+        chart.invalidate()
     }
 }

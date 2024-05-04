@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,9 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -61,17 +60,7 @@ import org.koin.androidx.compose.koinViewModel
 class TripActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_trip)
-
-        val composeView = findViewById<ComposeView>(R.id.trip_compose)
-        composeView.apply {
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-            )
-            setContent {
-                TripsAppBar(::onSupportNavigateUp)
-            }
-        }
+        setContent { TripsAppBar(::onSupportNavigateUp) }
     }
 
     override fun onSupportNavigateUp(): Boolean {

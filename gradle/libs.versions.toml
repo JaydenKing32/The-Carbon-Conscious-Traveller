@@ -15,6 +15,7 @@ flexbox = "3.0.0"
 googleMapsServices = "2.2.0"
 junit = "4.13.2"
 junitAndroidX = "1.1.5"
+kmmViewmodel = "1.0.0-ALPHA-20"
 koin = "3.5.3"
 kotlinCompilerExtension = "1.5.13"
 kotlinJvmTarget = "21"
@@ -56,6 +57,7 @@ coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", 
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kmm-viewmodel-core = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmmViewmodel" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTimeVersion" }

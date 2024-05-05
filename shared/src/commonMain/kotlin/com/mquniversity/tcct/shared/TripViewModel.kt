@@ -2,12 +2,12 @@ package com.mquniversity.tcct.shared
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.rickclephas.kmm.viewmodel.KMMViewModel
+import com.rickclephas.kmm.viewmodel.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 
-class TripViewModel(private val sdk: TripSdk) : ViewModel() {
+class TripViewModel(private val sdk: TripSdk) : KMMViewModel() {
     private val _state = mutableStateOf(TripState())
     val state: State<TripState> = _state
 
@@ -16,7 +16,7 @@ class TripViewModel(private val sdk: TripSdk) : ViewModel() {
     }
 
     fun loadTrips() {
-        viewModelScope.launch {
+        viewModelScope.coroutineScope.launch {
             _state.value = _state.value.copy(trips = emptyList())
             try {
                 val trips = sdk.getAll()
@@ -27,11 +27,11 @@ class TripViewModel(private val sdk: TripSdk) : ViewModel() {
         }
     }
 
-    fun insert(trip: Trip) = viewModelScope.launch { sdk.insert(trip) }
-    fun insert(trip: Trip, listener: (Long) -> Unit) = viewModelScope.launch { listener(sdk.insert(trip)) }
-    fun delete(trip: Trip) = viewModelScope.launch { sdk.delete(trip) }
-    fun delete(id: Long) = viewModelScope.launch { sdk.delete(id) }
-    fun setComplete(trip: Trip) = viewModelScope.launch { sdk.setComplete(trip) }
+    fun insert(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.insert(trip) }
+    fun insert(trip: Trip, listener: (Long) -> Unit) = viewModelScope.coroutineScope.launch { listener(sdk.insert(trip)) }
+    fun delete(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.delete(trip) }
+    fun delete(id: Long) = viewModelScope.coroutineScope.launch { sdk.delete(id) }
+    fun setComplete(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.setComplete(trip) }
 
     fun tripsFromDay(instant: Instant): List<Trip> = sdk.tripsFromDay(instant)
     fun tripsFromWeek(instant: Instant): List<Trip> = sdk.tripsFromWeek(instant)

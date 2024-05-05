@@ -23,6 +23,9 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+        }
         commonMain.dependencies {
             implementation(libs.runtime)
             implementation(libs.primitive.adapters)
@@ -34,6 +37,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material)
             implementation(compose.components.resources)
+            api(libs.kmm.viewmodel.core)
         }
         androidMain.dependencies {
             implementation(libs.android.driver)

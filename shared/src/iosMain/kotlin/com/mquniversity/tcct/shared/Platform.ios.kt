@@ -1,5 +1,6 @@
 package com.mquniversity.tcct.shared
 
+import androidx.compose.runtime.Composable
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
@@ -7,3 +8,13 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+@Composable
+actual fun Setup() {
+    TODO("Not yet implemented")
+}
+
+@Composable
+actual fun getViewModel(): TripViewModel {
+    TODO("Not yet implemented")
+}

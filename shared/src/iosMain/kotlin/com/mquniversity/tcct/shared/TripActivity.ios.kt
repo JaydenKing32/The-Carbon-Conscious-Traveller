@@ -1,8 +1,5 @@
 package com.mquniversity.tcct.shared
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-
-@Composable
-actual fun TripList(modifier: Modifier) {
+actual fun completeTrip(trip: Trip, updateFun: (Trip) -> Unit, markComplete: (Boolean) -> Unit) {
+    TODO("Not yet implemented")
 }

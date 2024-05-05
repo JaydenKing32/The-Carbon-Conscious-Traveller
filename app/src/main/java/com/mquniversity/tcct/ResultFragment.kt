@@ -48,6 +48,7 @@ import com.mquniversity.tcct.shared.CalculationUtils
 import com.mquniversity.tcct.shared.TransportMode
 import com.mquniversity.tcct.shared.Trip
 import com.mquniversity.tcct.shared.TripViewModel
+import com.mquniversity.tcct.shared.VERIFICATION_RADIUS
 import com.mquniversity.tcct.shared.carFuelTypes
 import com.mquniversity.tcct.shared.carSizes
 import com.mquniversity.tcct.shared.carValuesMatrix

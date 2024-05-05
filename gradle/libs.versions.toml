@@ -27,6 +27,7 @@ playServicesMaps = "18.2.0"
 preferenceKtx = "1.2.1"
 secretsGradle = "2.0.1"
 sqlDelight = "2.0.2"
+podsGoogleMaps = "8.4.0"
 
 [libraries]
 android-chart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }

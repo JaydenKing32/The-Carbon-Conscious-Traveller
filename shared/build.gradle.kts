@@ -53,8 +53,15 @@ kotlin {
         // Specify the required Pod version here. Otherwise, the Gradle project version is used.
         // version = "1.0"
         // summary = "Some description for a Kotlin/Native module"
+        source = "https://github.com/CocoaPods/Specs.git"
         homepage = "https://github.com/JaydenKing32/The-Carbon-Conscious-Traveller"
         license = "MIT"
+        ios.deploymentTarget = "15.0"
+
+        pod("GoogleMaps") {
+            version = libs.versions.podsGoogleMaps.get()
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
 
         // Optional properties
         // Configure the Pod name here instead of changing the Gradle project name

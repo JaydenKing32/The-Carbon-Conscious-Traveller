@@ -1,11 +1,9 @@
-package com.mquniversity.tcct
+package com.mquniversity.tcct.shared
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mquniversity.tcct.shared.Trip
-import com.mquniversity.tcct.shared.TripSdk
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 

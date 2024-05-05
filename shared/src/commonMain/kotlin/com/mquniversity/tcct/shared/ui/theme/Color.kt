@@ -1,4 +1,4 @@
-package com.mquniversity.tcct.ui.theme
+package com.mquniversity.tcct.shared.ui.theme
 
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color

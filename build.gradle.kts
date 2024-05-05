@@ -12,4 +12,5 @@ plugins {
     alias(libs.plugins.secrets.gradle) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.native.cocoapods) apply false
+    alias(libs.plugins.jetbrains.compose) apply false
 }

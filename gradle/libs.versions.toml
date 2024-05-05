@@ -27,6 +27,7 @@ playServicesMaps = "18.2.0"
 preferenceKtx = "1.2.1"
 secretsGradle = "2.0.1"
 sqlDelight = "2.0.2"
+playServicesLocation = "21.2.0"
 podsGoogleMaps = "8.4.0"
 
 [libraries]
@@ -66,6 +67,7 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqlDelight" }
 runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 secrets-gradle = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradle" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

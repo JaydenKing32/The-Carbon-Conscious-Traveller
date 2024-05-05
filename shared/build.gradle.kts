@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.native.cocoapods)
+    alias(libs.plugins.jetbrains.compose)
 }
 
 kotlin {
@@ -28,20 +29,19 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.datetime)
             implementation(libs.coroutines.extensions)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.ui)
+            implementation(compose.material)
+            implementation(compose.components.resources)
         }
         androidMain.dependencies {
             implementation(libs.android.driver)
             implementation(libs.koin.androidx.compose)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.compose.activity)
-            implementation(libs.compose.livedata)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.material)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
-            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.play.services.maps)
+            implementation(libs.google.maps.services)
+            implementation(libs.play.services.location)
         }
         iosMain.dependencies {
             implementation(libs.native.driver)
@@ -102,6 +102,19 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
+    }
+    dependencies {
+        implementation(libs.compose.components.resources)
+        implementation(libs.compose.activity)
+        implementation(libs.compose.livedata)
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.material)
+        implementation(libs.compose.ui)
+        debugImplementation(libs.compose.ui.tooling)
+        implementation(libs.compose.ui.tooling.preview)
+        implementation(libs.androidx.appcompat)
+        implementation(libs.androidx.core.ktx)
     }
 }
 

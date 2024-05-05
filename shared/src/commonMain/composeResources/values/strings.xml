@@ -1,0 +1,160 @@
+<resources>
+    <!--Colours-->
+    <color name="green_500">#FF0F9D58</color>
+    <color name="green_700">#FF0B8043</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="transport_checked_background">#612979FF</color>
+
+    <color name="polyline_unselected">#bccefb</color>
+    <color name="polyline_private_vehicle">#0F53FF</color>
+
+
+    <!--Arrays-->
+    <string-array name="car_sizes">
+        <item>"Small car"</item>
+        <item>"Medium car"</item>
+        <item>"Large car"</item>
+        <item>"Mini"</item>
+        <item>"Supermini"</item>
+        <item>"Lower medium"</item>
+        <item>"Upper medium"</item>
+        <item>"Executive"</item>
+        <item>"Luxury"</item>
+        <item>"Sports"</item>
+        <item>"Dual purpose 4X4"</item>
+        <item>"MPV"</item>
+    </string-array>
+    <string-array name="car_fuels">
+        <item>"Diesel"</item>
+        <item>"Petrol"</item>
+        <item>"Hybrid"</item>
+        <item>"CNG"</item>
+        <item>"LPG"</item>
+        <item>"Plug-in Hybrid Electric Vehicle"</item>
+        <item>"Battery Electric Vehicle"</item>
+    </string-array>
+    <string-array name="motorcycle_sizes">
+        <item>"Small"</item>
+        <item>"Medium"</item>
+        <item>"Large"</item>
+    </string-array>
+
+
+    <!--Strings-->
+    <string name="app_name">The Carbon-Conscious Traveller</string>
+    <string name="title_activity_maps">The Carbon-Conscious Traveller</string>
+
+    <string name="hint_input_origin">Choose a start location</string>
+    <string name="hint_input_dest">Choose destination</string>
+
+    <string name="location_permission_denied">This app requires location permission to use current location as start location</string>
+    <string name="location_permission_required">Location permission is required to use current location as start location</string>
+    <string name="location_required">Turn on the location to use current location as start location</string>
+
+    <string name="warning_same_location">Cannot use same start location and destination</string>
+    <string name="helper_text">Start by entering a start and end location</string>
+
+    <string name="tag_car_query">CAR_QUERY</string>
+    <string name="tag_car_result">CAR_RESULT</string>
+    <string name="tag_motorcycle_query">MOTORCYCLE_QUERY</string>
+    <string name="tag_motorcycle_result">MOTORCYCLE_RESULT</string>
+    <string name="tag_public_transport_result">PUBLIC_TRANSPORT_RESULT</string>
+    <string name="tag_airplane_query">AIRPLANE_QUERY</string>
+    <string name="tag_airplane_result">AIRPLANE_RESULT</string>
+    <string name="tag_settings">SETTINGS</string>
+
+    <string name="error_zero_results">"Routes were not found with current travel mode.\nPlease try again with different locations"</string>
+    <string name="error_daily_limit_exceeded">T"he requesting account has exceeded its daily quota.\nPlease try again tomorrow."</string>
+    <string name="error_query_limit_exceeded">"The requesting account has exceeded its short-term quota.\nPlease try again a few minutes later."</string>
+    <string name="error_general">"An error has occurred.\nPlease try again a few minutes later."</string>
+
+    <string name="try_again">Try again</string>
+    <string name="tap_for_more_details">"Tap for more details"</string>
+    <string name="calculate">Calculate</string>
+    <string name="calculate_again">Calculate Again</string>
+    <string name="car">Car</string>
+    <string name="motorcycle">Motorcycle</string>
+    <string name="airplane">Airplane</string>
+
+    <string name="summary_text">via %1$s</string>
+    <string name="departure_arrival_time">%1$s - %2$s</string>
+
+    <string name="car_size_desc">
+        <b>Small</b>\n
+        Petrol/LPG/CNG - up to a 1.4-litre engine\n
+        Diesel - up to a 1.7-litre engine\n
+        Others - vehicles models of a similar size (i.e. market segment A or B)\n
+        <b>Medium</b>\n
+        Petrol/LPG/CNG - from 1.4-litre to 2.0-litre engine\n
+        Diesel - from 1.7-litre to 2.0-litre engine\n
+        Others - vehicles models of a similar size (i.e. generally market segment C)\n
+        <b>Large</b>\n
+        Petrol/LPG/CNG - 2.0-litre engine +\n
+        Diesel - 2.0-litre engine +\n
+        Others - vehicles models of a similar size (i.e. generally market segment D and above)
+    </string>
+    <string name="motorcycle_size_desc">
+        <b>Small</b>\n
+        Up to 125cc\n
+        <b>Medium</b>\n
+        From 125cc up to 500cc\n
+        <b>Large</b>\n
+        Over 500cc
+    </string>
+
+    <string name="github_link">https://github.com/JaydenKing32/The-Carbon-Conscious-Traveller</string>
+    <string name="privacy_link">https://github.com/JaydenKing32/The-Carbon-Conscious-Traveller/blob/master/privacy.md</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="use_specified_car_key">use_specified_car</string>
+    <string name="specified_car_size_key">specified_car_size</string>
+    <string name="specified_car_fuel_key">specified_car_fuel</string>
+    <string name="specified_car_size_default">Medium car</string>
+    <string name="specified_car_fuel_default">Petrol</string>
+    <string name="use_specified_motorcycle_key">use_specified_motorcycle</string>
+    <string name="specified_motorcycle_size_key">specified_motorcycle_size</string>
+    <string name="specified_motorcycle_size_default">Medium</string>
+    <string name="specified_car_calculation_key">specified_car_calculation</string>
+    <string name="specified_motorcycle_calculation_key">specified_motorcycle_calculation</string>
+    <string name="use_specified_motorcycle_instead_of_car_key">use_specified_motorcycle_instead_of_car</string>
+    <string name="leaf_co2_key">leaf_co2</string>
+    <string name="leaf_bundle_co2_key">leaf_bundle_co2</string>
+    <string name="branch_co2_key">branch_co2</string>
+    <string name="tree_co2_key">tree_co2</string>
+    <string name="leaf_co2_default">100</string>
+    <string name="leaf_bundle_co2_default">1000</string>
+    <string name="branch_co2_default">5000</string>
+    <string name="tree_co2_default">29000</string>
+    <string name="no_value">none</string>
+
+    <string name="trip_title">Trips</string>
+    <string name="trip_header_vehicle">Vehicle</string>
+    <string name="trip_header_date">Date</string>
+    <string name="trip_header_emission">Emission</string>
+    <string name="trip_header_reduction">Reduction</string>
+    <string name="trip_header_complete">Complete</string>
+    <string name="trip_header_delete">Delete</string>
+    <string name="trip_complete_button_description">Mark trip as complete</string>
+    <string name="trip_delete_button_description">Delete trip</string>
+    <string name="stats_title">Statistics</string>
+    <string name="chart_left_button_description">Select previous time period</string>
+    <string name="chart_right_button_description">Select next time period</string>
+    <string name="chart_no_data">No data available for this time period</string>
+    <string name="chart_y_title">kg CO2e</string>
+    <string name="cabin_class_first">First</string>
+    <string name="cabin_class_business">Business</string>
+    <string name="cabin_class_premium_economy">Premium Economy</string>
+    <string name="cabin_class_economy">Economy</string>
+    <string name="flight_request_error">Could not retrieve CO2 emission information with the given flight details.\n
+        Possible reasons:\n
+            - flight is unknown to the server\n
+            - flight details are incorrectly entered
+    </string>
+    <string name="flight_error">There was an error whilst retrieving the information.\nPlease try again after a few seconds.</string>
+    <string name="button_tag_add">add</string>
+    <string name="button_tag_remove">remove</string>
+</resources>

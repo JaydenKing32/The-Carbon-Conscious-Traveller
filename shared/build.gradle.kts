@@ -18,7 +18,7 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "shared"
-            isStatic = true
+            // binaryOption("bundleId", "com.mquniversity.tcct.iosApp")
         }
     }
 
@@ -27,11 +27,11 @@ kotlin {
             languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
         }
         commonMain.dependencies {
-            implementation(libs.runtime)
-            implementation(libs.primitive.adapters)
+            // implementation(libs.runtime)
+            // implementation(libs.primitive.adapters)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.coroutines.extensions)
+            // implementation(libs.coroutines.extensions)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
@@ -42,9 +42,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.android.driver)
             implementation(libs.koin.androidx.compose)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            // implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.play.services.maps)
-            implementation(libs.google.maps.services)
+            // implementation(libs.google.maps.services)
             implementation(libs.play.services.location)
         }
         iosMain.dependencies {
@@ -56,16 +56,16 @@ kotlin {
         // Required properties
         // Specify the required Pod version here. Otherwise, the Gradle project version is used.
         // version = "1.0"
-        // summary = "Some description for a Kotlin/Native module"
+        summary = "The Carbon-Conscious Traveller"
         source = "https://github.com/CocoaPods/Specs.git"
         homepage = "https://github.com/JaydenKing32/The-Carbon-Conscious-Traveller"
         license = "MIT"
         ios.deploymentTarget = "15.0"
 
-        pod("GoogleMaps") {
-            version = libs.versions.podsGoogleMaps.get()
-            extraOpts += listOf("-compiler-option", "-fmodules")
-        }
+        // pod("GoogleMaps") {
+        //     version = libs.versions.podsGoogleMaps.get()
+        //     extraOpts += listOf("-compiler-option", "-fmodules")
+        // }
 
         // Optional properties
         // Configure the Pod name here instead of changing the Gradle project name
@@ -106,19 +106,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
-    }
-    dependencies {
-        implementation(libs.compose.components.resources)
-        implementation(libs.compose.activity)
-        implementation(libs.compose.livedata)
-        implementation(libs.compose.runtime)
-        implementation(libs.compose.foundation)
-        implementation(libs.compose.material)
-        implementation(libs.compose.ui)
-        debugImplementation(libs.compose.ui.tooling)
-        implementation(libs.compose.ui.tooling.preview)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.androidx.core.ktx)
     }
 }
 

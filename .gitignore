@@ -488,3 +488,4 @@ Temporary Items
 .idea/deploymentTargetSelector.xml
 /app/schemas/
 /shared/shared.podspec
+.vscode

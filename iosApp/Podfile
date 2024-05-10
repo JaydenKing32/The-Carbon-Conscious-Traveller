@@ -1,0 +1,6 @@
+target 'iosApp' do
+  use_frameworks!
+  platform :ios, '15.0'
+  pod 'shared', :path => '../shared'
+  pod 'GoogleMaps', '8.4.0'
+end

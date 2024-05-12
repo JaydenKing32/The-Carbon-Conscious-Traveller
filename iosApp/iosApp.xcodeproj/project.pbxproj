@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BAAA8ED6B89C526F850B7CDF /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B73BFF29E65ABC3A38F04 /* Pods_iosApp.framework */; };
-		BD9EACA62BEE0C650097E5C4 /* iosAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9EACA52BEE0C650097E5C4 /* iosAppApp.swift */; };
+		BD9EACA62BEE0C650097E5C4 /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9EACA52BEE0C650097E5C4 /* iosApp.swift */; };
 		BD9EACA82BEE0C650097E5C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9EACA72BEE0C650097E5C4 /* ContentView.swift */; };
 		BD9EACAA2BEE0C660097E5C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD9EACA92BEE0C660097E5C4 /* Assets.xcassets */; };
 		BD9EACAD2BEE0C660097E5C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD9EACAC2BEE0C660097E5C4 /* Preview Assets.xcassets */; };
@@ -18,7 +18,7 @@
 		366B73BFF29E65ABC3A38F04 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E49BFC0F3DFD62E265516B /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		BD9EACA22BEE0C650097E5C4 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD9EACA52BEE0C650097E5C4 /* iosAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppApp.swift; sourceTree = "<group>"; };
+		BD9EACA52BEE0C650097E5C4 /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
 		BD9EACA72BEE0C650097E5C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BD9EACA92BEE0C660097E5C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD9EACAC2BEE0C660097E5C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		BD9EACA42BEE0C650097E5C4 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				BD9EACA52BEE0C650097E5C4 /* iosAppApp.swift */,
+				BD9EACA52BEE0C650097E5C4 /* iosApp.swift */,
 				BD9EACA72BEE0C650097E5C4 /* ContentView.swift */,
 				BD9EACA92BEE0C660097E5C4 /* Assets.xcassets */,
 				BD9EACAB2BEE0C660097E5C4 /* Preview Content */,
@@ -242,7 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD9EACA82BEE0C650097E5C4 /* ContentView.swift in Sources */,
-				BD9EACA62BEE0C650097E5C4 /* iosAppApp.swift in Sources */,
+				BD9EACA62BEE0C650097E5C4 /* iosApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,12 +2,12 @@ package com.mquniversity.tcct.shared
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.coroutineScope
+import com.rickclephas.kmp.observableviewmodel.ViewModel
+import com.rickclephas.kmp.observableviewmodel.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 
-class TripViewModel(private val sdk: TripSdk) : KMMViewModel() {
+class TripViewModel(private val sdk: TripSdk) : ViewModel() {
     private val _state = mutableStateOf(TripState())
     val state: State<TripState> = _state
 

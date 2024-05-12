@@ -9,12 +9,14 @@ class IOSPlatform: Platform {
 
 actual fun getPlatform(): Platform = IOSPlatform()
 
+val koinHelper = KoinHelper()
+
 @Composable
 actual fun Setup() {
-    TODO("Not yet implemented")
+    // TODO("Not yet implemented")
 }
 
 @Composable
 actual fun getViewModel(): TripViewModel {
-    TODO("Not yet implemented")
+    return koinHelper.tripViewModel
 }

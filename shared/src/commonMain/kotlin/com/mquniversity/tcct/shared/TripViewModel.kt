@@ -29,6 +29,7 @@ class TripViewModel(private val sdk: TripSdk) : ViewModel() {
 
     fun insert(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.insert(trip) }
     fun insert(trip: Trip, listener: (Long) -> Unit) = viewModelScope.coroutineScope.launch { listener(sdk.insert(trip)) }
+    fun deleteAll() = viewModelScope.coroutineScope.launch { sdk.deleteAll() }
     fun delete(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.delete(trip) }
     fun delete(id: Long) = viewModelScope.coroutineScope.launch { sdk.delete(id) }
     fun setComplete(trip: Trip) = viewModelScope.coroutineScope.launch { sdk.setComplete(trip) }

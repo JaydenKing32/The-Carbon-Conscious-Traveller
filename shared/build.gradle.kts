@@ -18,7 +18,8 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "shared"
-            // binaryOption("bundleId", "com.mquniversity.tcct.iosApp")
+            linkerOpts.add("-lsqlite3")
+            isStatic = true
         }
     }
 
@@ -61,33 +62,17 @@ kotlin {
         homepage = "https://github.com/JaydenKing32/The-Carbon-Conscious-Traveller"
         license = "MIT"
         ios.deploymentTarget = "15.0"
+        podfile = project.file("../iosApp/Podfile")
 
-        // pod("GoogleMaps") {
-        //     version = libs.versions.podsGoogleMaps.get()
-        //     extraOpts += listOf("-compiler-option", "-fmodules")
-        // }
-
-        // Optional properties
-        // Configure the Pod name here instead of changing the Gradle project name
-        // name = "MyCocoaPod"
-
-        framework {
-            // Required properties
-            // Framework name configuration. Use this property instead of deprecated 'frameworkName'
-            baseName = "shared"
-
-            // Optional properties
-            // Specify the framework linking type. It's dynamic by default.
-            isStatic = false
-            // Dependency export
-            // export(project(":anotherKMMModule"))
-            // Bitcode embedding
-            // embedBitcode(BITCODE)
+        pod("GoogleMaps") {
+            version = libs.versions.podsGoogleMaps.get()
+            extraOpts += listOf("-compiler-option", "-fmodules")
         }
 
-        // Maps custom Xcode configuration to NativeBuildType
-        // xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
-        // xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
+        framework {
+            baseName = "shared"
+            isStatic = true
+        }
     }
 }
 

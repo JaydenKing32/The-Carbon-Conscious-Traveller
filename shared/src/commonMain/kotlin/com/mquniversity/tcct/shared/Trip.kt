@@ -8,6 +8,10 @@ import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 
 // https://cashapp.github.io/sqldelight/2.0.0/multiplatform_sqlite/
+//
+// Regex for converting CSV exported from Android Studio database inspector to Trip objects, need to handle boolean 0/1 at end manually
+// ^(\d+);(\d+);(.+);(-?\d+\..+);(-?\d+\..+);(.+);(-?\d+\..+);(-?\d+\..+);(\d+);(\w+);(|[\w!]+);(\w+);(\d+\.\d+);(\d+\.\d+);(\d)\n
+// Trip($1L,Instant.fromEpochSeconds($2),"$3",$4,$5,"$6",$7,$8,$9L,TransportMode.$10,"$11","$12",$13F,$14F,$15),\n
 data class Trip(
     val id: Long,
     val date: Instant,

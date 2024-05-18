@@ -47,6 +47,8 @@ kotlin {
             implementation(libs.play.services.maps)
             // implementation(libs.google.maps.services)
             implementation(libs.play.services.location)
+            implementation(libs.google.maps.compose)
+            implementation(libs.google.maps.compose.utils)
         }
         iosMain.dependencies {
             implementation(libs.native.driver)

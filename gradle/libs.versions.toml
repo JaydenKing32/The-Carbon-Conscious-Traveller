@@ -12,6 +12,7 @@ coreKtx = "1.13.0"
 dateTimeVersion = "0.6.0-RC.2"
 espressoCore = "3.5.1"
 flexbox = "3.0.0"
+googleMapsCompose = "5.0.1"
 googleMapsServices = "2.2.0"
 junit = "4.13.2"
 junitAndroidX = "1.1.5"
@@ -55,6 +56,8 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
+google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "googleMapsCompose" }
+google-maps-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "googleMapsCompose" }
 google-maps-services = { module = "com.google.maps:google-maps-services", version.ref = "googleMapsServices" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kmm-viewmodel-core = { module = "com.rickclephas.kmp:kmp-observableviewmodel-core", version.ref = "kmmViewmodel" }

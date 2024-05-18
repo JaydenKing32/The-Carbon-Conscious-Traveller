@@ -14,7 +14,6 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -27,8 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mquniversity.tcct.shared.ui.theme.colors
-import com.mquniversity.tcct.shared.ui.theme.typography
+import com.mquniversity.tcct.shared.ui.theme.AppTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -54,7 +52,7 @@ import the_carbon_conscious_traveller.shared.generated.resources.trip_title
 @Composable
 fun TripsAppBar(backFunction: () -> Boolean) {
     Setup()
-    MaterialTheme(colors, typography) {
+    AppTheme {
         Scaffold(
             topBar = {
                 TopAppBar({ Text(stringResource(Res.string.trip_title)) },

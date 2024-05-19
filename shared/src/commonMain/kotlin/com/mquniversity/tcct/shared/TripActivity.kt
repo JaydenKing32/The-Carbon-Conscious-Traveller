@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -89,7 +90,7 @@ fun TripList(modifier: Modifier, viewModel: TripViewModel) {
                 TableCell(stringResource(Res.string.trip_header_delete), buttonWeight)
             }
         }
-        items(items = state.trips, itemContent = {
+        items(items = state.trips, key = { it.id }, itemContent = {
             Row(Modifier.fillMaxWidth()) {
                 Icon(
                     painterResource(when (it.mode) {
@@ -102,21 +103,21 @@ fun TripList(modifier: Modifier, viewModel: TripViewModel) {
                     it.mode.name,
                     Modifier.weight(buttonWeight)
                 )
-                val showDialog = remember { mutableStateOf(false) }
+                var showDialog by remember { mutableStateOf(false) }
                 Card {
-                    if (showDialog.value) {
-                        TripInfoDialog(it, showDialog.value) { showDialog.value = false }
+                    if (showDialog) {
+                        TripInfoDialog(it, showDialog) { showDialog = false }
                     }
                 }
                 Text(
                     it.dateString(),
-                    Modifier.border(1.dp, Color.Black).weight(dateWeight).padding(8.dp).clickable { showDialog.value = true }
+                    Modifier.border(1.dp, Color.Black).weight(dateWeight).padding(8.dp).clickable { showDialog = true }
                 )
                 TableCell(CalculationUtils.formatEmission(it.emissions), emissionWeight)
                 TableCell(CalculationUtils.formatEmission(it.reduction), emissionWeight)
-                val tripComplete = remember { mutableStateOf(it.complete) }
+                var tripComplete by remember { mutableStateOf(it.complete) }
 
-                if (tripComplete.value) {
+                if (tripComplete) {
                     Icon(
                         painterResource(Res.drawable.outline_check_circle_24),
                         stringResource(Res.string.trip_complete_button_description),
@@ -127,7 +128,7 @@ fun TripList(modifier: Modifier, viewModel: TripViewModel) {
                         painterResource(Res.drawable.outline_cross_circle_24),
                         stringResource(Res.string.trip_complete_button_description),
                         Modifier.weight(buttonWeight).clickable {
-                            completeTrip(it, { viewModel.setComplete(it) }, { complete -> tripComplete.value = complete })
+                            completeTrip(it, { viewModel.setComplete(it) }, { complete -> tripComplete = complete })
                         })
                 }
 

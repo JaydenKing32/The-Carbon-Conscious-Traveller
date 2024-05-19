@@ -76,6 +76,8 @@ kotlin {
             isStatic = true
         }
     }
+
+    task("testClasses")
 }
 
 android {

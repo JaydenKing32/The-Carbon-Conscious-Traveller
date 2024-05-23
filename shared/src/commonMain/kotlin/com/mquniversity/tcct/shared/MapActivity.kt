@@ -98,6 +98,7 @@ fun MapDrawer(modifier: Modifier = Modifier) {
             scope.launch { uriHandler.openUri(getString(Res.string.privacy_link)) }
         }
         DrawerItem(modifier, Res.drawable.outline_settings_24, Res.string.settings_title) {}
+        // TODO: setup navigation before opening TripActivity https://developer.android.com/develop/ui/compose/navigation
         DrawerItem(modifier, Res.drawable.outline_history_24, Res.string.trip_title) {}
         DrawerItem(modifier, Res.drawable.outline_show_chart_24, Res.string.stats_title) {}
     }

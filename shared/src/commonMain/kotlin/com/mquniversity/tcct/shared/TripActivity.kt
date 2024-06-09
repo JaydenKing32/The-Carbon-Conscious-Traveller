@@ -49,6 +49,7 @@ import the_carbon_conscious_traveller.shared.generated.resources.trip_header_red
 import the_carbon_conscious_traveller.shared.generated.resources.trip_header_vehicle
 import the_carbon_conscious_traveller.shared.generated.resources.trip_title
 
+// TODO: remove trip-specific app bar, handled by MapView now
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TripsAppBar(backFunction: () -> Boolean) {
@@ -57,7 +58,6 @@ fun TripsAppBar(backFunction: () -> Boolean) {
         Scaffold(
             topBar = {
                 TopAppBar({ Text(stringResource(Res.string.trip_title)) },
-                    // TODO: replace backFunction with navController
                     navigationIcon = { IconButton({ backFunction() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } }
                 )
             }

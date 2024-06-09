@@ -76,7 +76,10 @@ fun MapView(navController: NavHostController = rememberNavController(), modifier
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentScreen = Screen.valueOf(backStackEntry?.destination?.route ?: Screen.Map.name)
 
-        Scaffold(modifier.statusBarsPadding(), state, drawerGesturesEnabled = state.drawerState.isOpen,
+        Scaffold(
+            modifier = modifier.statusBarsPadding(),
+            scaffoldState = state,
+            drawerGesturesEnabled = state.drawerState.isOpen,
             drawerContent = {
                 MapDrawer(modifier) {
                     // Close menu when switching screens
@@ -119,8 +122,10 @@ fun MapAppBar(currentScreen: Screen, canNavigateBack: Boolean, navigateUp: () ->
 
 @Composable
 fun DrawerItem(modifier: Modifier, icon: DrawableResource, text: StringResource, onClick: () -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth().clickable { onClick() }) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth().clickable { onClick() }
+    ) {
         Icon(vectorResource(icon), null)
         Text(stringResource(text), style = MaterialTheme.typography.h5)
     }

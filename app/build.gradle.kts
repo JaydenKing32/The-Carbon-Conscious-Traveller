@@ -84,4 +84,5 @@ dependencies {
     implementation(libs.compose.components.resources)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.navigation)
 }

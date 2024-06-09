@@ -39,6 +39,7 @@ kotlin {
             implementation(compose.material)
             implementation(compose.components.resources)
             api(libs.kmm.viewmodel.core)
+            implementation(libs.compose.navigation)
         }
         androidMain.dependencies {
             implementation(libs.android.driver)

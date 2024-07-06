@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
@@ -10,8 +13,10 @@ plugins {
 kotlin {
     androidTarget {
         compilations.all {
-            kotlinOptions {
-                jvmTarget = libs.versions.kotlinJvmTarget.get()
+            tasks.withType<KotlinJvmCompile>().configureEach {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_21)
+                }
             }
         }
     }

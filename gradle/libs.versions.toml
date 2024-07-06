@@ -1,3 +1,7 @@
+# Use versions specified on these pages:
+# https://kotlinlang.org/docs/multiplatform-compatibility-guide.html
+# https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#jetpack-compose-and-compose-multiplatform-release-cycles
+
 [versions]
 androidCompileSdk = "34"
 androidMinSdk = "26"

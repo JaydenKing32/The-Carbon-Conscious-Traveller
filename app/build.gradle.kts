@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
-    alias(libs.plugins.secrets.gradle)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.secrets.gradle)
 }
 
 android {

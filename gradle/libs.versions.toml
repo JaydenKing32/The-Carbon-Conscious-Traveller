@@ -2,35 +2,35 @@
 androidCompileSdk = "34"
 androidMinSdk = "26"
 androidchart = "3.1.0.20"
-androidGradlePlugin = "8.2.2"
-appcompat = "1.6.1"
+androidGradlePlugin = "8.3.2"
+appcompat = "1.7.0"
 compose = "1.6.7"
 composeActivity = "1.9.0"
 composeNavigation = "2.7.0-alpha07"
-composePlugin = "1.6.2"
+composePlugin = "1.6.10"
 constraintlayout = "2.1.4"
-coreKtx = "1.13.0"
-dateTimeVersion = "0.6.0-RC.2"
-espressoCore = "3.5.1"
+coreKtx = "1.13.1"
+dateTimeVersion = "0.6.0"
+espressoCore = "3.6.1"
 flexbox = "3.0.0"
 googleMapsCompose = "5.0.1"
 googleMapsServices = "2.2.0"
 junit = "4.13.2"
-junitAndroidX = "1.1.5"
+junitAndroidX = "1.2.1"
 kmmViewmodel = "1.0.0-BETA-1"
 koin = "3.5.3"
 kotlinCompilerExtension = "1.5.13"
 kotlinJvmTarget = "21"
-kotlinPlugin = "1.9.23"
-lifecycle = "2.7.0"
-material = "1.11.0"
+kotlinPlugin = "2.0.0"
+lifecycle = "2.8.3"
+material = "1.12.0"
 opencsv = "5.9"
-places = "3.4.0"
-playServicesMaps = "18.2.0"
+places = "3.5.0"
+playServicesMaps = "19.0.0"
 preferenceKtx = "1.2.1"
 secretsGradle = "2.0.1"
 sqlDelight = "2.0.2"
-playServicesLocation = "21.2.0"
+playServicesLocation = "21.3.0"
 podsGoogleMaps = "8.4.0"
 
 [libraries]
@@ -80,6 +80,7 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinPlugin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "composePlugin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinPlugin" }
 native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlinPlugin" }

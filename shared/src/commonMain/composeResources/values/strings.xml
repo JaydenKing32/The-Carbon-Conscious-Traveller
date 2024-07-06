@@ -1,16 +1,16 @@
 <resources>
     <!--Colours-->
-    <color name="green_500">#FF0F9D58</color>
-    <color name="green_700">#FF0B8043</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <string name="green_500">#FF0F9D58</string>
+    <string name="green_700">#FF0B8043</string>
+    <string name="teal_200">#FF03DAC5</string>
+    <string name="teal_700">#FF018786</string>
+    <string name="black">#FF000000</string>
+    <string name="white">#FFFFFFFF</string>
 
-    <color name="transport_checked_background">#612979FF</color>
+    <string name="transport_checked_background">#612979FF</string>
 
-    <color name="polyline_unselected">#bccefb</color>
-    <color name="polyline_private_vehicle">#0F53FF</color>
+    <string name="polyline_unselected">#BCCEFB</string>
+    <string name="polyline_private_vehicle">#0F53FF</string>
 
 
     <!--Arrays-->

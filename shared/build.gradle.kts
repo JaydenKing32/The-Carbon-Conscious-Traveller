@@ -1,9 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.sqldelight)
-    alias(libs.plugins.native.cocoapods)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.native.cocoapods)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {

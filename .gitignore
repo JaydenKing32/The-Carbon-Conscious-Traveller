@@ -486,6 +486,8 @@ Temporary Items
 .idea/intellij-javadocs-4.0.1.xml
 .idea/vcs.xml
 .idea/deploymentTargetSelector.xml
+.idea/other.xml
 /app/schemas/
 /shared/shared.podspec
 .vscode
+/.kotlin/

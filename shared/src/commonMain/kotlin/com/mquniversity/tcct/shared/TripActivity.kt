@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mquniversity.tcct.shared.ui.theme.AppTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import the_carbon_conscious_traveller.shared.generated.resources.Res
@@ -50,7 +49,6 @@ import the_carbon_conscious_traveller.shared.generated.resources.trip_header_veh
 import the_carbon_conscious_traveller.shared.generated.resources.trip_title
 
 // TODO: remove trip-specific app bar, handled by MapView now
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TripsAppBar(backFunction: () -> Boolean) {
     Setup()
@@ -69,7 +67,6 @@ fun TripsAppBar(backFunction: () -> Boolean) {
 
 expect fun completeTrip(trip: Trip, updateFun: (Trip) -> Unit, markComplete: (Boolean) -> Unit)
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TripList(modifier: Modifier, viewModel: TripViewModel) {
     val state by remember { viewModel.state }

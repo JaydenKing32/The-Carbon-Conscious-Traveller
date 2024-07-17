@@ -12,6 +12,7 @@ class KoinHelper : KoinComponent {
 }
 
 fun initKoin() {
+    setup()
     startKoin {
         modules(module {
             single<TripSdk> { TripSdk(IOSDatabaseDriverFactory()) }

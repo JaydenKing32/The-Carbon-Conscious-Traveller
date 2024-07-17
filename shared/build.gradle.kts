@@ -1,5 +1,9 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
+val sharedProjectName = "com.mquniversity.tcct.shared"
 
 plugins {
     alias(libs.plugins.android.library)
@@ -8,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.native.cocoapods)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -87,8 +92,17 @@ kotlin {
     task("testClasses")
 }
 
+buildkonfig {
+    packageName = sharedProjectName
+
+    defaultConfigs {
+        val googleMapsApiKey = gradleLocalProperties(rootDir, providers).getProperty("MAPS_API_KEY")
+        buildConfigField(FieldSpec.Type.STRING, "googleMapsApiKey", googleMapsApiKey)
+    }
+}
+
 android {
-    namespace = "com.mquniversity.tcct.shared"
+    namespace = sharedProjectName
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.androidMinSdk.get().toInt()
@@ -98,6 +112,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -108,7 +123,7 @@ android {
 sqldelight {
     databases {
         create("AppDatabase") {
-            packageName.set("com.mquniversity.tcct.shared.cache")
+            packageName.set("${sharedProjectName}.cache")
         }
     }
 }

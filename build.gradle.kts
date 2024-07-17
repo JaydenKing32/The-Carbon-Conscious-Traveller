@@ -2,6 +2,7 @@
 buildscript {
     dependencies {
         classpath(libs.secrets.gradle)
+        classpath(libs.buildkonfig.lib)
     }
 }
 
@@ -14,4 +15,5 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.native.cocoapods) apply false
     alias(libs.plugins.secrets.gradle) apply false
+    alias(libs.plugins.buildkonfig) apply false
 }

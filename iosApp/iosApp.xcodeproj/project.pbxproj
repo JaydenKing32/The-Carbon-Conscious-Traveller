@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BAAA8ED6B89C526F850B7CDF /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B73BFF29E65ABC3A38F04 /* Pods_iosApp.framework */; };
+		BD43C5D42C492DC300DF9BE8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BD43C5D32C492DC300DF9BE8 /* PrivacyInfo.xcprivacy */; };
+		BD43C5D82C49312900DF9BE8 /* GoogleMapsPrivacy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BD43C5D72C49312900DF9BE8 /* GoogleMapsPrivacy.bundle */; };
 		BD9EACA62BEE0C650097E5C4 /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9EACA52BEE0C650097E5C4 /* iosApp.swift */; };
 		BD9EACA82BEE0C650097E5C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9EACA72BEE0C650097E5C4 /* ContentView.swift */; };
 		BD9EACAA2BEE0C660097E5C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD9EACA92BEE0C660097E5C4 /* Assets.xcassets */; };
@@ -17,6 +19,8 @@
 /* Begin PBXFileReference section */
 		366B73BFF29E65ABC3A38F04 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E49BFC0F3DFD62E265516B /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
+		BD43C5D32C492DC300DF9BE8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = iosApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		BD43C5D72C49312900DF9BE8 /* GoogleMapsPrivacy.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMapsPrivacy.bundle; sourceTree = "<group>"; };
 		BD9EACA22BEE0C650097E5C4 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9EACA52BEE0C650097E5C4 /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
 		BD9EACA72BEE0C650097E5C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +44,8 @@
 		BD9EAC992BEE0C650097E5C4 = {
 			isa = PBXGroup;
 			children = (
+				BD43C5D72C49312900DF9BE8 /* GoogleMapsPrivacy.bundle */,
+				BD43C5D32C492DC300DF9BE8 /* PrivacyInfo.xcprivacy */,
 				BD9EACA42BEE0C650097E5C4 /* iosApp */,
 				BD9EACA32BEE0C650097E5C4 /* Products */,
 				C6D1D77872A6AAB5873DEF71 /* Pods */,
@@ -151,6 +157,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD43C5D82C49312900DF9BE8 /* GoogleMapsPrivacy.bundle in Resources */,
+				BD43C5D42C492DC300DF9BE8 /* PrivacyInfo.xcprivacy in Resources */,
 				BD9EACAD2BEE0C660097E5C4 /* Preview Assets.xcassets in Resources */,
 				BD9EACAA2BEE0C660097E5C4 /* Assets.xcassets in Resources */,
 			);
@@ -349,6 +357,7 @@
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used for displaying your current location on the map, as well as setting the start of a route";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -430,6 +439,7 @@
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used for displaying your current location on the map, as well as setting the start of a route";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

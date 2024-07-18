@@ -21,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-const val DEFAULT_ZOOM = 17f
 val DEFAULT_LOC = LatLng(0.0, 0.0)
 
 @Composable

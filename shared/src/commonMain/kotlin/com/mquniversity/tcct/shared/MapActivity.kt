@@ -56,6 +56,8 @@ import the_carbon_conscious_traveller.shared.generated.resources.stats_title
 import the_carbon_conscious_traveller.shared.generated.resources.title_activity_maps
 import the_carbon_conscious_traveller.shared.generated.resources.trip_title
 
+const val DEFAULT_ZOOM = 17f
+
 // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html
 // https://developer.android.com/guide/navigation
 enum class Screen(val title: StringResource) {

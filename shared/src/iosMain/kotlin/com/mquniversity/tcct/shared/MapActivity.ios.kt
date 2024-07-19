@@ -32,26 +32,17 @@ private val locationDelegate = LocationDelegate()
 
 @Composable
 actual fun Map(modifier: Modifier) {
-    var curLat by remember { mutableStateOf(0.0) }
-    var curLon by remember { mutableStateOf(0.0) }
+    var curLoc by remember { mutableStateOf(Pair(0.0, 0.0)) }
     // https://developers.google.com/maps/documentation/ios-sdk/current-place-tutorial
     UIKitView({
-        locationManager.location?.coordinate?.useContents {
-            curLat = latitude
-            curLon = longitude
-        }
-        locationDelegate.onLocationUpdate = {
-            it?.let { latLon ->
-                curLat = latLon.first
-                curLon = latLon.second
-            }
-        }
+        locationManager.location?.coordinate?.useContents { curLoc = Pair(latitude, longitude) }
+        locationDelegate.onLocationUpdate = { it?.let { latLon -> curLoc = Pair(latLon.first, latLon.second) } }
         locationManager.delegate = locationDelegate
         locationManager.requestLocation()
 
-        val camera = GMSCameraPosition.cameraWithLatitude(curLat, curLon, DEFAULT_ZOOM)
-
+        val camera = GMSCameraPosition.cameraWithLatitude(curLoc.first, curLoc.second, DEFAULT_ZOOM)
         val mapView = GMSMapView()
+
         mapWithFrame(mapView.frame, camera)
         mapView.settings.zoomGestures = true
         mapView.settings.consumesGesturesInView = true
@@ -61,7 +52,7 @@ actual fun Map(modifier: Modifier) {
     },
         modifier.fillMaxSize(),
         { view ->
-            view.animateWithCameraUpdate(GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(curLat, curLon)))
+            view.animateWithCameraUpdate(GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(curLoc.first, curLoc.second)))
             view.animateToZoom(DEFAULT_ZOOM)
         },
         onRelease = { it.removeFromSuperview() })

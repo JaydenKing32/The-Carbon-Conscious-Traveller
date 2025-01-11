@@ -467,8 +467,7 @@ abstract class ResultFragment : Fragment() {
                 return
             }
 
-            val locationRequest = LocationRequest.create()
-            locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 3600000L).build()
             val lsrBuilder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest).setAlwaysShow(false)
             val settingsClient: SettingsClient = LocationServices.getSettingsClient(context)
             val lsrTask: Task<LocationSettingsResponse> = settingsClient.checkLocationSettings(lsrBuilder.build())

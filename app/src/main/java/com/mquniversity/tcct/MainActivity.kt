@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
         destInput.setHint(getString(R.string.hint_input_dest))
 
         // Specify the types of place data to return.
-        val fields = listOf(Place.Field.NAME, Place.Field.LAT_LNG)
+        val fields = listOf(Place.Field.DISPLAY_NAME, Place.Field.LOCATION)
         originInput.setPlaceFields(fields)
         destInput.setPlaceFields(fields)
 
@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         originInputClearBtn.visibility = View.GONE
                     }
                 }
-                if (dest != null && place.latLng == locationToLatLng(dest!!)) {
+                if (dest != null && place.location == locationToLatLng(dest!!)) {
                     // delay is needed probably because after fetching the Place
                     // with the API, the AutocompleteSupportFragment sets the text to the place name.
                     // and since this API request is asynchronous and takes time,
@@ -256,7 +256,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         .show()
                     return
                 }
-                place.latLng?.let { origin = latLngToLocation(it) }
+                place.location?.let { origin = latLngToLocation(it) }
                 calculate(false)
             }
 
@@ -272,7 +272,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         destInputClearBtn.visibility = View.GONE
                     }
                 }
-                if (origin != null && place.latLng == locationToLatLng(origin!!)) {
+                if (origin != null && place.location == locationToLatLng(origin!!)) {
                     Timer().schedule(50) {
                         destInput.setText(null)
                     }
@@ -281,7 +281,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
                         .show()
                     return
                 }
-                place.latLng?.let { dest = latLngToLocation(it) }
+                place.location?.let { dest = latLngToLocation(it) }
                 calculate(false)
             }
 
@@ -595,12 +595,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnRequestPermissio
         ) {
             // Priority.PRIORITY_HIGH_ACCURACY is needed to notify SettingsClient
             // that it needs to notify the user to enable location
-            val locationRequest = LocationRequest.create()
-            locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
+            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 3600000L).build()
             // Check if location is turned on
-            val lsrBuilder = LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest)
-                .setAlwaysShow(false)
+            val lsrBuilder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest).setAlwaysShow(false)
             val settingsClient: SettingsClient = LocationServices.getSettingsClient(this)
             val lsrTask: Task<LocationSettingsResponse> = settingsClient.checkLocationSettings(lsrBuilder.build())
             // Location is turned on so get current location, set search result location bias and move camera

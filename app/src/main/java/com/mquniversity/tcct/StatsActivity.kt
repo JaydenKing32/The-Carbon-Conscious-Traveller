@@ -53,8 +53,8 @@ class StatsActivity : AppCompatActivity() {
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.granularity = 1f
 
-        val xAxisFormatter = object : IndexAxisValueFormatter() {
-            override fun getFormattedValue(value: Float, axis: AxisBase?): String? {
+        val xAxisFormatter = object : IndexAxisValueFormatter(arrayOf("")) {
+            override fun getFormattedValue(value: Float, axis: AxisBase?): String {
                 return if (value == 0f) {
                     ""
                 } else {
